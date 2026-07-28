@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- رابط كانونيكال (الرابط الأساسي للموقع لمنع تكرار المحتوى) -->
+    <link rel="canonical" href="https://mosaned.org/" />
+
+    <!-- 🌟 تسريع تحميل الخطوط (خط Cairo لدعم العربية بشكل ممتاز) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap">
+    </noscript>
+
+    <!-- SEO & Meta Tags -->
+    <title>مساند | منصة المساعد الذكي لموقعك</title>
+    <meta name="description" content="أضف مساعداً ذكياً (Chatbot) لموقعك في دقائق. منصة مساند تقدم حلول الذكاء الاصطناعي لتحسين خدمة العملاء وزيادة المبيعات." />
+    <meta name="keywords" content="شات بوت, ذكاء اصطناعي, خدمة العملاء, مساند, بوت مواقع, SaaS, Chatbot" />
+
+    <!-- Open Graph (مشاركة الروابط في فيسبوك وواتساب وداش بورد) -->
+    <meta property="og:title" content="مساند | منصة المساعد الذكي لموقعك" />
+    <meta property="og:description" content="أضف مساعداً ذكياً (Chatbot) لموقعك في دقائق لخدمة عملائك على مدار الساعة." />
+    <meta property="og:image" content="https://mosaned.org/og-image.png" /> 
+    <meta property="og:url" content="https://mosaned.org" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Cards (مشاركة الروابط في تويتر/X) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="مساند | منصة المساعد الذكي لموقعك" />
+    <meta name="twitter:description" content="أضف مساعداً ذكياً (Chatbot) لموقعك في دقائق لخدمة عملائك على مدار الساعة." />
+    <meta name="twitter:image" content="https://mosaned.org/og-image.png" />
+
+    <!-- استدعاء Tailwind (كما طلبته) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- إعدادات ثيم Tailwind -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              electric: {
+                cyan: '#00F0FF',
+                green: '#00FF81',
+                yellow: '#FFA900',
+                orange: '#FF6800',
+              },
+              background: '#f8fafc',
+              surface: '#ffffff',
+              textMain: '#0f172a',
+              textMuted: '#64748b',
+            },
+            boxShadow: {
+              'glow': '0 10px 30px -10px rgba(0, 240, 255, 0.2)',
+              'soft': '0 4px 20px rgba(0,0,0,0.05)',
+            },
+            borderRadius: {
+              'xl': '1rem',
+              '2xl': '1.5rem',
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      body {
+        background-color: #f8fafc;
+        color: #0f172a;
+        font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
