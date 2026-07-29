@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
 import API_BASE_URL from '../config/api';
+import NotificationBell from '../components/NotificationBell';
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
@@ -167,19 +168,24 @@ export default function DashboardLayout() {
       </aside>
 
       <main className="flex-1 overflow-y-auto relative p-4 lg:p-12 pt-16 lg:pt-12">
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="fixed top-4 right-4 z-50 lg:hidden p-2.5 rounded-xl bg-[#0f172a] text-white shadow-lg hover:bg-slate-800 transition-colors"
-          aria-label="القائمة"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {sidebarOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+        {/* الهيدر العلوي: هامبورغر + جرس الإشعارات */}
+        <div className="flex items-center justify-between mb-6 lg:mb-8">
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="lg:hidden p-2.5 rounded-xl bg-[#0f172a] text-white shadow-lg hover:bg-slate-800 transition-colors"
+            aria-label="القائمة"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {sidebarOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+          <div className="hidden lg:block"></div>
+          <NotificationBell />
+        </div>
         <Outlet />
       </main>
 

@@ -1,11 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import PurchaseModal from '../components/PurchaseModal';
 
 export default function Pricing() {
   const containerRef = useRef(null);
   const glowRef = useRef(null);
   const highlightRef = useRef(null);
+  const [modalPlan, setModalPlan] = useState(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -148,9 +150,9 @@ export default function Pricing() {
               </li>
             </ul>
             
-            <Link to="/register" className="relative z-10 w-full flex justify-center bg-gradient-to-r from-electric-cyan to-electric-green hover:shadow-lg hover:scale-[1.02] text-slate-900 font-bold py-4 rounded-2xl transition-all duration-300">
+            <button onClick={() => setModalPlan('basic')} className="relative z-10 w-full flex justify-center bg-gradient-to-r from-electric-cyan to-electric-green hover:shadow-lg hover:scale-[1.02] text-slate-900 font-bold py-4 rounded-2xl transition-all duration-300 cursor-pointer">
               اشترك في الأساسية
-            </Link>
+            </button>
           </div>
 
           {/* 3. الخطة الخارقة (25 دينار) */}
@@ -187,9 +189,9 @@ export default function Pricing() {
               </li>
             </ul>
             
-            <Link to="/register" className="relative z-10 w-full flex justify-center bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-2xl transition-colors duration-300">
+            <button onClick={() => setModalPlan('enterprise')} className="relative z-10 w-full flex justify-center bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-2xl transition-colors duration-300 cursor-pointer">
               اشترك في الخارقة
-            </Link>
+            </button>
           </div>
           
         </div>
@@ -225,6 +227,12 @@ export default function Pricing() {
         </div>
 
       </div>
+
+      <PurchaseModal
+        isOpen={!!modalPlan}
+        onClose={() => setModalPlan(null)}
+        planId={modalPlan}
+      />
     </div>
   );
 }
