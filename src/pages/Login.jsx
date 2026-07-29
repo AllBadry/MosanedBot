@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
+import API_BASE_URL from '../config/api';
 
 export default function Login() {
   const containerRef = useRef(null);
@@ -11,8 +12,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleGoogleAuth = () => window.location.href = "http://localhost:5000/api/v1/auth/google";
-  const handleGithubAuth = () => window.location.href = "http://localhost:5000/api/v1/auth/github";
+  const handleGoogleAuth = () => window.location.href = API_BASE_URL + '/api/v1/auth/google';
+  const handleGithubAuth = () => window.location.href = API_BASE_URL + '/api/v1/auth/github';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/auth/login', {
+      const response = await fetch(API_BASE_URL + '/api/v1/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

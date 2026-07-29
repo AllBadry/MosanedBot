@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
+import API_BASE_URL from '../config/api';
 
 export default function DashboardApi() {
   const [apiKey, setApiKey] = useState(null);
@@ -26,7 +27,7 @@ export default function DashboardApi() {
 
       try {
         const token = localStorage.getItem('accessToken');
-        const res = await fetch('http://localhost:5000/api/v1/api/key', {
+        const res = await fetch(API_BASE_URL + '/api/v1/api/key', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -47,7 +48,7 @@ export default function DashboardApi() {
     setRegenerating(true);
     try {
       const token = localStorage.getItem('accessToken');
-      const res = await fetch('http://localhost:5000/api/v1/api/key/regenerate', {
+      const res = await fetch(API_BASE_URL + '/api/v1/api/key/regenerate', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -79,7 +80,7 @@ export default function DashboardApi() {
     setTesting(true);
     setTestResult('');
     try {
-      const res = await fetch('http://localhost:5000/api/v1/api/chat', {
+      const res = await fetch(API_BASE_URL + '/api/v1/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -100,12 +101,12 @@ export default function DashboardApi() {
     }
   };
 
-  const curlExample = `curl -X POST http://localhost:5000/api/v1/api/chat \\
+  const curlExample = `curl -X POST ${API_BASE_URL}/api/v1/api/chat \\
   -H "Content-Type: application/json" \\
   -H "x-api-key: ${apiKey || 'YOUR_API_KEY'}" \\
   -d '{"message": "ما هي سياسة الإرجاع؟"}'`;
 
-  const fetchExample = `fetch('http://localhost:5000/api/v1/api/chat', {
+  const fetchExample = `fetch('${API_BASE_URL}/api/v1/api/chat', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -119,7 +120,7 @@ export default function DashboardApi() {
 .then(data => console.log(data.data.response));`;
 
   const axiosExample = `const response = await axios.post(
-  'http://localhost:5000/api/v1/api/chat',
+  '${API_BASE_URL}/api/v1/api/chat',
   { message: 'ما هي سياسة الإرجاع؟' },
   { headers: { 'x-api-key': '${apiKey || 'YOUR_API_KEY'}' } }
 );
@@ -128,7 +129,7 @@ console.log(response.data.data.response);`;
   const pythonExample = `import requests
 
 response = requests.post(
-    'http://localhost:5000/api/v1/api/chat',
+    '${API_BASE_URL}/api/v1/api/chat',
     json={"message": "ما هي سياسة الإرجاع؟"},
     headers={"x-api-key": "${apiKey || 'YOUR_API_KEY'}"}
 )

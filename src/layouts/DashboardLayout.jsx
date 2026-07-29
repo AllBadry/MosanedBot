@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
+import API_BASE_URL from '../config/api';
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ export default function DashboardLayout() {
         <div className="p-8 text-3xl font-black border-b border-slate-800/80 flex items-center gap-3 relative z-10">
           <div className="relative">
             <img 
-              src="http://localhost:5000/botimage2.jpg" 
+              src={API_BASE_URL + '/botimage2.jpg'} 
               alt="بوت مساند" 
               className="w-12 h-12 rounded-xl object-cover border-2 border-electric-cyan shadow-[0_0_15px_rgba(0,240,255,0.3)] relative z-10" 
               onError={(e) => {e.target.src = 'https://via.placeholder.com/150'}}

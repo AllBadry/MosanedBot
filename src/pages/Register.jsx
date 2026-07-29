@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import gsap from 'gsap';
+import API_BASE_URL from '../config/api';
 
 export default function Register() {
   const containerRef = useRef(null);
@@ -42,8 +43,8 @@ export default function Register() {
     }, 1000);
   }
 
-  const handleGoogleAuth = () => window.location.href = "http://localhost:5000/api/v1/auth/google";
-  const handleGithubAuth = () => window.location.href = "http://localhost:5000/api/v1/auth/github";
+  const handleGoogleAuth = () => window.location.href = API_BASE_URL + '/api/v1/auth/google';
+  const handleGithubAuth = () => window.location.href = API_BASE_URL + '/api/v1/auth/github';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +52,7 @@ export default function Register() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/auth/signup', {
+      const response = await fetch(API_BASE_URL + '/api/v1/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -84,7 +85,7 @@ export default function Register() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/auth/verify-email', {
+      const response = await fetch(API_BASE_URL + '/api/v1/auth/verify-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: registeredEmail, code })
@@ -111,7 +112,7 @@ export default function Register() {
     setResendTimer(60);
 
     try {
-      await fetch('http://localhost:5000/api/v1/auth/resend-code', {
+      await fetch(API_BASE_URL + '/api/v1/auth/resend-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: registeredEmail })

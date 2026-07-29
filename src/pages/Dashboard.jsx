@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WidgetPreview from '../components/WidgetPreview';
+import API_BASE_URL from '../config/api';
 
 export default function Dashboard() {
   const location = useLocation();
@@ -54,7 +55,7 @@ export default function Dashboard() {
 
     const fetchBotData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/v1/bot', {
+        const response = await fetch(API_BASE_URL + '/api/v1/bot', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
@@ -104,7 +105,7 @@ export default function Dashboard() {
     showToast('جاري إنشاء مساعدك الذكي... ⏳', 10000);
     
     try {
-      const response = await fetch('http://localhost:5000/api/v1/bot', {
+      const response = await fetch(API_BASE_URL + '/api/v1/bot', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -162,7 +163,7 @@ export default function Dashboard() {
 
     showToast('جاري الحفظ... ⏳', 10000);
     try {
-      const response = await fetch('http://localhost:5000/api/v1/bot', {
+      const response = await fetch(API_BASE_URL + '/api/v1/bot', {
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',
@@ -186,7 +187,7 @@ export default function Dashboard() {
 
   const handleCopyScript = () => {
     if (!botData || !botData.widgetKey) return;
-    const scriptCode = `<script src="http://localhost:5000/mosaned-widget.js" data-widget-key="${botData.widgetKey}"></script>`;
+    const scriptCode = `<script src="${API_BASE_URL}/mosaned-widget.js" data-widget-key="${botData.widgetKey}"></script>`;
     navigator.clipboard.writeText(scriptCode);
     showToast('تم نسخ كود الربط بنجاح! 📋');
   };
@@ -412,7 +413,7 @@ export default function Dashboard() {
                     <pre className="text-slate-300 text-sm font-mono text-left overflow-x-auto whitespace-pre-wrap leading-loose" dir="ltr">
                       <code>
                         <span className="text-slate-500">&lt;!-- Mosaned Chat Widget --&gt;</span>{'\n'}
-                        <span className="text-pink-400">&lt;script</span> <span className="text-green-300">src=</span><span className="text-yellow-300">"http://localhost:5000/mosaned-widget.js"</span> <span className="text-green-300">data-widget-key=</span><span className="text-yellow-300">"{botData.widgetKey}"</span><span className="text-pink-400">&gt;&lt;/script&gt;</span>
+                        <span className="text-pink-400">&lt;script</span>                         <span className="text-green-300">src=</span><span className="text-yellow-300">"${API_BASE_URL}/mosaned-widget.js"</span> <span className="text-green-300">data-widget-key=</span><span className="text-yellow-300">"{botData.widgetKey}"</span><span className="text-pink-400">&gt;&lt;/script&gt;</span>
                       </code>
                     </pre>
                   </div>
@@ -441,7 +442,7 @@ export default function Dashboard() {
               <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px]"></div>
               
               <div className="relative z-10 p-6 w-full h-full pointer-events-none">
-                <WidgetPreview formData={{...formData, avatarUrl: formData.avatarUrl.startsWith('/uploads') ? `http://localhost:5000${formData.avatarUrl}` : formData.avatarUrl}} />
+                <WidgetPreview formData={{...formData, avatarUrl: formData.avatarUrl.startsWith('/uploads') ? `${API_BASE_URL}${formData.avatarUrl}` : formData.avatarUrl}} />
               </div>
             </div>
           </div>

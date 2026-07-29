@@ -1,9 +1,11 @@
+import API_BASE_URL from '../config/api';
+
 export async function fetchCurrentUser() {
   const token = localStorage.getItem('accessToken');
   if (!token) return null;
 
   try {
-    const response = await fetch('http://localhost:5000/api/v1/auth/me', {
+    const response = await fetch(API_BASE_URL + '/api/v1/auth/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

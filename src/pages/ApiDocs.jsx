@@ -1,17 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import API_BASE_URL from '../config/api';
 
 const codeSnippets = [
   {
     lang: 'cURL',
-    code: `curl -X POST http://localhost:5000/api/v1/api/chat \\
+    code: `curl -X POST ${API_BASE_URL}/api/v1/api/chat \\
   -H "Content-Type: application/json" \\
   -H "x-api-key: YOUR_API_KEY" \\
   -d '{"message": "ما هي سياسة الإرجاع؟"}'`,
   },
   {
     lang: 'JavaScript (Fetch)',
-    code: `fetch('http://localhost:5000/api/v1/api/chat', {
+    code: `fetch('${API_BASE_URL}/api/v1/api/chat', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ const codeSnippets = [
   {
     lang: 'JavaScript (Axios)',
     code: `const response = await axios.post(
-  'http://localhost:5000/api/v1/api/chat',
+  '${API_BASE_URL}/api/v1/api/chat',
   { message: 'ما هي سياسة الإرجاع؟' },
   { headers: { 'x-api-key': 'YOUR_API_KEY' } }
 );
@@ -38,7 +39,7 @@ console.log(response.data.data.response);`,
     code: `import requests
 
 response = requests.post(
-    'http://localhost:5000/api/v1/api/chat',
+    '${API_BASE_URL}/api/v1/api/chat',
     json={"message": "ما هي سياسة الإرجاع؟"},
     headers={"x-api-key": "YOUR_API_KEY"}
 )

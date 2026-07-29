@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
 import mammoth from 'mammoth';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
+import API_BASE_URL from '../config/api';
 
 // إعداد مسار الـ Worker الخاص بمكتبة PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
@@ -32,7 +33,7 @@ export default function Knowledge() {
   const fetchKnowledgeList = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch('http://localhost:5000/api/v1/knowledge', {
+      const response = await fetch(API_BASE_URL + '/api/v1/knowledge', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -66,7 +67,7 @@ export default function Knowledge() {
   const postKnowledgeEntry = async (title, content) => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch('http://localhost:5000/api/v1/knowledge', {
+      const response = await fetch(API_BASE_URL + '/api/v1/knowledge', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -218,7 +219,7 @@ export default function Knowledge() {
 
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch(`http://localhost:5000/api/v1/knowledge/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/knowledge/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

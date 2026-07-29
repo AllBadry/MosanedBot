@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import API_BASE_URL from '../config/api';
 
 export default function History() {
   const [sessions, setSessions] = useState([]);
@@ -13,7 +14,7 @@ export default function History() {
       if (!token) return;
 
       try {
-        const response = await fetch('http://localhost:5000/api/v1/bot/history/sessions', {
+        const response = await fetch(API_BASE_URL + '/api/v1/bot/history/sessions', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
@@ -35,7 +36,7 @@ export default function History() {
     setMessages([]); // تفريغ الرسائل القديمة أثناء التحميل
     
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/bot/history/sessions/${session._id}/messages`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/bot/history/sessions/${session._id}/messages`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
       });
       const data = await response.json();
@@ -53,7 +54,7 @@ export default function History() {
     if (!window.confirm('هل أنت متأكد من حذف هذه المحادثة نهائياً؟')) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/bot/history/sessions/${sessionId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/bot/history/sessions/${sessionId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
       });
