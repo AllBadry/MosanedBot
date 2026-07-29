@@ -92,7 +92,7 @@ export default function AboutSection() {
               <span className="text-sm font-bold text-slate-700 tracking-wide uppercase">بنية تحتية موثوقة</span>
             </div>
             
-            <h2 className="about-text-fade text-4xl md:text-5xl lg:text-6xl font-black text-textMain mb-6 leading-[1.15] tracking-tight">
+            <h2 className="about-text-fade text-3xl md:text-5xl lg:text-6xl font-black text-textMain mb-6 leading-[1.2]">
               قوة الذكاء الاصطناعي، <br/>
               بمرونة <span className="text-transparent bg-clip-text bg-gradient-to-l from-electric-cyan to-electric-green">الشركات الكبرى.</span>
             </h2>

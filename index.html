@@ -63,46 +63,7 @@
     }
     </script>
 
-    <!-- استدعاء Tailwind (كما طلبته) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- إعدادات ثيم Tailwind -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              electric: {
-                cyan: '#00F0FF',
-                green: '#00FF81',
-                yellow: '#FFA900',
-                orange: '#FF6800',
-              },
-              background: '#f8fafc',
-              surface: '#ffffff',
-              textMain: '#0f172a',
-              textMuted: '#64748b',
-            },
-            boxShadow: {
-              'glow': '0 10px 30px -10px rgba(0, 240, 255, 0.2)',
-              'soft': '0 4px 20px rgba(0,0,0,0.05)',
-            },
-            borderRadius: {
-              'xl': '1rem',
-              '2xl': '1.5rem',
-            }
-          }
-        }
-      }
-    </script>
-
-    <style>
-      body {
-        background-color: #f8fafc;
-        color: #0f172a;
-        font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-    </style>
+    <!-- تم نقل إعدادات Tailwind إلى build-time (vite + PostCSS) -->
   </head>
   <body>
     <div id="root"></div>

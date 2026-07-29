@@ -131,8 +131,8 @@ export default function Support() {
                       </svg>
                     </div>
                   </div>
-                  <div className={`grid transition-all duration-500 ease-in-out ${activeFaq === index ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'}`}>
-                    <div className="overflow-hidden">
+                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${activeFaq === index ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
+                    <div>
                       <p className="text-slate-400 leading-relaxed pr-2 border-r-2 border-[#00F0FF]/50">
                         {faq.a}
                       </p>

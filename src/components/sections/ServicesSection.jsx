@@ -112,7 +112,7 @@ export default function ServicesSection() {
                     هل يوجد ضمان على منتجاتكم؟
                   </div>
                   
-                  <div className="self-start w-[90%] relative">
+                  <div className="self-start w-[90%]">
                     {/* مؤشر الكتابة */}
                     <div className="typing-indicator flex items-center gap-1 bg-electric-green/10 px-4 py-3 rounded-t-xl rounded-bl-xl rounded-br-sm w-fit border border-electric-green/20">
                       <div className="typing-dot w-2 h-2 rounded-full bg-electric-green"></div>
@@ -121,7 +121,7 @@ export default function ServicesSection() {
                     </div>
                     
                     {/* الرد اللحظي */}
-                    <div className="ai-reply absolute top-0 right-0 bg-gradient-to-l from-electric-green to-teal-400 text-slate-900 font-bold text-sm px-4 py-2.5 rounded-t-xl rounded-bl-xl rounded-br-sm shadow-md opacity-0 flex gap-2 items-start">
+                    <div className="ai-reply bg-gradient-to-l from-electric-green to-teal-400 text-slate-900 font-bold text-sm px-4 py-2.5 rounded-t-xl rounded-bl-xl rounded-br-sm shadow-md opacity-0 flex gap-2 items-start">
                       <span className="text-base">✨</span>
                       <span>نعم، بناءً على سياسة الاسترجاع المحدثة، جميع المنتجات مشمولة بضمان لمدة عام كامل.</span>
                     </div>
