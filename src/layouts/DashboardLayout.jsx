@@ -7,8 +7,9 @@ export default function DashboardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState({ name: 'مستخدم', plan: 'free' });
+  const [botAvatar, setBotAvatar] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // جلب بيانات المستخدم من السيرفر (الخطة والاسم غير موجودين في JWT)
   useEffect(() => {
     const loadUser = async () => {
       const profile = await fetchCurrentUser();
@@ -19,9 +20,40 @@ export default function DashboardLayout() {
         });
       }
     };
-
     loadUser();
   }, []);
+
+  useEffect(() => {
+    const fetchBot = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const res = await fetch(API_BASE_URL + '/api/v1/bot', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.status === 'success' && data.data?.bot) {
+          const av = data.data.bot.avatarUrl;
+          setBotAvatar(av?.startsWith('/uploads') ? API_BASE_URL + av : av || null);
+        }
+      } catch (err) {
+        // ignore
+      }
+    };
+    fetchBot();
+  }, [location]);
+
+  useEffect(() => {
+    setSidebarOpen(window.innerWidth >= 1024);
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setSidebarOpen(true);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (window.innerWidth < 1024) setSidebarOpen(false);
+  }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
@@ -31,7 +63,6 @@ export default function DashboardLayout() {
   const isActive = (path) => location.pathname === path;
   const isFreePlan = user.plan === 'free';
 
-  // تحديد ألوان الباقة بناءً على الخطة
   const getPlanStyles = (plan) => {
     switch (plan) {
       case 'enterprise': return 'bg-purple-500/20 text-purple-300 border border-purple-500/30';
@@ -44,21 +75,22 @@ export default function DashboardLayout() {
 
   return (
     <div className="flex h-screen bg-background font-sans" dir="rtl">
-      
-      {/* =========================================
-          القائمة الجانبية
-      ========================================= */}
-      <aside className="w-72 bg-[#0f172a] text-white flex flex-col shadow-2xl z-20 relative overflow-hidden">
+
+      {/* Overlay for mobile */}
+      {sidebarOpen && window.innerWidth < 1024 && (
+        <div className="fixed inset-0 bg-black/40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      <aside className={`fixed lg:sticky top-0 right-0 h-full w-72 bg-[#0f172a] text-white flex flex-col shadow-2xl z-40 transition-transform duration-300 ease-out ${sidebarOpen ? 'translate-x-0' : 'translate-x-72'}`}>
         <div className="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-electric-cyan/10 to-transparent pointer-events-none"></div>
 
-        {/* اللوجو */}
         <div className="p-8 text-3xl font-black border-b border-slate-800/80 flex items-center gap-3 relative z-10">
           <div className="relative">
-            <img 
-              src={API_BASE_URL + '/botimage2.jpg'} 
-              alt="بوت مساند" 
-              className="w-12 h-12 rounded-xl object-cover border-2 border-electric-cyan shadow-[0_0_15px_rgba(0,240,255,0.3)] relative z-10" 
-              onError={(e) => {e.target.src = 'https://via.placeholder.com/150'}}
+            <img
+              src={botAvatar || API_BASE_URL + '/botimage2.jpg'}
+              alt="بوت مساند"
+              className="w-12 h-12 rounded-xl object-cover border-2 border-electric-cyan shadow-[0_0_15px_rgba(0,240,255,0.3)] relative z-10"
+              onError={(e) => { e.target.src = API_BASE_URL + '/botimage2.jpg' }}
             />
           </div>
           <span className="bg-clip-text text-transparent bg-gradient-to-l from-white to-slate-300 tracking-tight">
@@ -66,30 +98,28 @@ export default function DashboardLayout() {
           </span>
         </div>
 
-        {/* روابط التصفح */}
         <nav className="flex-1 p-5 space-y-2 overflow-y-auto relative z-10 mt-4">
-          <Link 
-            to="/dashboard" 
+          <Link
+            to="/dashboard"
             className={`flex items-center gap-3 w-full text-right p-3.5 rounded-xl font-bold transition-all duration-300 ${isActive('/dashboard') ? 'bg-electric-cyan text-slate-900 shadow-glow' : 'hover:bg-slate-800/80 text-slate-300 hover:text-white'}`}
           >
             <span className="text-lg">⚙️</span> إعدادات المساعد
           </Link>
-          
-          <Link 
-            to="/dashboard/knowledge" 
+
+          <Link
+            to="/dashboard/knowledge"
             className={`flex items-center gap-3 w-full text-right p-3.5 rounded-xl font-bold transition-all duration-300 ${isActive('/dashboard/knowledge') ? 'bg-electric-cyan text-slate-900 shadow-glow' : 'hover:bg-slate-800/80 text-slate-300 hover:text-white'}`}
           >
             <span className="text-lg">🧠</span> قاعدة المعرفة (البيانات)
           </Link>
 
-          <Link 
-            to="/dashboard/history" 
+          <Link
+            to="/dashboard/history"
             className={`flex items-center gap-3 w-full text-right p-3.5 rounded-xl font-bold transition-all duration-300 ${isActive('/dashboard/history') ? 'bg-electric-cyan text-slate-900 shadow-glow' : 'hover:bg-slate-800/80 text-slate-300 hover:text-white'}`}
           >
             <span className="text-lg">📩</span> سجل المحادثات
           </Link>
 
-          {/* تبويب الـ API (مقفل للخطة المجانية) */}
           <div className="pt-4 mt-4 border-t border-slate-800/80">
             {isFreePlan ? (
               <div className="group relative flex items-center justify-between p-3.5 rounded-xl font-bold text-slate-500 bg-slate-900/50 border border-slate-800 cursor-not-allowed overflow-hidden">
@@ -104,8 +134,8 @@ export default function DashboardLayout() {
                 </div>
               </div>
             ) : (
-              <Link 
-                to="/dashboard/api" 
+              <Link
+                to="/dashboard/api"
                 className={`flex items-center gap-3 w-full text-right p-3.5 rounded-xl font-bold transition-all duration-300 ${isActive('/dashboard/api') ? 'bg-electric-cyan text-slate-900 shadow-glow' : 'hover:bg-slate-800/80 text-slate-300 hover:text-white border border-transparent hover:border-slate-700'}`}
               >
                 <span className="text-lg">🔗</span> إعدادات API
@@ -114,7 +144,6 @@ export default function DashboardLayout() {
           </div>
         </nav>
 
-        {/* بطاقة المستخدم */}
         <div className="p-4 mx-4 mb-6 bg-slate-900 rounded-2xl border border-slate-700/50 shadow-lg relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-electric-cyan to-electric-green flex items-center justify-center text-slate-900 font-black text-lg shadow-inner">
@@ -127,9 +156,9 @@ export default function DashboardLayout() {
               </span>
             </div>
           </div>
-          
-          <button 
-            onClick={handleLogout} 
+
+          <button
+            onClick={handleLogout}
             className="w-full bg-slate-800 text-slate-300 hover:bg-red-500/10 hover:text-red-400 border border-transparent hover:border-red-500/20 font-bold p-2.5 rounded-xl transition-all flex justify-center items-center gap-2 text-sm"
           >
             <span>🚪</span> تسجيل الخروج
@@ -137,11 +166,23 @@ export default function DashboardLayout() {
         </div>
       </aside>
 
-      {/* مساحة العمل */}
-      <main className="flex-1 overflow-y-auto relative p-8 lg:p-12">
-        <Outlet /> 
+      <main className="flex-1 overflow-y-auto relative p-4 lg:p-12 pt-16 lg:pt-12">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="fixed top-4 right-4 z-50 lg:hidden p-2.5 rounded-xl bg-[#0f172a] text-white shadow-lg hover:bg-slate-800 transition-colors"
+          aria-label="القائمة"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {sidebarOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+        <Outlet />
       </main>
-      
+
     </div>
   );
 }

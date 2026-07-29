@@ -386,7 +386,7 @@ export default function Dashboard() {
                   <div className="flex items-center gap-6">
                     <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-slate-200 shrink-0 bg-slate-50">
                       <img
-                        src={formData.avatarUrl || '/botimage2.jpg'}
+                        src={formData.avatarUrl?.startsWith('/') ? API_BASE_URL + formData.avatarUrl : formData.avatarUrl || '/botimage2.jpg'}
                         alt="avatar preview"
                         className="w-full h-full object-cover"
                         onError={(e) => { e.target.src = '/botimage2.jpg' }}
