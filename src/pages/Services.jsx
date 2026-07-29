@@ -165,7 +165,7 @@ export default function Services() {
             </div>
 
             {/* تمثيل بصري للكود (تم تقسيمه لأسطر لعمل تأثير الكتابة) */}
-            <div className="code-container md:w-1/2 bg-slate-900 p-8 flex flex-col justify-center relative group-hover:bg-slate-800 transition-colors duration-500">
+            <div className="code-container md:w-1/2 bg-slate-900 p-6 md:p-8 flex flex-col justify-center relative group-hover:bg-slate-800 transition-colors duration-500">
               <div className="flex gap-2 mb-4">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>

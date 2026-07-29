@@ -73,7 +73,7 @@ export default function Pricing() {
         {/* =========================================
             شبكة الأسعار (3 خطط)
         ========================================= */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center mb-24">
           
           {/* 1. الخطة المجانية */}
           <div className="animate-up opacity-0 bg-surface/80 backdrop-blur-xl p-8 rounded-3xl border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col h-full relative group">

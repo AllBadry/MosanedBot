@@ -107,7 +107,7 @@ export default function AboutSection() {
             </div>
 
             {/* إحصائيات بستايل الـ Dashboard المكتبي */}
-            <div className="grid grid-cols-3 gap-4 border-t border-slate-200/60 pt-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 border-t border-slate-200/60 pt-8">
               
 
               <div className="stat-box border-r border-slate-200/60 pr-4">

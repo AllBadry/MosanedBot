@@ -2,13 +2,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
-  // حالة لمعرفة هل المستخدم قام بالتمرير للأسفل أم لا
   const [isScrolled, setIsScrolled] = useState(false);
-  
-  // لمعرفة مسار الصفحة الحالية وتمييز الرابط النشط
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
-  // تفعيل تأثير التمرير (Scroll Effect)
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -17,20 +14,30 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // دالة بسيطة للتحقق من الرابط النشط
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location]);
+
   const isActive = (path) => location.pathname === path;
+
+  const links = [
+    { name: 'الرئيسية', path: '/' },
+    { name: 'من نحن', path: '/about' },
+    { name: 'خدماتنا', path: '/services' },
+    { name: 'الأسعار', path: '/pricing' },
+    { name: 'تواصل معنا', path: '/contact' }
+  ];
 
   return (
     <nav 
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-surface/80 backdrop-blur-md shadow-soft py-3' // شكل الناف بار عند التمرير للأسفل (تأثير زجاجي وتصغير)
-          : 'bg-transparent py-6' // شكل الناف بار في أعلى الصفحة (شفاف وكبير)
+        isScrolled || mobileOpen
+          ? 'bg-surface/80 backdrop-blur-md shadow-soft py-3'
+          : 'bg-transparent py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         
-        {/* 1. الشعار (Logo) مع نقطة نابضة وتدرج لوني */}
         <Link to="/" className="group flex items-center gap-2 text-2xl font-black text-textMain hover:scale-105 transition-transform duration-300">
           <span className="relative flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-electric-cyan opacity-75"></span>
@@ -39,15 +46,8 @@ export default function Navbar() {
           مساند<span className="text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-electric-green">بوت</span>
         </Link>
 
-        {/* 2. روابط الصفحات مع أنيميشن التسطير الذكي */}
         <div className="hidden md:flex gap-8">
-          {[
-            { name: 'الرئيسية', path: '/' },
-            { name: 'من نحن', path: '/about' },
-            { name: 'خدماتنا', path: '/services' },
-            { name: 'الأسعار', path: '/pricing' },
-            { name: 'تواصل معنا', path: '/contact' }
-          ].map((link) => (
+          {links.map((link) => (
             <Link 
               key={link.name} 
               to={link.path} 
@@ -56,8 +56,6 @@ export default function Navbar() {
               }`}
             >
               {link.name}
-              
-              {/* الخط السفلي المتحرك */}
               <span className={`absolute bottom-0 right-0 h-0.5 bg-electric-green transition-all duration-300 ${
                 isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'
               }`}></span>
@@ -65,26 +63,55 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* 3. زر الدخول (Magic Hover Button) */}
-        <div>
-          <Link to="/login" className="relative group inline-flex items-center justify-center px-6 py-2.5 font-bold text-textMain bg-surface border-2 border-slate-200 rounded-xl overflow-hidden transition-all hover:border-transparent hover:shadow-glow">
-            
-            {/* الخلفية المتدرجة التي تظهر ببطء من الأسفل عند المرور */}
+        <div className="flex items-center gap-3">
+          <Link to="/login" className="hidden md:inline-flex relative group items-center justify-center px-6 py-2.5 font-bold text-textMain bg-surface border-2 border-slate-200 rounded-xl overflow-hidden transition-all hover:border-transparent hover:shadow-glow">
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-electric-cyan to-electric-green translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></span>
-            
-            {/* محتوى الزر (النص والأيقونة) */}
             <span className="relative flex items-center gap-2 group-hover:text-slate-900 transition-colors duration-300">
               تسجيل الدخول
-              {/* سهم يظهر ويتحرك للداخل عند المرور */}
               <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 opacity-0 -translate-x-4 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 delay-75" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11 16l-4-4m0 0l4-4m-4 4h14" />
               </svg>
             </span>
-            
           </Link>
+
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 rounded-xl hover:bg-slate-100 transition-colors" aria-label="القائمة">
+            <svg className="w-6 h-6 text-textMain" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {mobileOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
         </div>
         
       </div>
+
+      {mobileOpen && (
+        <div className="md:hidden bg-surface/95 backdrop-blur-md border-t border-slate-100 shadow-lg">
+          <div className="px-6 py-4 space-y-2">
+            {links.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`block px-4 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                  isActive(link.path)
+                    ? 'bg-electric-cyan/10 text-electric-cyan'
+                    : 'text-textMuted hover:bg-slate-50 hover:text-textMain'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <Link
+              to="/login"
+              className="block px-4 py-3 rounded-xl font-bold text-center bg-gradient-to-r from-electric-cyan to-electric-green text-slate-900 mt-3"
+            >
+              تسجيل الدخول
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
