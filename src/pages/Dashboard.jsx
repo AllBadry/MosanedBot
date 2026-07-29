@@ -198,7 +198,7 @@ export default function Dashboard() {
   const knowledgePercent = isUnlimitedKnowledge ? 0 : Math.min((usage.knowledge / limits.knowledge) * 100, 100) || 0;
 
   return (
-    <div className="animate-fade-in max-w-7xl mx-auto relative min-h-[80vh]" dir="rtl">
+    <div className="animate-fade-in max-w-7xl mx-auto px-4 sm:px-6 relative min-h-[80vh]" dir="rtl">
       
       {/* بوب اب الإشعارات */}
       {message && (
@@ -216,9 +216,9 @@ export default function Dashboard() {
         </div>
       )}
 
-      <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <header className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-black text-textMain mb-2">إعدادات المساعد 🤖</h1>
+          <h1 className="text-2xl md:text-4xl font-black text-textMain mb-2">إعدادات المساعد 🤖</h1>
           <p className="text-textMuted text-lg font-medium">قم بتخصيص هوية البوت وتصميمه لموقعك.</p>
         </div>
       </header>
@@ -229,7 +229,7 @@ export default function Dashboard() {
         </div>
       ) : !botData ? (
         
-        <div className="bg-surface border border-slate-200 rounded-[2.5rem] p-12 shadow-sm text-center max-w-3xl mx-auto mt-10 relative overflow-hidden">
+        <div className="bg-surface border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm text-center max-w-3xl mx-auto mt-10 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-full h-2 bg-gradient-to-l from-electric-cyan to-electric-green"></div>
             <div className="absolute -top-32 -right-32 w-64 h-64 bg-electric-cyan/10 blur-3xl rounded-full pointer-events-none"></div>
             <div className="w-32 h-32 mx-auto bg-slate-50 rounded-full flex items-center justify-center border-4 border-white shadow-xl mb-8 relative z-10">
@@ -304,7 +304,7 @@ export default function Dashboard() {
             ========================================= */}
             <form id="botSettingsForm" onSubmit={handleUpdateBot} className="space-y-8">
               
-              <div className="bg-surface p-8 rounded-3xl border border-slate-200 shadow-sm">
+              <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
                 <h2 className="text-xl font-bold text-textMain mb-6 flex items-center gap-2">
                   <span className="text-electric-cyan">1.</span> هوية البوت الأساسية والأمان
                 </h2>
@@ -345,7 +345,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="bg-surface p-8 rounded-3xl border border-slate-200 shadow-sm">
+              <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
                 <h2 className="text-xl font-bold text-textMain mb-6 flex items-center gap-2">
                   <span className="text-electric-green">2.</span> تخصيص المظهر (UI/UX)
                 </h2>
@@ -389,7 +389,7 @@ export default function Dashboard() {
               <div className="flex items-center justify-end pt-4">
                 <button 
                   type="submit" 
-                  className="bg-slate-900 text-white font-black px-12 py-4 rounded-2xl hover:bg-electric-cyan hover:text-slate-900 shadow-lg hover:shadow-glow hover:-translate-y-1 transition-all duration-300"
+                  className="bg-slate-900 text-white font-black px-8 md:px-12 py-4 rounded-2xl hover:bg-electric-cyan hover:text-slate-900 shadow-lg hover:shadow-glow hover:-translate-y-1 transition-all duration-300 w-full md:w-auto"
                 >
                   حفظ الإعدادات بالكامل
                 </button>
@@ -400,7 +400,7 @@ export default function Dashboard() {
                 كود التضمين عاد أيضاً
             ========================================= */}
             {botData.widgetKey && (
-              <div className="bg-[#0f172a] rounded-3xl p-8 relative overflow-hidden shadow-2xl mt-12 border border-slate-800">
+              <div className="bg-[#0f172a] rounded-3xl p-6 md:p-8 relative overflow-hidden shadow-2xl mt-12 border border-slate-800">
                 <div className="absolute -top-24 -right-24 w-48 h-48 bg-electric-cyan/20 blur-3xl rounded-full"></div>
                 
                 <div className="relative z-10">
@@ -431,8 +431,8 @@ export default function Dashboard() {
             )}
           </div>
 
-          <div className="w-full lg:w-1/3 sticky top-8">
-            <div className="bg-slate-100 rounded-3xl p-2 border border-slate-200/60 shadow-inner relative overflow-hidden h-[600px] flex items-end justify-end">
+          <div className="w-full lg:w-1/3 lg:sticky lg:top-8">
+            <div className="bg-slate-100 rounded-3xl p-2 border border-slate-200/60 shadow-inner relative overflow-hidden h-[400px] lg:h-[600px] flex items-end justify-end">
               <div className="absolute top-6 left-0 w-full text-center z-10">
                 <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold text-slate-600 shadow-sm border border-slate-200">
                   🔴 معاينة حية (Live Preview)

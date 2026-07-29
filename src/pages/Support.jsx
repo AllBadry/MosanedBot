@@ -89,7 +89,7 @@ export default function Support() {
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       {/* Header */}
-      <header className="pt-32 pb-16 text-center relative z-10 px-4 scroll-reveal opacity-0 translate-y-12 transition-all duration-1000 ease-out">
+      <header className="pt-32 pb-16 text-center relative z-10 px-4 scroll-reveal opacity-0 translate-y-12 transition-transform duration-700 md:duration-1000 ease-out">
         <h1 className="text-5xl md:text-6xl font-black mb-6 tracking-tight text-white">
           كيف يمكننا <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#00F0FF] to-blue-500">مساعدتك؟</span>
         </h1>
@@ -102,7 +102,7 @@ export default function Support() {
         
         {/* ================= القسم الأول: الأسئلة الشائعة ================= */}
         <section>
-          <div className="text-center mb-12 scroll-reveal opacity-0 translate-y-12 transition-all duration-700 ease-out">
+          <div className="text-center mb-12 scroll-reveal opacity-0 translate-y-12 transition-transform duration-500 md:duration-700 ease-out">
             <h2 className="text-3xl font-bold text-white mb-2">الأسئلة الشائعة</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#00F0FF] to-transparent mx-auto"></div>
           </div>
@@ -114,7 +114,7 @@ export default function Support() {
                 onClick={() => toggleFaq(index)}
                 // تم إضافة كلاسات التأخير (delay) لكي تظهر الصناديق بتتابع جميل وليس دفعة واحدة
                 style={{ transitionDelay: `${index * 150}ms` }}
-                className={`scroll-reveal opacity-0 translate-y-12 transition-all duration-700 ease-out group cursor-pointer rounded-2xl border overflow-hidden ${
+                className={`scroll-reveal opacity-0 translate-y-12 transition-transform duration-500 md:duration-700 ease-out group cursor-pointer rounded-2xl border overflow-hidden ${
                   activeFaq === index 
                     ? 'bg-white/10 border-[#00F0FF]/50 shadow-[0_0_30px_rgba(0,240,255,0.15)]' 
                     : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10'
@@ -145,11 +145,11 @@ export default function Support() {
         </section>
 
         {/* ================= القسم الثاني: المنحوتة الفنية (رقم التواصل) ================= */}
-        <section className="relative py-12 text-center group scroll-reveal opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-200">
+        <section className="relative py-12 text-center group scroll-reveal opacity-0 translate-y-12 transition-transform duration-700 md:duration-1000 ease-out delay-200">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00F0FF]/5 to-transparent blur-xl group-hover:opacity-100 opacity-50 transition-opacity duration-700"></div>
           <div className="relative z-10">
             <h2 className="text-xl text-slate-400 mb-4 tracking-widest uppercase">الدعم الفني المباشر</h2>
-            <a href="tel:+962785290948" className="inline-block">
+            <a href="tel:+962785290948" className="inline-block" dir="ltr">
               <div className="text-5xl md:text-7xl font-black text-white hover:text-[#00F0FF] transition-colors duration-300 drop-shadow-[0_0_15px_rgba(0,240,255,0.3)] tracking-wider">
                 +962 785 290 948
               </div>
@@ -159,7 +159,7 @@ export default function Support() {
         </section>
 
         {/* ================= القسم الثالث: لوحة التواصل (الفورم الزجاجي) ================= */}
-        <section className="max-w-3xl mx-auto scroll-reveal opacity-0 translate-y-12 transition-all duration-1000 ease-out">
+        <section className="max-w-3xl mx-auto scroll-reveal opacity-0 translate-y-12 transition-transform duration-700 md:duration-1000 ease-out">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-white mb-2">أرسل لنا رسالة</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto"></div>

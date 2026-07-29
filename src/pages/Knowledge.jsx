@@ -236,7 +236,7 @@ export default function Knowledge() {
   };
 
   return (
-    <div className="animate-fade-in max-w-7xl mx-auto font-sans" dir="rtl">
+    <div className="animate-fade-in max-w-7xl mx-auto px-4 sm:px-6 font-sans" dir="rtl">
       
       {/* نافذة المعاينة المنبثقة */}
       {previewEntry && (
@@ -283,7 +283,7 @@ export default function Knowledge() {
             <span className="w-2 h-2 rounded-full bg-electric-cyan animate-pulse"></span>
             محرك الاسترجاع المعزز (RAG)
           </div>
-          <h1 className="text-4xl font-black text-textMain mb-2">إدارة المعرفة 🧠</h1>
+          <h1 className="text-2xl md:text-4xl font-black text-textMain mb-2">إدارة المعرفة 🧠</h1>
           <p className="text-textMuted text-lg font-medium">قم بتغذية البوت بالمعلومات إما برفع ملفات جاهزة أو بكتابتها يدوياً.</p>
         </div>
         
@@ -314,7 +314,7 @@ export default function Knowledge() {
               </button>
             </div>
 
-            <div className="p-8 relative group">
+            <div className="p-6 md:p-8 relative group">
               {activeTab === 'file' ? (
                 <div className="flex flex-col items-center">
                   <div className="w-full bg-blue-50 border border-blue-100 text-blue-800 p-4 rounded-xl mb-6 flex items-start gap-3 shadow-sm relative z-10">

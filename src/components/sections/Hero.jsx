@@ -101,7 +101,7 @@ export default function Hero() {
       {/* تم إضافة will-change-transform و transform-gpu لتسريع الأداء */}
       <div 
         ref={rightTubeRef} 
-        className="organic-tube absolute -top-10 -right-20 w-[400px] h-[500px] lg:w-[600px] lg:h-[700px] pointer-events-none z-0 will-change-transform transform-gpu"
+        className="organic-tube absolute -top-10 -right-10 sm:-right-20 w-[180px] h-[260px] sm:w-[400px] sm:h-[500px] lg:w-[600px] lg:h-[700px] pointer-events-none z-0 will-change-transform transform-gpu"
       >
         {/* تمت إزالة drop-shadow-2xl لأنها تسبب تقطيع (Lag) شديد عند الحركة المستمرة */}
         <svg viewBox="0 0 500 600" fill="none" className="w-full h-full">
@@ -124,7 +124,7 @@ export default function Hero() {
       {/* الأنبوب الأيسر */}
       <div 
         ref={leftTubeRef} 
-        className="organic-tube absolute -bottom-20 -left-20 w-[400px] h-[500px] lg:w-[600px] lg:h-[700px] pointer-events-none z-0 will-change-transform transform-gpu"
+        className="organic-tube absolute -bottom-10 sm:-bottom-20 -left-10 sm:-left-20 w-[180px] h-[260px] sm:w-[400px] sm:h-[500px] lg:w-[600px] lg:h-[700px] pointer-events-none z-0 will-change-transform transform-gpu"
       >
         <svg viewBox="0 0 500 600" fill="none" className="w-full h-full">
           <path
@@ -151,7 +151,7 @@ export default function Hero() {
       ========================================= */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto my-auto">
         
-        <h1 className="flex flex-wrap justify-center items-center text-[5.5rem] sm:text-8xl lg:text-[10rem] font-black tracking-tighter leading-none mb-6">
+        <h1 className="flex flex-wrap justify-center items-center text-5xl sm:text-8xl lg:text-[10rem] font-black tracking-tighter leading-none mb-6">
           
           <div className="flex text-textMain mr-4 lg:mr-8">
             {mosanedLetters.map((char, index) => (

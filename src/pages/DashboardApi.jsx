@@ -143,7 +143,7 @@ print(response.json()["data"]["response"])`;
   ];
 
   return (
-    <div className="animate-fade-in max-w-7xl mx-auto relative min-h-[80vh]" dir="rtl">
+    <div className="animate-fade-in max-w-7xl mx-auto px-4 sm:px-6 relative min-h-[80vh]" dir="rtl">
       {message && (
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] animate-fade-in pointer-events-none">
           <div className={`px-6 py-4 rounded-full font-bold text-sm flex items-center gap-3 transition-all duration-300 transform border shadow-2xl ${
@@ -158,7 +158,7 @@ print(response.json()["data"]["response"])`;
       )}
 
       <header className="mb-12">
-        <h1 className="text-4xl font-black text-textMain mb-2">واجهة API للمطورين 🔗</h1>
+        <h1 className="text-2xl md:text-4xl font-black text-textMain mb-2">واجهة API للمطورين 🔗</h1>
         <p className="text-textMuted text-lg font-medium">قم بدمج مساعدك الذكي في أي تطبيق عبر REST API.</p>
       </header>
 
@@ -169,7 +169,7 @@ print(response.json()["data"]["response"])`;
       ) : (
         <div className="space-y-10">
           {}
-          <div className="bg-surface p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
                 <h2 className="text-xl font-bold text-textMain mb-2 flex items-center gap-2">
@@ -210,7 +210,7 @@ print(response.json()["data"]["response"])`;
           </div>
 
           {}
-          <div className="bg-surface p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
             <h2 className="text-xl font-bold text-textMain mb-6 flex items-center gap-2">
               <span>📚</span> توثيق API
             </h2>
@@ -225,7 +225,7 @@ print(response.json()["data"]["response"])`;
 
               <div>
                 <h3 className="font-bold text-textMain mb-3">الـ Headers المطلوبة</h3>
-                <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-slate-100 border-b border-slate-200">
@@ -252,7 +252,7 @@ print(response.json()["data"]["response"])`;
 
               <div>
                 <h3 className="font-bold text-textMain mb-3">جسم الطلب (Request Body)</h3>
-                <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                <div className="bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-slate-100 border-b border-slate-200">
@@ -331,7 +331,7 @@ print(response.json()["data"]["response"])`;
           </div>
 
           {}
-          <div className="bg-surface p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
             <h2 className="text-xl font-bold text-textMain mb-6 flex items-center gap-2">
               <span>💻</span> أمثلة برمجية
             </h2>
@@ -359,7 +359,7 @@ print(response.json()["data"]["response"])`;
 
           {}
           {apiKey && (
-            <div className="bg-surface p-8 rounded-3xl border border-slate-200 shadow-sm">
+            <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
               <h2 className="text-xl font-bold text-textMain mb-6 flex items-center gap-2">
                 <span>🧪</span> جرب API الآن
               </h2>

@@ -30,7 +30,7 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled || mobileOpen
           ? 'bg-surface/80 backdrop-blur-md shadow-soft py-3'
           : 'bg-transparent py-6'
@@ -87,8 +87,10 @@ export default function Navbar() {
         
       </div>
 
-      {mobileOpen && (
-        <div className="md:hidden bg-surface/95 backdrop-blur-md border-t border-slate-100 shadow-lg">
+      <div className={`md:hidden transition-all duration-300 ease-out overflow-hidden ${
+        mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+      }`}>
+        <div className="bg-surface/95 backdrop-blur-md border-t border-slate-100 shadow-lg">
           <div className="px-6 py-4 space-y-2">
             {links.map((link) => (
               <Link
@@ -111,7 +113,7 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }
