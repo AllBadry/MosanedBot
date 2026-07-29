@@ -15,7 +15,8 @@ export default function Dashboard() {
   const [limits, setLimits] = useState({ sessions: 100, knowledge: 10 });
 
   const [loading, setLoading] = useState(true);
-  const [isCreating, setIsCreating] = useState(false); 
+  const [isCreating, setIsCreating] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [message, setMessage] = useState('');
   
   const [formData, setFormData] = useState({ 
@@ -185,6 +186,42 @@ export default function Dashboard() {
     }
   };
 
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      showToast('❌ يرجى اختيار صورة فقط.');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('❌ حجم الصورة يتجاوز 2 ميغابايت.');
+      return;
+    }
+    setIsUploadingAvatar(true);
+    showToast('جاري رفع الصورة... ⏳', 10000);
+    try {
+      const token = localStorage.getItem('accessToken');
+      const form = new FormData();
+      form.append('avatar', file);
+      const res = await fetch(API_BASE_URL + '/api/v1/bot/upload-avatar', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: form
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        setFormData(prev => ({ ...prev, avatarUrl: data.data.avatarUrl }));
+        showToast('تم رفع الصورة بنجاح! ✅');
+      } else {
+        showToast(`❌ ${data.message || 'فشل الرفع'}`);
+      }
+    } catch (err) {
+      showToast('❌ فشل الاتصال بالخادم.');
+    } finally {
+      setIsUploadingAvatar(false);
+    }
+  };
+
   const handleCopyScript = () => {
     if (!botData || !botData.widgetKey) return;
     const scriptCode = `<script src="${API_BASE_URL}/mosaned-widget.js" data-widget-key="${botData.widgetKey}"></script>`;
@@ -342,6 +379,37 @@ export default function Dashboard() {
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-2">رسالة الترحيب</label>
                   <textarea value={formData.welcomeMessage} onChange={(e) => setFormData({...formData, welcomeMessage: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 h-24 resize-none focus:border-electric-cyan focus:bg-white transition-colors outline-none font-medium text-textMain" placeholder="أهلاً بك! كيف يمكنني مساعدتك اليوم؟" />
+                </div>
+
+                <div className="border-t border-slate-100 pt-6 mt-6">
+                  <label className="block text-sm font-bold text-slate-700 mb-4">صورة المساعد (Avatar)</label>
+                  <div className="flex items-center gap-6">
+                    <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-slate-200 shrink-0 bg-slate-50">
+                      <img
+                        src={formData.avatarUrl || '/botimage2.jpg'}
+                        alt="avatar preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.target.src = '/botimage2.jpg' }}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm cursor-pointer transition-all ${isUploadingAvatar ? 'bg-slate-200 text-slate-500' : 'bg-slate-900 text-white hover:bg-electric-cyan hover:text-slate-900'}`}>
+                        {isUploadingAvatar ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-slate-400 border-t-slate-900 rounded-full animate-spin"></div>
+                            جاري الرفع...
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            تغيير الصورة
+                          </>
+                        )}
+                        <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" disabled={isUploadingAvatar} />
+                      </label>
+                      <p className="text-xs text-slate-400 mt-2 font-medium">يُسمح بصيغ JPG, PNG, GIF. حجم أقصى 2MB.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
