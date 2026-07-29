@@ -440,7 +440,7 @@ export default function Knowledge() {
         <div className="space-y-6">
           <div className="bg-slate-900 rounded-3xl p-6 border border-slate-800 shadow-xl relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-electric-cyan to-electric-green"></div>
-            <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-electric-cyan/20 blur-3xl rounded-full"></div>
+            <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-electric-cyan/20 blur-2xl rounded-full"></div>
             
             <h3 className="text-white font-bold mb-6 text-lg">استهلاك قواعد المعرفة</h3>
             

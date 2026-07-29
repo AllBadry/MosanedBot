@@ -167,7 +167,7 @@ export default function Contact() {
           </div>
 
           {/* الجانب الأيسر: نموذج المراسلة - عبور */}
-          <div className="contact-form-card opacity-0 bg-surface/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-200 shadow-soft hover:shadow-glow transition-shadow duration-300">
+          <div className="contact-form-card opacity-0 bg-surface/80 backdrop-blur-lg rounded-3xl p-8 border border-slate-200 shadow-soft hover:shadow-glow transition-shadow duration-300">
             <form onSubmit={handleSubmit} className="flex flex-col gap-8 relative z-10">
 
               {status.text && (

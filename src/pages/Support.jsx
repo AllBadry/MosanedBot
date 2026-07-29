@@ -146,7 +146,7 @@ export default function Support() {
 
         {/* ================= القسم الثاني: المنحوتة الفنية (رقم التواصل) ================= */}
         <section className="relative py-12 text-center group scroll-reveal opacity-0 translate-y-12 transition-transform duration-700 md:duration-1000 ease-out delay-200">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00F0FF]/5 to-transparent blur-xl group-hover:opacity-100 opacity-50 transition-opacity duration-700"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00F0FF]/5 to-transparent blur-lg group-hover:opacity-100 opacity-50 transition-opacity duration-700"></div>
           <div className="relative z-10">
             <h2 className="text-xl text-slate-400 mb-4 tracking-widest uppercase">الدعم الفني المباشر</h2>
             <a href="tel:+962785290948" className="inline-block" dir="ltr">
@@ -165,7 +165,7 @@ export default function Support() {
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto"></div>
           </div>
 
-          <div className="backdrop-blur-xl bg-white/5 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl relative">
+          <div className="backdrop-blur-lg bg-white/5 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl relative">
             <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-[#00F0FF]/30 rounded-tr-3xl"></div>
             <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-blue-500/30 rounded-bl-3xl"></div>
 

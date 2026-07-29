@@ -70,7 +70,7 @@ export default function ResetPassword() {
       <div className="bg-orb absolute top-[-10%] left-[-10%] w-96 h-96 bg-electric-green/20 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="bg-orb absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-electric-cyan/20 rounded-full blur-[100px] pointer-events-none"></div>
 
-      <div className="card opacity-0 relative z-10 w-full max-w-md bg-surface/80 backdrop-blur-xl p-10 rounded-3xl shadow-soft border border-slate-200">
+      <div className="card opacity-0 relative z-10 w-full max-w-md bg-surface/80 backdrop-blur-lg p-10 rounded-3xl shadow-soft border border-slate-200">
         <div className="item opacity-0 flex justify-center mb-6">
           <Link to="/" className="flex items-center gap-2 text-3xl font-black text-textMain">
             <span className="relative flex h-4 w-4">

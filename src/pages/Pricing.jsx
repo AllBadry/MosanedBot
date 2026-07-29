@@ -58,7 +58,7 @@ export default function Pricing() {
             <span className="title-word opacity-0 block">خطط</span>
             <span className="title-word opacity-0 block">أسعار</span>
             <span className="relative block">
-              <span ref={glowRef} className="absolute inset-0 bg-gradient-to-r from-electric-cyan to-electric-green blur-xl rounded-full opacity-0 pointer-events-none"></span>
+              <span ref={glowRef} className="absolute inset-0 bg-gradient-to-r from-electric-cyan to-electric-green blur-lg rounded-full opacity-0 pointer-events-none"></span>
               <span ref={highlightRef} className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-electric-green opacity-0 inline-block pb-2">
                 مرنة وواضحة
               </span>
@@ -76,7 +76,7 @@ export default function Pricing() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center mb-24">
           
           {/* 1. الخطة المجانية */}
-          <div className="animate-up opacity-0 bg-surface/80 backdrop-blur-xl p-8 rounded-3xl border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col h-full relative group">
+          <div className="animate-up opacity-0 bg-surface/80 backdrop-blur-lg p-8 rounded-3xl border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col h-full relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-electric-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl"></div>
             
             <h3 className="text-2xl font-bold text-textMain mb-2 relative z-10">المجانية</h3>
@@ -115,7 +115,7 @@ export default function Pricing() {
           </div>
 
           {/* 2. الخطة الأساسية (10 دنانير) */}
-          <div className="animate-up opacity-0 relative bg-surface/90 backdrop-blur-xl p-10 rounded-3xl border-2 border-electric-green shadow-glow md:-translate-y-4 hover:-translate-y-6 transition-all duration-300 flex flex-col h-full">
+          <div className="animate-up opacity-0 relative bg-surface/90 backdrop-blur-lg p-10 rounded-3xl border-2 border-electric-green shadow-glow md:-translate-y-4 hover:-translate-y-6 transition-all duration-300 flex flex-col h-full">
             <div className="absolute inset-0 bg-gradient-to-br from-electric-green/5 to-transparent pointer-events-none rounded-3xl"></div>
             
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-electric-cyan to-electric-green text-slate-900 px-6 py-1.5 rounded-full text-sm font-black shadow-lg w-max">
@@ -154,7 +154,7 @@ export default function Pricing() {
           </div>
 
           {/* 3. الخطة الخارقة (25 دينار) */}
-          <div className="animate-up opacity-0 bg-surface/80 backdrop-blur-xl p-8 rounded-3xl border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 hover:border-electric-yellow/50 transition-all duration-300 flex flex-col h-full relative group">
+          <div className="animate-up opacity-0 bg-surface/80 backdrop-blur-lg p-8 rounded-3xl border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 hover:border-electric-yellow/50 transition-all duration-300 flex flex-col h-full relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-electric-yellow/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl"></div>
             
             <h3 className="text-2xl font-bold text-textMain mb-2 relative z-10">الخارقة</h3>

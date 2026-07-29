@@ -147,7 +147,7 @@ export default function About() {
         {/* =========================================
             2. قصة التأسيس (الكرت ينبثق من العمق)
         ========================================= */}
-        <div className="scroll-card group relative bg-surface/80 backdrop-blur-2xl rounded-[2.5rem] p-1 border border-slate-200/80 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-500 hover:shadow-glow hover:border-electric-cyan/30 mb-20">
+        <div className="scroll-card group relative bg-surface/80 backdrop-blur-lg rounded-[2.5rem] p-1 border border-slate-200/80 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-500 hover:shadow-glow hover:border-electric-cyan/30 mb-20">
           <div className="absolute inset-0 bg-gradient-to-br from-electric-cyan/5 via-transparent to-electric-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
           
           <div className="relative z-10 bg-surface/90 rounded-[2.4rem] p-8 md:p-14 flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
@@ -192,7 +192,7 @@ export default function About() {
               </div>
 
               <div className="absolute right-4 lg:right-0 w-32 h-32 flex items-center justify-center z-10">
-                <div className="absolute inset-0 bg-electric-cyan rounded-full blur-xl opacity-20 animate-pulse"></div>
+                <div className="absolute inset-0 bg-electric-cyan rounded-full blur-lg opacity-20 animate-pulse"></div>
                 <div className="w-full h-full bg-slate-900 rounded-full flex flex-col items-center justify-center border-4 border-electric-cyan/30 shadow-[0_0_30px_rgba(0,240,255,0.2)] relative overflow-hidden">
                   <svg className="w-10 h-10 text-electric-cyan relative z-10 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                   <span className="text-xs font-bold text-white relative z-10 tracking-wider">MOSANED</span>

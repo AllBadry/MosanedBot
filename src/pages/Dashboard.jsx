@@ -231,7 +231,7 @@ export default function Dashboard() {
         
         <div className="bg-surface border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm text-center max-w-3xl mx-auto mt-10 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-full h-2 bg-gradient-to-l from-electric-cyan to-electric-green"></div>
-            <div className="absolute -top-32 -right-32 w-64 h-64 bg-electric-cyan/10 blur-3xl rounded-full pointer-events-none"></div>
+            <div className="absolute -top-32 -right-32 w-64 h-64 bg-electric-cyan/10 blur-2xl rounded-full pointer-events-none"></div>
             <div className="w-32 h-32 mx-auto bg-slate-50 rounded-full flex items-center justify-center border-4 border-white shadow-xl mb-8 relative z-10">
                 <span className="text-6xl">✨🤖</span>
             </div>
@@ -401,7 +401,7 @@ export default function Dashboard() {
             ========================================= */}
             {botData.widgetKey && (
               <div className="bg-[#0f172a] rounded-3xl p-6 md:p-8 relative overflow-hidden shadow-2xl mt-12 border border-slate-800">
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-electric-cyan/20 blur-3xl rounded-full"></div>
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-electric-cyan/20 blur-2xl rounded-full"></div>
                 
                 <div className="relative z-10">
                   <h2 className="text-xl font-bold text-white mb-2 flex items-center gap-2">

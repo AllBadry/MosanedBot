@@ -99,7 +99,7 @@ export default function Services() {
         <div className="bento-grid grid grid-cols-1 md:grid-cols-3 gap-6">
           
           {/* الميزة 1: تغذية البيانات (RAG) */}
-          <div className="bento-card opacity-0 group md:col-span-2 bg-surface/80 backdrop-blur-xl rounded-3xl p-8 md:p-10 border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-1 transition-all duration-500 overflow-hidden relative">
+          <div className="bento-card opacity-0 group md:col-span-2 bg-surface/80 backdrop-blur-lg rounded-3xl p-8 md:p-10 border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-1 transition-all duration-500 overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-electric-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
             <div className="relative z-10 flex flex-col md:flex-row gap-8">
@@ -133,7 +133,7 @@ export default function Services() {
           </div>
 
           {/* الميزة 2: بنية الـ Stateless */}
-          <div className="bento-card opacity-0 group md:col-span-1 bg-surface/80 backdrop-blur-xl rounded-3xl p-8 md:p-10 border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 transition-all duration-500 relative overflow-hidden flex flex-col">
+          <div className="bento-card opacity-0 group md:col-span-1 bg-surface/80 backdrop-blur-lg rounded-3xl p-8 md:p-10 border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 transition-all duration-500 relative overflow-hidden flex flex-col">
             <div className="absolute inset-0 bg-gradient-to-b from-electric-green/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
             <div className="w-14 h-14 rounded-2xl bg-electric-green/10 flex items-center justify-center mb-6 relative z-10 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
@@ -149,7 +149,7 @@ export default function Services() {
           </div>
 
           {/* الميزة 3: خيارات الربط والتضمين */}
-          <div className="bento-card opacity-0 group md:col-span-2 bg-surface/80 backdrop-blur-xl rounded-3xl p-0 border border-slate-200 shadow-soft hover:shadow-glow transition-all duration-500 overflow-hidden flex flex-col md:flex-row">
+          <div className="bento-card opacity-0 group md:col-span-2 bg-surface/80 backdrop-blur-lg rounded-3xl p-0 border border-slate-200 shadow-soft hover:shadow-glow transition-all duration-500 overflow-hidden flex flex-col md:flex-row">
             
             <div className="p-8 md:p-10 md:w-1/2 flex flex-col justify-center">
               <div className="w-14 h-14 rounded-2xl bg-electric-orange/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
@@ -184,7 +184,7 @@ export default function Services() {
           </div>
 
           {/* الميزة 4: الأسئلة الجاهزة */}
-          <div className="bento-card opacity-0 group md:col-span-1 bg-surface/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 transition-all duration-500">
+          <div className="bento-card opacity-0 group md:col-span-1 bg-surface/80 backdrop-blur-lg rounded-3xl p-8 border border-slate-200 shadow-soft hover:shadow-glow hover:-translate-y-2 transition-all duration-500">
             <div className="w-14 h-14 rounded-2xl bg-electric-yellow/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-electric-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
             </div>

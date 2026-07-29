@@ -85,7 +85,7 @@ export default function Login() {
       <div className="bg-orb absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-electric-green/20 rounded-full blur-[100px] pointer-events-none" style={{ animationDelay: '2s' }}></div>
 
       {/* بطاقة تسجيل الدخول */}
-      <div className="login-card opacity-0 relative z-10 w-full max-w-md bg-surface/80 backdrop-blur-xl p-10 rounded-3xl shadow-soft border border-slate-200 transition-all duration-500 hover:shadow-glow">
+      <div className="login-card opacity-0 relative z-10 w-full max-w-md bg-surface/80 backdrop-blur-lg p-10 rounded-3xl shadow-soft border border-slate-200 transition-all duration-500 hover:shadow-glow">
         
         {/* الشعار */}
         <div className="animate-item opacity-0 flex justify-center mb-8">

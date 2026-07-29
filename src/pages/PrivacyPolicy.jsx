@@ -139,7 +139,7 @@ export default function PrivacyPolicy() {
 
           {/* تواصل معنا */}
           <section className="mt-12 bg-slate-900 text-white p-8 md:p-10 rounded-3xl text-center relative overflow-hidden">
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#00F0FF]/20 blur-3xl rounded-full"></div>
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#00F0FF]/20 blur-2xl rounded-full"></div>
             <h2 className="text-2xl font-bold mb-4 relative z-10">6. تواصل معنا</h2>
             <p className="text-slate-400 mb-8 max-w-lg mx-auto relative z-10">
               إذا كانت لديك أي استفسارات قانونية أو تقنية حول سياسة الخصوصية، يسعدنا تواصلك معنا مباشرة.

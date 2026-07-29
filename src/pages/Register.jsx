@@ -164,7 +164,7 @@ export default function Register() {
       <div className="bg-orb absolute top-[-10%] right-[-10%] w-96 h-96 bg-electric-green/20 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="bg-orb absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-electric-cyan/20 rounded-full blur-[100px] pointer-events-none" style={{ animationDelay: '2s' }}></div>
 
-      <div className="register-card opacity-0 relative z-10 w-full max-w-md bg-surface/80 backdrop-blur-xl p-10 rounded-3xl shadow-soft border border-slate-200 transition-all duration-500">
+      <div className="register-card opacity-0 relative z-10 w-full max-w-md bg-surface/80 backdrop-blur-lg p-10 rounded-3xl shadow-soft border border-slate-200 transition-all duration-500">
         {step === 'register' ? (
           <>
             <div className="animate-item opacity-0 flex justify-center mb-6">
