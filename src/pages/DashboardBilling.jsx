@@ -4,9 +4,13 @@ import API_BASE_URL from '../config/api';
 
 export default function DashboardBilling() {
   const navigate = useNavigate();
-  const [billing, setBilling] = useState(null);
-  const [userPlan, setUserPlan] = useState('free');
-  const [orderStatus, setOrderStatus] = useState('None');
+  const [plan, setPlan] = useState('free');
+  const [hasActiveSub, setHasActiveSub] = useState(false);
+  const [hasActiveTrial, setHasActiveTrial] = useState(false);
+  const [subscriptionExpiresAt, setSubscriptionExpiresAt] = useState(null);
+  const [trialExpiresAt, setTrialExpiresAt] = useState(null);
+  const [queuedPlan, setQueuedPlan] = useState(null);
+  const [paymentRequest, setPaymentRequest] = useState(null);
   const [isUploadingReceipt, setIsUploadingReceipt] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -15,45 +19,29 @@ export default function DashboardBilling() {
     setTimeout(() => setMessage(''), 4000);
   };
 
-  useEffect(() => {
-    const fetchBilling = async () => {
-      try {
-        const token = localStorage.getItem('accessToken');
-        const res = await fetch(API_BASE_URL + '/api/v1/billing/my-request', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (res.ok && data.status === 'success' && data.data) {
-          setBilling(data.data);
-          setOrderStatus(data.data.orderStatus);
-        }
-      } catch (err) {
-        // ignore
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const res = await fetch(API_BASE_URL + '/api/v1/billing/my-request', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (res.ok && data.status === 'success' && data.data) {
+        setPlan(data.data.plan || 'free');
+        setHasActiveSub(data.data.hasActiveSub);
+        setHasActiveTrial(data.data.hasActiveTrial);
+        setSubscriptionExpiresAt(data.data.subscriptionExpiresAt);
+        setTrialExpiresAt(data.data.trialExpiresAt);
+        setQueuedPlan(data.data.queuedPlan);
+        setPaymentRequest(data.data.paymentRequest);
       }
-    };
-    fetchBilling();
-  }, []);
+    } catch (err) {
+      // ignore
+    }
+  };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem('accessToken');
-        const res = await fetch(API_BASE_URL + '/api/v1/auth/me', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (res.ok && data.status === 'success') {
-          setUserPlan(data.data.user.plan || 'free');
-          setOrderStatus(data.data.user.orderStatus || 'None');
-          if (data.data.user.billing) {
-            setBilling(prev => ({ ...prev, ...data.data.user.billing }));
-          }
-        }
-      } catch (err) {
-        // ignore
-      }
-    };
-    fetchProfile();
+    fetchData();
   }, []);
 
   const handleUploadReceipt = async (e) => {
@@ -79,8 +67,8 @@ export default function DashboardBilling() {
       });
       const data = await res.json();
       if (res.ok && data.status === 'success') {
-        setOrderStatus('Reviewing');
         showToast('✅ تم رفع الإيصال، سيتم مراجعته قريباً');
+        fetchData();
       } else {
         showToast(`❌ ${data.message || 'فشل رفع الإيصال'}`);
       }
@@ -91,8 +79,10 @@ export default function DashboardBilling() {
     }
   };
 
-  const planLabel = billing?.planName || (userPlan === 'basic' ? 'الأساسية' : userPlan === 'enterprise' ? 'الخارقة' : 'مجانية');
-  const planIcon = userPlan === 'free' ? '⭐' : userPlan === 'basic' ? '🚀' : '💎';
+  const pr = paymentRequest;
+  const planLabel = pr?.planName || (plan === 'basic' ? 'الأساسية' : plan === 'enterprise' ? 'الخارقة' : 'مجانية');
+  const planIcon = plan === 'free' ? '⭐' : plan === 'basic' ? '🚀' : '💎';
+  const prStatus = pr?.status;
 
   const renderCountdown = (label, endTime, isTrial) => {
     const now = Date.now();
@@ -114,8 +104,7 @@ export default function DashboardBilling() {
     );
   };
 
-  const subActive = billing?.subscriptionExpiresAt && new Date(billing.subscriptionExpiresAt) > new Date();
-  const trialActive = billing?.trialExpiresAt && new Date(billing.trialExpiresAt) > new Date();
+  const showPaymentSection = prStatus === 'Pending_Approval' || prStatus === 'Reviewing';
 
   return (
     <div className="animate-fade-in max-w-3xl mx-auto" dir="rtl">
@@ -139,10 +128,10 @@ export default function DashboardBilling() {
             <div>
               <p className="text-sm text-slate-500 font-bold">الخطة الحالية</p>
               <p className="text-xl font-black text-textMain">{planLabel}</p>
-              {billing?.queuedPlan && <p className="text-xs text-amber-600 font-bold mt-1">↪ سيتم التخفيض إلى {billing.queuedPlan === 'pro' ? 'الأساسية' : 'الخارقة'} بعد انتهاء الاشتراك</p>}
+              {queuedPlan && <p className="text-xs text-amber-600 font-bold mt-1">↪ سيتم التخفيض إلى {queuedPlan === 'pro' ? 'الأساسية' : 'الخارقة'} بعد انتهاء الاشتراك</p>}
             </div>
           </div>
-          {orderStatus === 'None' && (
+          {!pr && !hasActiveSub && !hasActiveTrial && (
             <button onClick={() => navigate('/pricing')} className="bg-slate-900 text-white font-black px-8 py-3.5 rounded-2xl hover:bg-electric-cyan hover:text-slate-900 hover:shadow-glow transition-all duration-300 flex items-center gap-2 shrink-0">
               <span>تطوير الخطة</span>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -156,19 +145,19 @@ export default function DashboardBilling() {
         <h3 className="text-sm font-bold text-slate-500 mb-2 flex items-center gap-2">
           <span>⏳</span> مدة الاشتراك المتبقية
         </h3>
-        {orderStatus === 'Pending_Approval' ? (
+        {prStatus === 'Pending_Approval' && !hasActiveTrial ? (
           <div className="text-center py-6">
             <p className="text-5xl mb-3">⏳</p>
             <p className="text-lg text-slate-500 font-bold">قيد المعالجة</p>
             <p className="text-sm text-amber-600 font-bold mt-2">بانتظار مراجعة الأدمن</p>
           </div>
-        ) : orderStatus === 'Locked_Out' || orderStatus === 'Rejected' ? (
+        ) : prStatus === 'Rejected' ? (
           <div className="text-center py-6">
-            <p className="text-5xl mb-3">🔒</p>
-            <p className="text-lg text-slate-500 font-bold">{orderStatus === 'Rejected' ? 'تم رفض الطلب' : 'تم تعليق الحساب'}</p>
+            <p className="text-5xl mb-3">❌</p>
+            <p className="text-lg text-slate-500 font-bold">تم رفض الطلب</p>
             <p className="text-sm text-red-600 font-bold mt-2">يرجى التواصل مع الدعم الفني</p>
           </div>
-        ) : !subActive && !trialActive && orderStatus !== 'Temp_Active' ? (
+        ) : !hasActiveSub && !hasActiveTrial ? (
           <div className="text-center py-6">
             <p className="text-5xl mb-3">📭</p>
             <p className="text-lg text-slate-500 font-bold">لا توجد خطة نشطة</p>
@@ -176,21 +165,21 @@ export default function DashboardBilling() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {renderCountdown('الرصيد الحالي', billing?.subscriptionExpiresAt, false)}
-            {renderCountdown('تفعيل تجريبي', billing?.trialExpiresAt, true)}
+            {renderCountdown('الرصيد الحالي', subscriptionExpiresAt, false)}
+            {renderCountdown('تفعيل تجريبي', trialExpiresAt, true)}
           </div>
         )}
       </div>
 
-      {/* بطاقة الدفع - تظهر فقط لـ Temp_Active أو Reviewing */}
-      {(orderStatus === 'Temp_Active' || orderStatus === 'Reviewing') && (
+      {/* بطاقة الدفع */}
+      {showPaymentSection && (
         <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm mb-6">
           <div className="flex items-center gap-3 mb-2">
             <span className="text-2xl">💳</span>
             <h2 className="text-xl font-bold text-textMain">إكمال الدفع — {planLabel}</h2>
           </div>
           <p className="text-textMuted text-sm font-medium mb-6">
-            {orderStatus === 'Temp_Active' ? 'التفعيل التجريبي لمدة 24 ساعة نشط. قم بتحويل المبلغ وإرفاق الإيصال لتفعيل باقتك بشكل دائم.' : 'تم استلام إيصالك، سنقوم بمراجعته وتفعيل باقتك قريباً.'}
+            {hasActiveTrial ? 'التفعيل التجريبي لمدة 24 ساعة نشط. قم بتحويل المبلغ وإرفاق الإيصال لتفعيل باقتك بشكل دائم.' : prStatus === 'Reviewing' ? 'تم استلام إيصالك، سنقوم بمراجعته وتفعيل باقتك قريباً.' : 'قم بتحويل المبلغ إلى رقم كليك أدناه وأرفق الإيصال لتأكيد الدفع.'}
           </p>
 
           {/* معلومات كليك */}
@@ -209,7 +198,7 @@ export default function DashboardBilling() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-500">المبلغ:</span>
-                <span className="text-electric-green font-black text-xl">{billing?.planPrice || '10'} د.أ</span>
+                <span className="text-electric-green font-black text-xl">{pr?.planPrice || '10'} د.أ</span>
               </div>
             </div>
             <div className="mt-4 bg-electric-yellow/10 border border-electric-yellow/20 rounded-xl p-3 text-xs text-amber-800 font-medium flex items-start gap-2">
@@ -218,8 +207,8 @@ export default function DashboardBilling() {
             </div>
           </div>
 
-          {/* رفع الإيصال - يظهر فقط لـ Temp_Active */}
-          {orderStatus === 'Temp_Active' && (
+          {/* رفع الإيصال */}
+          {prStatus === 'Pending_Approval' && (
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2">إرفاق إيصال التحويل</label>
               <div className="flex items-center gap-4">
@@ -231,7 +220,7 @@ export default function DashboardBilling() {
                   )}
                   <input type="file" accept="image/*,application/pdf" onChange={handleUploadReceipt} className="hidden" disabled={isUploadingReceipt} />
                 </label>
-                {billing?.receiptUrl && (
+                {pr?.receiptUrl && (
                   <span className="text-sm text-electric-green font-bold flex items-center gap-1">
                     <span>✓</span> تم الرفع
                   </span>
@@ -242,7 +231,7 @@ export default function DashboardBilling() {
           )}
 
           {/* الإيصال قيد المراجعة */}
-          {orderStatus === 'Reviewing' && (
+          {prStatus === 'Reviewing' && (
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm font-medium text-amber-800 flex items-start gap-3">
               <span className="text-lg">🕐</span>
               <div>
@@ -255,7 +244,7 @@ export default function DashboardBilling() {
       )}
 
       {/* للمكتملة */}
-      {orderStatus === 'Completed' && (
+      {hasActiveSub && !pr && (
         <div className="bg-electric-green/5 border border-electric-green/20 rounded-3xl p-8 text-center">
           <p className="text-5xl mb-4">🎉</p>
           <p className="text-xl font-black text-textMain">اشتراكك نشط</p>
