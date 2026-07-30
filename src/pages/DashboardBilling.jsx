@@ -145,7 +145,14 @@ export default function DashboardBilling() {
         <h3 className="text-sm font-bold text-slate-500 mb-2 flex items-center gap-2">
           <span>⏳</span> مدة الاشتراك المتبقية
         </h3>
-        {prStatus === 'Pending_Approval' && !hasActiveTrial ? (
+        {prStatus === 'Expired' ? (
+          <div className="text-center py-6">
+            <p className="text-5xl mb-3">⏰</p>
+            <p className="text-lg text-slate-500 font-bold">انتهت صلاحية الطلب</p>
+            <p className="text-sm text-amber-600 font-bold mt-2">انتهت الفترة التجريبية دون رفع إيصال. يمكنك تقديم طلب جديد.</p>
+            <button onClick={() => navigate('/pricing')} className="mt-4 bg-slate-900 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-electric-cyan hover:text-slate-900 transition-all">تقديم طلب جديد</button>
+          </div>
+        ) : prStatus === 'Pending_Approval' && !hasActiveTrial ? (
           <div className="text-center py-6">
             <p className="text-5xl mb-3">⏳</p>
             <p className="text-lg text-slate-500 font-bold">قيد المعالجة</p>
