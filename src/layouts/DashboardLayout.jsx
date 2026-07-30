@@ -99,7 +99,7 @@ export default function DashboardLayout() {
           </span>
         </div>
 
-        <nav className="flex-1 p-5 space-y-2 overflow-y-auto relative z-10 mt-4">
+        <nav className="flex-1 p-5 space-y-2 overflow-y-auto relative z-10 mt-4 hide-scrollbar">
           <Link
             to="/dashboard"
             className={`flex items-center gap-3 w-full text-right p-3.5 rounded-xl font-bold transition-all duration-300 ${isActive('/dashboard') ? 'bg-electric-cyan text-slate-900 shadow-glow' : 'hover:bg-slate-800/80 text-slate-300 hover:text-white'}`}

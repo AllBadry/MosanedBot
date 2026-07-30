@@ -43,7 +43,7 @@ export default function WidgetDocs() {
     {
       id: 'react',
       title: 'تطبيقات React & SPAs',
-      desc: 'ضع الكود مرة واحدة في public/index.html.',
+      desc: 'ضع الكود في ملف index.html فقط.',
       lang: 'public/index.html',
       code: `<!DOCTYPE html>\n<html lang="en">\n  <body>\n    <div id="root"></div>\n    ${widgetCode}\n  </body>\n</html>`,
     },

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -179,10 +180,10 @@ export default function ServicesSection() {
                 <p className="text-textMuted font-medium leading-relaxed mb-8">
                   لا تعقيدات، لا حاجة لمطور. انسخ سطر الكود البرمجي (Snippet) وضعه في موقعك، وسيبدأ البوت بالعمل فوراً.
                 </p>
-                <button className="self-start text-sm font-bold text-textMain bg-surface border-2 border-slate-200 hover:border-electric-yellow hover:bg-slate-50 px-6 py-3 rounded-xl transition-all duration-300 flex items-center gap-2">
+                <Link to="/docs" className="self-start text-sm font-bold text-textMain bg-surface border-2 border-slate-200 hover:border-electric-yellow hover:bg-slate-50 px-6 py-3 rounded-xl transition-all duration-300 flex items-center gap-2">
                   <span>قراءة الوثائق</span>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                </button>
+                </Link>
               </div>
 
               {/* محاكي محرر الأكواد (Code Editor Micro-UI) */}
