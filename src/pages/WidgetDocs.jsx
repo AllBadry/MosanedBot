@@ -36,7 +36,7 @@ export default function WidgetDocs() {
     {
       id: 'html',
       title: 'مواقع HTML الثابتة',
-      desc: 'ضع الكود قبل وسم &lt;/body&gt; في كل صفحة.',
+      desc: 'ضع الكود في وسم &lt;body&gt; فقط.',
       lang: 'HTML',
       code: widgetCode,
     },
