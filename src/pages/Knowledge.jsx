@@ -154,9 +154,23 @@ export default function Knowledge() {
     return fullText;
   };
 
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) processUploadedFile(file);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
   const handleFileUpload = async (e) => {
     const uploadedFile = e.target.files[0];
     if (!uploadedFile) return;
+    processUploadedFile(uploadedFile);
+  };
+
+  const processUploadedFile = async (uploadedFile) => {
 
     // 1. التحقق من حجم الملف الفيزيائي (تطبيق شروط الـ 200MB والـ 5MB)
     const fileSizeBytes = uploadedFile.size;
@@ -331,6 +345,8 @@ export default function Knowledge() {
 
                   <div 
                     onClick={() => !isUploading && fileInputRef.current.click()}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
                     className={`w-full border-2 border-dashed rounded-[1.5rem] p-12 text-center transition-all duration-300 ${isUploading ? 'border-slate-200 bg-slate-50 cursor-wait' : 'border-slate-300 hover:border-electric-cyan hover:bg-electric-cyan/5 cursor-pointer'}`}
                   >
                     <input type="file" accept=".pdf,.txt,.docx" ref={fileInputRef} onChange={handleFileUpload} className="hidden" disabled={isUploading} />
