@@ -17,9 +17,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
-  const [isUploadingReceipt, setIsUploadingReceipt] = useState(false);
   const [message, setMessage] = useState('');
-  const [billing, setBilling] = useState(null);
   const [userPlan, setUserPlan] = useState('free');
   
   const [formData, setFormData] = useState({ 
@@ -117,25 +115,6 @@ export default function Dashboard() {
       if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
     };
   }, [location, navigate]);
-
-  useEffect(() => {
-    if (!botData) return;
-    const fetchBilling = async () => {
-      try {
-        const token = localStorage.getItem('accessToken');
-        const res = await fetch(API_BASE_URL + '/api/v1/billing/my-request', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (res.ok && data.status === 'success' && data.data) {
-          setBilling(data.data);
-        }
-      } catch (err) {
-        // billing unavailable — ignore
-      }
-    };
-    fetchBilling();
-  }, [botData]);
 
   const handleCreateBot = async () => {
     setIsCreating(true);
@@ -258,42 +237,6 @@ export default function Dashboard() {
     }
   };
 
-  const handleUploadReceipt = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
-      showToast('❌ يرجى اختيار صورة أو ملف PDF');
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      showToast('❌ حجم الملف يتجاوز 5 ميغابايت');
-      return;
-    }
-    setIsUploadingReceipt(true);
-    showToast('جاري رفع إيصال الدفع... ⏳', 10000);
-    try {
-      const token = localStorage.getItem('accessToken');
-      const form = new FormData();
-      form.append('receipt', file);
-      const res = await fetch(API_BASE_URL + '/api/v1/billing/upload-receipt', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: form
-      });
-      const data = await res.json();
-      if (res.ok && data.status === 'success') {
-        setBilling(prev => ({ ...prev, receiptUrl: data.data.receiptUrl, paymentStatus: 'review' }));
-        showToast('✅ تم رفع الإيصال، سيتم مراجعته قريباً');
-      } else {
-        showToast(`❌ ${data.message || 'فشل رفع الإيصال'}`);
-      }
-    } catch (err) {
-      showToast('❌ فشل الاتصال بالخادم');
-    } finally {
-      setIsUploadingReceipt(false);
-    }
-  };
-
   const handleCopyScript = () => {
     if (!botData || !botData.widgetKey) return;
     const scriptCode = `<script src="${API_BASE_URL}/mosaned-widget.js" data-widget-key="${botData.widgetKey}"></script>`;
@@ -355,114 +298,6 @@ export default function Dashboard() {
 
       ) : (
         <>
-
-          {/* =========================================
-              📋 قسم تطوير الخطة والفوترة (خارج إعدادات البوت)
-          ========================================= */}
-          <div className="max-w-7xl mx-auto mb-8 space-y-6">
-            
-            <div className="bg-gradient-to-l from-electric-cyan/10 to-electric-green/10 border border-electric-cyan/20 rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
-              <div className="absolute -top-20 -left-20 w-40 h-40 bg-electric-cyan/20 blur-3xl rounded-full pointer-events-none"></div>
-              <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center text-2xl shadow-lg shrink-0">
-                    {userPlan === 'free' ? '⭐' : userPlan === 'basic' ? '🚀' : userPlan === 'enterprise' ? '💎' : '⭐'}
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500 font-bold">الخطة الحالية</p>
-                    <p className="text-xl font-black text-textMain">
-                      {userPlan === 'basic' ? 'الأساسية' : userPlan === 'enterprise' ? 'الخارقة' : 'مجانية'}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => navigate('/pricing')}
-                  className="bg-slate-900 text-white font-black px-8 py-3.5 rounded-2xl hover:bg-electric-cyan hover:text-slate-900 hover:shadow-glow transition-all duration-300 flex items-center gap-2 shrink-0"
-                >
-                  <span>تطوير الخطة</span>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                </button>
-              </div>
-            </div>
-
-            {billing && billing.paymentStatus && billing.paymentStatus !== 'completed' && (
-              <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl">💳</span>
-                  <h2 className="text-xl font-bold text-textMain">إكمال الدفع — {billing.planName || 'الخطة الأساسية'}</h2>
-                </div>
-                <p className="text-textMuted text-sm font-medium mb-6">
-                  {billing.paymentStatus === 'pending'
-                    ? 'تفعيلك التجريبي لمدة 24 ساعة نشط. قم بتحويل المبلغ وإرفاق الإيصال لتفعيل باقتك بشكل دائم.'
-                    : 'تم استلام إيصالك، سنقوم بمراجعته وتفعيل باقتك قريباً.'}
-                </p>
-
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-6">
-                  <h3 className="font-bold text-textMain mb-3 flex items-center gap-2">
-                    <span>📱</span> معلومات الدفع عبر كليك (Click)
-                  </h3>
-                  <div className="space-y-3 text-sm font-medium">
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-500">رقم كليك:</span>
-                      <span className="text-textMain font-bold text-lg" dir="ltr">0785290948</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-500">اسم المستفيد:</span>
-                      <span className="text-textMain font-bold">عُبور تِك (Uboor Tech)</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-500">المبلغ:</span>
-                      <span className="text-electric-green font-black text-xl">{billing.planPrice || '10'} د.أ</span>
-                    </div>
-                  </div>
-                  <div className="mt-4 bg-electric-yellow/10 border border-electric-yellow/20 rounded-xl p-3 text-xs text-amber-800 font-medium flex items-start gap-2">
-                    <span>💡</span>
-                    <span>حول المبلغ إلى رقم كليك أعلاه، ثم أرفق صورة الإيصال بالأسفل لتأكيد الدفع.</span>
-                  </div>
-                </div>
-
-                {billing.paymentStatus === 'pending' && (
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">إرفاق إيصال التحويل</label>
-                    <div className="flex items-center gap-4">
-                      <label className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm cursor-pointer transition-all ${isUploadingReceipt ? 'bg-slate-200 text-slate-500' : 'bg-slate-900 text-white hover:bg-electric-cyan hover:text-slate-900'}`}>
-                        {isUploadingReceipt ? (
-                          <>
-                            <div className="w-4 h-4 border-2 border-slate-400 border-t-slate-900 rounded-full animate-spin"></div>
-                            جاري الرفع...
-                          </>
-                        ) : (
-                          <>
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            رفع الإيصال
-                          </>
-                        )}
-                        <input type="file" accept="image/*,application/pdf" onChange={handleUploadReceipt} className="hidden" disabled={isUploadingReceipt} />
-                      </label>
-                      {billing.receiptUrl && (
-                        <span className="text-sm text-electric-green font-bold flex items-center gap-1">
-                          <span>✓</span> تم الرفع
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-slate-400 mt-2 font-medium">يُسمح بصيغ JPG, PNG, PDF. حجم أقصى 5MB.</p>
-                  </div>
-                )}
-
-                {billing.paymentStatus === 'review' && (
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm font-medium text-amber-800 flex items-start gap-3">
-                    <span className="text-lg">🕐</span>
-                    <div>
-                      <p className="font-bold">الإيصال قيد المراجعة</p>
-                      <p className="text-amber-700">بمجرد تأكيد الدفع، سيتم تفعيل باقتك تلقائياً وسنرسل لك إشعاراً بذلك.</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
 
           <div className="flex flex-col lg:flex-row gap-10 items-start">
             <div className="w-full lg:w-2/3 space-y-8">
@@ -680,50 +515,6 @@ export default function Dashboard() {
           </div>
 
           <div className="w-full lg:w-1/3 lg:sticky lg:top-8 space-y-6">
-            <div className="bg-surface rounded-3xl p-6 border border-slate-200 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-500 mb-4 flex items-center gap-2">
-                <span>⏳</span> مدة الاشتراك المتبقية
-              </h3>
-              {(() => {
-                const now = Date.now();
-                const subEnd = billing?.subscriptionExpiresAt ? new Date(billing.subscriptionExpiresAt).getTime() : null;
-                const trialEnd = billing?.trialExpiresAt ? new Date(billing.trialExpiresAt).getTime() : null;
-                const target = subEnd || trialEnd;
-                if (!target || target < now) {
-                  return (
-                    <div className="text-center py-4">
-                      <p className="text-3xl mb-2">📭</p>
-                      <p className="text-sm text-slate-500 font-medium">لا توجد خطة نشطة</p>
-                      <button onClick={() => navigate('/pricing')} className="mt-3 text-xs font-bold text-electric-cyan hover:underline">اشترك الآن</button>
-                    </div>
-                  );
-                }
-                const diff = target - now;
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const planLabel = billing?.planName || 'الخطة';
-                const isTrial = !subEnd && trialEnd;
-                return (
-                  <>
-                    <div className="text-center mb-4">
-                      <p className="text-4xl font-black text-textMain">{days}</p>
-                      <p className="text-xs text-slate-400 font-bold">يوم</p>
-                    </div>
-                    <div className="text-center text-sm text-slate-500 font-medium">
-                      <span dir="ltr" className="font-mono font-bold text-lg text-textMain">{String(hours).padStart(2, '0')}:{String(mins).padStart(2, '0')}</span>
-                      <p className="text-xs mt-1">ساعة : دقيقة</p>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-slate-100 text-center">
-                      <p className="text-xs text-slate-500 font-medium">{planLabel}</p>
-                      {isTrial && <p className="text-xs text-amber-600 font-bold mt-0.5">تفعيل تجريبي</p>}
-                      <button onClick={() => navigate('/pricing')} className="mt-2 text-xs font-bold text-electric-cyan hover:underline">تطوير الخطة</button>
-                    </div>
-                  </>
-                );
-              })()}
-            </div>
-
             <div className="bg-slate-100 rounded-3xl p-2 border border-slate-200/60 shadow-inner relative overflow-hidden h-[400px] lg:h-[500px] flex items-end justify-end">
               <div className="absolute top-6 left-0 w-full text-center z-10">
                 <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold text-slate-600 shadow-sm border border-slate-200">

@@ -21,6 +21,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Knowledge = lazy(() => import('./pages/Knowledge'));
 const History = lazy(() => import('./pages/History'));
 const DashboardApi = lazy(() => import('./pages/DashboardApi'));
+const DashboardBilling = lazy(() => import('./pages/DashboardBilling'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const Support = lazy(() => import('./pages/Support'));
@@ -61,6 +62,7 @@ function Layout() {
                     <Route path="knowledge" element={<Knowledge />} />
                     <Route path="history" element={<History />} />
                     <Route path="api" element={<DashboardApi />} />
+                    <Route path="billing" element={<DashboardBilling />} />
                   </Route>
                 </Route>
               </Routes>
