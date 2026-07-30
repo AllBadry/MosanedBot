@@ -131,7 +131,7 @@ export default function DashboardBilling() {
               {queuedPlan && <p className="text-xs text-amber-600 font-bold mt-1">↪ سيتم التخفيض إلى {queuedPlan === 'pro' ? 'الأساسية' : 'الخارقة'} بعد انتهاء الاشتراك</p>}
             </div>
           </div>
-          {!pr && !hasActiveSub && !hasActiveTrial && (
+          {!pr && !hasActiveTrial && (
             <button onClick={() => navigate('/pricing')} className="bg-slate-900 text-white font-black px-8 py-3.5 rounded-2xl hover:bg-electric-cyan hover:text-slate-900 hover:shadow-glow transition-all duration-300 flex items-center gap-2 shrink-0">
               <span>تطوير الخطة</span>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -140,40 +140,62 @@ export default function DashboardBilling() {
         </div>
       </div>
 
-      {/* عداد المدة */}
+      {/* عداد المدة — يظهر دائماً إذا في اشتراك أو تجربة نشطة */}
       <div className="bg-surface rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm mb-6">
         <h3 className="text-sm font-bold text-slate-500 mb-2 flex items-center gap-2">
           <span>⏳</span> مدة الاشتراك المتبقية
         </h3>
-        {prStatus === 'Expired' ? (
-          <div className="text-center py-6">
-            <p className="text-5xl mb-3">⏰</p>
-            <p className="text-lg text-slate-500 font-bold">انتهت صلاحية الطلب</p>
-            <p className="text-sm text-amber-600 font-bold mt-2">انتهت الفترة التجريبية دون رفع إيصال. يمكنك تقديم طلب جديد.</p>
-            <button onClick={() => navigate('/pricing')} className="mt-4 bg-slate-900 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-electric-cyan hover:text-slate-900 transition-all">تقديم طلب جديد</button>
-          </div>
-        ) : prStatus === 'Pending_Approval' && !hasActiveTrial ? (
-          <div className="text-center py-6">
-            <p className="text-5xl mb-3">⏳</p>
-            <p className="text-lg text-slate-500 font-bold">قيد المعالجة</p>
-            <p className="text-sm text-amber-600 font-bold mt-2">بانتظار مراجعة الأدمن</p>
-          </div>
-        ) : prStatus === 'Rejected' ? (
-          <div className="text-center py-6">
-            <p className="text-5xl mb-3">❌</p>
-            <p className="text-lg text-slate-500 font-bold">تم رفض الطلب</p>
-            <p className="text-sm text-red-600 font-bold mt-2">يرجى التواصل مع الدعم الفني</p>
-          </div>
-        ) : !hasActiveSub && !hasActiveTrial ? (
-          <div className="text-center py-6">
-            <p className="text-5xl mb-3">📭</p>
-            <p className="text-lg text-slate-500 font-bold">لا توجد خطة نشطة</p>
-            <button onClick={() => navigate('/pricing')} className="mt-3 text-sm font-bold text-electric-cyan hover:underline">اشترك الآن</button>
-          </div>
-        ) : (
+
+        {(hasActiveSub || hasActiveTrial) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {renderCountdown('الرصيد الحالي', subscriptionExpiresAt, false)}
             {renderCountdown('تفعيل تجريبي', trialExpiresAt, true)}
+          </div>
+        )}
+
+        {!hasActiveSub && !hasActiveTrial && (
+          prStatus === 'Expired' ? (
+            <div className="text-center py-6">
+              <p className="text-5xl mb-3">⏰</p>
+              <p className="text-lg text-slate-500 font-bold">انتهت صلاحية الطلب</p>
+              <p className="text-sm text-amber-600 font-bold mt-2">انتهت الفترة التجريبية دون رفع إيصال. يمكنك تقديم طلب جديد.</p>
+              <button onClick={() => navigate('/pricing')} className="mt-4 bg-slate-900 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-electric-cyan hover:text-slate-900 transition-all">تقديم طلب جديد</button>
+            </div>
+          ) : prStatus === 'Pending_Approval' ? (
+            <div className="text-center py-6">
+              <p className="text-5xl mb-3">⏳</p>
+              <p className="text-lg text-slate-500 font-bold">قيد المعالجة</p>
+              <p className="text-sm text-amber-600 font-bold mt-2">بانتظار مراجعة الأدمن</p>
+            </div>
+          ) : prStatus === 'Rejected' ? (
+            <div className="text-center py-6">
+              <p className="text-5xl mb-3">❌</p>
+              <p className="text-lg text-slate-500 font-bold">تم رفض الطلب</p>
+              <p className="text-sm text-red-600 font-bold mt-2">يرجى التواصل مع الدعم الفني</p>
+            </div>
+          ) : (
+            <div className="text-center py-6">
+              <p className="text-5xl mb-3">📭</p>
+              <p className="text-lg text-slate-500 font-bold">لا توجد خطة نشطة</p>
+              <button onClick={() => navigate('/pricing')} className="mt-3 text-sm font-bold text-electric-cyan hover:underline">اشترك الآن</button>
+            </div>
+          )
+        )}
+
+        {/* شارة حالة الطلب — تظهر فوق العداد إذا في اشتراك نشط */}
+        {prStatus === 'Pending_Approval' && (hasActiveSub || hasActiveTrial) && (
+          <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm font-medium text-amber-800 flex items-center gap-2 justify-center">
+            <span>⏳</span> يوجد طلب قيد المعالجة — سيبقى اشتراكك الحالي نشطاً لحين البتّ فيه
+          </div>
+        )}
+        {prStatus === 'Rejected' && (hasActiveSub || hasActiveTrial) && (
+          <div className="mt-4 bg-red-50 border border-red-200 rounded-xl p-3 text-sm font-medium text-red-700 flex items-center gap-2 justify-center">
+            <span>❌</span> تم رفض الطلب السابق — اشتراكك الحالي ما زال نشطاً
+          </div>
+        )}
+        {prStatus === 'Expired' && (hasActiveSub || hasActiveTrial) && (
+          <div className="mt-4 bg-orange-50 border border-orange-200 rounded-xl p-3 text-sm font-medium text-orange-700 flex items-center gap-2 justify-center">
+            <span>⏰</span> انتهت صلاحية الطلب التجريبي — اشتراكك الحالي ما زال نشطاً
           </div>
         )}
       </div>
