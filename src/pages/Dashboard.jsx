@@ -354,14 +354,13 @@ export default function Dashboard() {
         </div>
 
       ) : (
+        <>
 
-        <div className="flex flex-col lg:flex-row gap-10 items-start">
-          
-          <div className="w-full lg:w-2/3 space-y-8">
+          {/* =========================================
+              📋 قسم تطوير الخطة والفوترة (خارج إعدادات البوت)
+          ========================================= */}
+          <div className="max-w-7xl mx-auto mb-8 space-y-6">
             
-            {/* =========================================
-                📋 تطوير الخطة
-            ========================================= */}
             <div className="bg-gradient-to-l from-electric-cyan/10 to-electric-green/10 border border-electric-cyan/20 rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
               <div className="absolute -top-20 -left-20 w-40 h-40 bg-electric-cyan/20 blur-3xl rounded-full pointer-events-none"></div>
               <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -386,58 +385,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* =========================================
-                🚀 بطاقات الاستهلاك (Usage Stats) الجديدة 
-            ========================================= */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* كرت استهلاك الجلسات */}
-              <div className="bg-surface p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
-                <div className="flex justify-between items-end mb-4">
-                  <div>
-                    <h3 className="text-slate-500 font-bold text-sm mb-1">جلسات المحادثة (هذا الشهر)</h3>
-                    <p className="text-2xl font-black text-slate-800">
-                      <span className={sessionPercent > 90 ? 'text-red-500' : 'text-slate-800'}>{usage.sessions}</span> 
-                      <span className="text-slate-400 text-lg font-medium mx-1">/</span> 
-                      <span className="text-slate-500 text-lg">{limits.sessions}</span>
-                    </p>
-                  </div>
-                  <div className="text-3xl">💬</div>
-                </div>
-                <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full rounded-full ${sessionPercent > 90 ? 'bg-red-500' : sessionPercent > 70 ? 'bg-yellow-400' : 'bg-electric-cyan'}`} 
-                    style={{ width: `${sessionPercent}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              {/* كرت قواعد المعرفة */}
-              <div className="bg-surface p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
-                <div className="flex justify-between items-end mb-4">
-                  <div>
-                    <h3 className="text-slate-500 font-bold text-sm mb-1">قواعد المعرفة (البيانات)</h3>
-                    <p className="text-2xl font-black text-slate-800">
-                      <span>{usage.knowledge}</span> 
-                      <span className="text-slate-400 text-lg font-medium mx-1">/</span> 
-                      <span className="text-slate-500 text-lg">{isUnlimitedKnowledge ? 'غير محدود ♾️' : limits.knowledge}</span>
-                    </p>
-                  </div>
-                  <div className="text-3xl">🧠</div>
-                </div>
-                {!isUnlimitedKnowledge && (
-                  <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full rounded-full ${knowledgePercent > 90 ? 'bg-red-500' : knowledgePercent > 70 ? 'bg-yellow-400' : 'bg-electric-green'}`} 
-                      style={{ width: `${knowledgePercent}%` }}
-                    ></div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* =========================================
-                💳 قسم الفوترة والدفع (للمشتركين الجدد)
-            ========================================= */}
             {billing && billing.paymentStatus && billing.paymentStatus !== 'completed' && (
               <div className="bg-surface p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
                 <div className="flex items-center gap-3 mb-2">
@@ -515,9 +462,62 @@ export default function Dashboard() {
                 )}
               </div>
             )}
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-10 items-start">
+            <div className="w-full lg:w-2/3 space-y-8">
 
             {/* =========================================
-                أكواد الفورم القديمة التي عادت كاملة
+                🚀 بطاقات الاستهلاك (Usage Stats) الجديدة 
+            ========================================= */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* كرت استهلاك الجلسات */}
+              <div className="bg-surface p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+                <div className="flex justify-between items-end mb-4">
+                  <div>
+                    <h3 className="text-slate-500 font-bold text-sm mb-1">جلسات المحادثة (هذا الشهر)</h3>
+                    <p className="text-2xl font-black text-slate-800">
+                      <span className={sessionPercent > 90 ? 'text-red-500' : 'text-slate-800'}>{usage.sessions}</span> 
+                      <span className="text-slate-400 text-lg font-medium mx-1">/</span> 
+                      <span className="text-slate-500 text-lg">{limits.sessions}</span>
+                    </p>
+                  </div>
+                  <div className="text-3xl">💬</div>
+                </div>
+                <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full rounded-full ${sessionPercent > 90 ? 'bg-red-500' : sessionPercent > 70 ? 'bg-yellow-400' : 'bg-electric-cyan'}`} 
+                    style={{ width: `${sessionPercent}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* كرت قواعد المعرفة */}
+              <div className="bg-surface p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+                <div className="flex justify-between items-end mb-4">
+                  <div>
+                    <h3 className="text-slate-500 font-bold text-sm mb-1">قواعد المعرفة (البيانات)</h3>
+                    <p className="text-2xl font-black text-slate-800">
+                      <span>{usage.knowledge}</span> 
+                      <span className="text-slate-400 text-lg font-medium mx-1">/</span> 
+                      <span className="text-slate-500 text-lg">{isUnlimitedKnowledge ? 'غير محدود ♾️' : limits.knowledge}</span>
+                    </p>
+                  </div>
+                  <div className="text-3xl">🧠</div>
+                </div>
+                {!isUnlimitedKnowledge && (
+                  <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full ${knowledgePercent > 90 ? 'bg-red-500' : knowledgePercent > 70 ? 'bg-yellow-400' : 'bg-electric-green'}`} 
+                      style={{ width: `${knowledgePercent}%` }}
+                    ></div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* =========================================
+                أكواد الفورم
             ========================================= */}
             <form id="botSettingsForm" onSubmit={handleUpdateBot} className="space-y-8">
               
@@ -679,8 +679,52 @@ export default function Dashboard() {
             )}
           </div>
 
-          <div className="w-full lg:w-1/3 lg:sticky lg:top-8">
-            <div className="bg-slate-100 rounded-3xl p-2 border border-slate-200/60 shadow-inner relative overflow-hidden h-[400px] lg:h-[600px] flex items-end justify-end">
+          <div className="w-full lg:w-1/3 lg:sticky lg:top-8 space-y-6">
+            <div className="bg-surface rounded-3xl p-6 border border-slate-200 shadow-sm">
+              <h3 className="text-sm font-bold text-slate-500 mb-4 flex items-center gap-2">
+                <span>⏳</span> مدة الاشتراك المتبقية
+              </h3>
+              {(() => {
+                const now = Date.now();
+                const subEnd = billing?.subscriptionExpiresAt ? new Date(billing.subscriptionExpiresAt).getTime() : null;
+                const trialEnd = billing?.trialExpiresAt ? new Date(billing.trialExpiresAt).getTime() : null;
+                const target = subEnd || trialEnd;
+                if (!target || target < now) {
+                  return (
+                    <div className="text-center py-4">
+                      <p className="text-3xl mb-2">📭</p>
+                      <p className="text-sm text-slate-500 font-medium">لا توجد خطة نشطة</p>
+                      <button onClick={() => navigate('/pricing')} className="mt-3 text-xs font-bold text-electric-cyan hover:underline">اشترك الآن</button>
+                    </div>
+                  );
+                }
+                const diff = target - now;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const planLabel = billing?.planName || 'الخطة';
+                const isTrial = !subEnd && trialEnd;
+                return (
+                  <>
+                    <div className="text-center mb-4">
+                      <p className="text-4xl font-black text-textMain">{days}</p>
+                      <p className="text-xs text-slate-400 font-bold">يوم</p>
+                    </div>
+                    <div className="text-center text-sm text-slate-500 font-medium">
+                      <span dir="ltr" className="font-mono font-bold text-lg text-textMain">{String(hours).padStart(2, '0')}:{String(mins).padStart(2, '0')}</span>
+                      <p className="text-xs mt-1">ساعة : دقيقة</p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-slate-100 text-center">
+                      <p className="text-xs text-slate-500 font-medium">{planLabel}</p>
+                      {isTrial && <p className="text-xs text-amber-600 font-bold mt-0.5">تفعيل تجريبي</p>}
+                      <button onClick={() => navigate('/pricing')} className="mt-2 text-xs font-bold text-electric-cyan hover:underline">تطوير الخطة</button>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+
+            <div className="bg-slate-100 rounded-3xl p-2 border border-slate-200/60 shadow-inner relative overflow-hidden h-[400px] lg:h-[500px] flex items-end justify-end">
               <div className="absolute top-6 left-0 w-full text-center z-10">
                 <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold text-slate-600 shadow-sm border border-slate-200">
                   🔴 معاينة حية (Live Preview)
@@ -696,6 +740,7 @@ export default function Dashboard() {
           </div>
 
         </div>
+      </>
       )}
     </div>
   );
