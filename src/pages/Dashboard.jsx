@@ -438,15 +438,15 @@ export default function Dashboard() {
                 <div className="space-y-10">
                   <div>
                     <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">شكل النافذة (Window Style)</label>
-                    <StylePicker type="window" styles={WINDOW_STYLES} value={formData.widgetStyle} onChange={(v) => setFormData({...formData, widgetStyle: v})} />
+                    <StylePicker type="window" styles={WINDOW_STYLES} value={formData.widgetStyle} color={formData.themeColor} onChange={(v) => setFormData({...formData, widgetStyle: v})} />
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">فقاعات المحادثة (Bubble Style)</label>
-                    <StylePicker type="bubble" styles={BUBBLE_STYLES} value={formData.bubbleStyle} onChange={(v) => setFormData({...formData, bubbleStyle: v})} />
+                    <StylePicker type="bubble" styles={BUBBLE_STYLES} value={formData.bubbleStyle} color={formData.themeColor} onChange={(v) => setFormData({...formData, bubbleStyle: v})} />
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">الزر العائم (Launcher Style)</label>
-                    <StylePicker type="launcher" styles={LAUNCHER_STYLES} value={formData.launcherStyle} onChange={(v) => setFormData({...formData, launcherStyle: v})} />
+                    <StylePicker type="launcher" styles={LAUNCHER_STYLES} value={formData.launcherStyle} color={formData.themeColor} onChange={(v) => setFormData({...formData, launcherStyle: v})} />
                   </div>
                 </div>
               </div>

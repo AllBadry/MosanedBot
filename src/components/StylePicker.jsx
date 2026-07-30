@@ -1,62 +1,115 @@
 import { FAMILIES } from '../config/styleDefs';
 
-function getStylePreview(type, styleId, familyColor) {
-  const base = 'w-10 h-10 rounded-xl border-2 mx-auto transition-all duration-300';
-  const active = `border-[${familyColor}] bg-[${familyColor}]/10`;
+function ShapePreview({ type, styleId, color }) {
+  const previewStyle = {
+    width: type === 'bubble' ? 28 : 36,
+    height: type === 'bubble' ? 18 : 32,
+    background: color || '#e2e8f0',
+    borderRadius: 8,
+    transition: 'all 0.3s ease',
+    flexShrink: 0
+  };
 
   if (type === 'window') {
     const radii = {
-      'standard-saas': 'rounded-xl', 'teardrop': 'rounded-2xl', 'squircle': 'rounded-lg',
-      'edge-tab': 'rounded-t-2xl rounded-b-none', 'detached': 'rounded-xl shadow-md',
-      'floating-screen': 'rounded-2xl mt-3', 'neo-brutalist': 'rounded-none border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,0.3)]',
-      'terminal': 'rounded-none', 'outline': 'rounded border-2', 'ticket': 'rounded-none',
-      'grid-block': 'rounded-none border border-dashed', 'cloud': 'rounded-[20px]',
-      'friendly-pill': 'rounded-3xl', 'egg': 'rounded-t-[30px] rounded-b-lg',
-      'bouncy-bubble': 'rounded-2xl', 'organic-attached': 'rounded-r-2xl rounded-l-none',
-      'asymmetrical': 'rounded-[20px_0px_20px_0px]', 'glassmorphism': 'rounded-2xl bg-white/50 backdrop-blur',
-      'ultra-minimal': 'rounded-none shadow-sm', 'faded-edge': 'rounded-b-2xl rounded-t-none',
-      'classic-elegant': 'rounded', 'detached-input': 'rounded-xl shadow-md',
-      '3d-pop': 'rounded-xl shadow-[0_4px_0px_rgba(0,0,0,0.15)]', 'neumorphism': 'rounded-2xl shadow-[3px_3px_6px_rgba(0,0,0,0.1),-3px_-3px_6px_rgba(255,255,255,0.7)]',
-      'layered-cards': 'rounded-xl', 'deep-inner-shadow': 'rounded-xl shadow-inner',
-      'flip-card': 'rounded-xl'
+      'standard-saas': 12, 'teardrop': 16, 'squircle': 8,
+      'edge-tab': '16px 16px 0 0', 'detached': 12, 'floating-screen': 16,
+      'neo-brutalist': 0, 'terminal': 0, 'outline': 4,
+      'ticket': 0, 'grid-block': 0, 'cloud': 30,
+      'friendly-pill': 24, 'egg': '40px 40px 10px 10px', 'bouncy-bubble': 20,
+      'organic-attached': '20px 0 0 20px', 'asymmetrical': '20px 0px 20px 0px',
+      'glassmorphism': 16, 'ultra-minimal': 0, 'faded-edge': '0 0 16px 16px',
+      'classic-elegant': 4, 'detached-input': 12,
+      '3d-pop': 12, 'neumorphism': 16, 'layered-cards': 12,
+      'deep-inner-shadow': 12, 'flip-card': 12
     };
-    return `${base} ${radii[styleId] || 'rounded-xl'}`;
+    const r = radii[styleId] || 12;
+    const shadow = styleId === 'neo-brutalist' ? '3px 3px 0 rgba(0,0,0,0.2)' :
+      styleId === '3d-pop' ? `0 3px 0 ${adjustColor(color, -40)}` :
+      styleId === 'neumorphism' ? '3px 3px 6px #d1d3d7, -3px -3px 6px #fff' :
+      styleId === 'deep-inner-shadow' ? 'inset 0 2px 8px rgba(0,0,0,0.1)' :
+      styleId === 'glassmorphism' ? '0 4px 12px rgba(0,0,0,0.08)' :
+      styleId === 'edge-tab' ? '0 -2px 8px rgba(0,0,0,0.06)' :
+      '0 2px 8px rgba(0,0,0,0.06)';
+    const border = styleId === 'neo-brutalist' ? '2px solid #0f172a' :
+      styleId === 'outline' ? `2px solid ${color || '#94a3b8'}` :
+      styleId === 'grid-block' ? '1px solid #cbd5e1' :
+      styleId === 'terminal' ? '1px solid #475569' :
+      'none';
+    return (
+      <div style={{
+        ...previewStyle, borderRadius: r, border, boxShadow: shadow,
+        background: styleId === 'terminal' ? '#0f172a' : (styleId === 'glassmorphism' ? 'rgba(255,255,255,0.6)' : (color || '#e2e8f0')),
+        backdropFilter: styleId === 'glassmorphism' ? 'blur(4px)' : 'none'
+      }}>
+        {styleId === 'detached-input' && <div style={{ height: 4, background: '#fff', margin: '2px 3px', borderRadius: 2 }} />}
+      </div>
+    );
   }
   if (type === 'bubble') {
     const classes = {
-      'modern': 'rounded-xl', 'classic': 'rounded-[12px_12px_12px_0]', 'squircle-bubble': 'rounded',
-      'sharp': 'rounded-none', 'brutalist-bubble': 'rounded-none border-2 border-black',
-      'terminal-bubble': 'rounded-none border border-green-500', 'beveled': 'rounded-none',
-      'grid-bubble': 'rounded-none border border-dashed', 'pill': 'rounded-full',
-      'bouncy': 'rounded-xl shadow-md', 'circle-tail': 'rounded-[18px_18px_18px_4px]',
-      'pill-wide': 'rounded-full w-24', 'asym-bubble': 'rounded-[12px_4px_12px_4px]',
-      'outline': 'rounded-xl border-2 bg-transparent', 'minimal-text': 'rounded-none border-b',
-      'glassy-bubble': 'rounded-xl bg-white/50', 'classic-elegant-bubble': 'rounded border',
-      '3d': 'rounded-xl shadow-[0_3px_0px_rgba(0,0,0,0.15)]', 'neumorphic': 'rounded-xl shadow-[2px_2px_4px_rgba(0,0,0,0.1),-2px_-2px_4px_rgba(255,255,255,0.7)]',
-      'inset': 'rounded-lg shadow-inner', 'layered-card': 'rounded-lg shadow-[1px_1px_0px_rgba(0,0,0,0.1),2px_2px_0px_rgba(0,0,0,0.05)]'
+      'modern': 16, 'classic': '12px 12px 12px 0', 'squircle-bubble': 6,
+      'sharp': 0, 'brutalist-bubble': 0, 'terminal-bubble': 0,
+      'beveled': 0, 'grid-bubble': 0, 'pill': 24,
+      'bouncy': 16, 'circle-tail': '18px 18px 18px 4px',
+      'pill-wide': 20, 'asym-bubble': '16px 4px 16px 4px',
+      'outline': 16, 'minimal-text': 0, 'glassy-bubble': 12,
+      'classic-elegant-bubble': 4,
+      '3d': 12, 'neumorphic': 12, 'inset': 8, 'layered-card': 8
     };
-    return `${base} h-6 w-16 mx-auto ${classes[styleId] || 'rounded-xl'}`;
+    const r = classes[styleId] || 16;
+    const border = styleId === 'brutalist-bubble' ? '1.5px solid #0f172a' :
+      styleId === 'outline' || styleId === 'grid-bubble' ? `1.5px solid ${color || '#94a3b8'}` :
+      styleId === 'classic-elegant-bubble' ? '1px solid #cbd5e1' : 'none';
+    const shadow = styleId === '3d' ? `0 2px 0 ${adjustColor(color, -40)}` :
+      styleId === 'neumorphic' ? '2px 2px 4px #d1d3d7, -2px -2px 4px #fff' :
+      styleId === 'inset' ? 'inset 1px 1px 3px #d1d3d7' :
+      styleId === 'layered-card' ? '1px 1px 0 #cbd5e1' : 'none';
+    const bg = styleId === 'terminal-bubble' ? 'transparent' :
+      styleId === 'outline' || styleId === 'minimal-text' ? 'transparent' :
+      color || '#e2e8f0';
+    return <div style={{ ...previewStyle, borderRadius: r, border, boxShadow: shadow, background: bg }} />;
   }
   if (type === 'launcher') {
     const classes = {
-      'round': 'rounded-full', 'square': 'rounded-xl', 'teardrop': 'rounded-[16px_16px_0_16px]',
-      'oval': 'rounded-full w-12', 'pill-text': 'rounded-full w-16',
-      'bar': 'rounded-lg w-20', 'half-circle': 'rounded-l-full rounded-r-none',
-      'diamond': 'rotate-45 rounded-none', 'hexagon': 'rounded-none',
-      'transparent': 'rounded-full bg-transparent border-2', 'ring': 'rounded-full border-2 bg-transparent',
-      'icon-only': 'rounded-none w-6 h-6', 'glowing-dot': 'rounded-full w-6 h-6',
-      'cloud': 'rounded-[40%_60%_60%_40%/60%_30%_70%_40%]', 'tongue': 'rounded-l-full rounded-r-none h-12',
-      'blob': 'rounded-[40%_60%_60%_40%/60%_30%_70%_40%]', 'egg-shape': 'rounded-[50%_50%_50%_50%/60%_60%_40%_40%]',
-      'bubble-ring': 'rounded-full shadow-[0_0_0_3px_rgba(0,0,0,0.1)]', 'glow': 'rounded-full shadow-lg',
-      'mechanical': 'rounded-lg shadow-[0_3px_0px_rgba(0,0,0,0.2)]', 'stacked-circles': 'rounded-full',
-      'flip-launcher': 'rotate-45 rounded-lg'
+      'round': '50%', 'square': 12, 'teardrop': '16px 16px 0 16px',
+      'oval': '50%', 'pill-text': 20, 'bar': 8,
+      'half-circle': '20px 0 0 20px', 'diamond': 0, 'hexagon': 0,
+      'transparent': '50%', 'ring': '50%', 'icon-only': 0,
+      'glowing-dot': '50%', 'cloud': '40% 60% 60% 40%/60% 30% 70% 40%',
+      'tongue': '20px 0 0 20px', 'blob': '40% 60% 60% 40%/60% 30% 70% 40%',
+      'egg-shape': '50% 50% 50% 50%/60% 60% 40% 40%', 'bubble-ring': '50%',
+      'glow': '50%', 'mechanical': 6, 'stacked-circles': '50%', 'flip-launcher': 0
     };
-    return `${base} ${classes[styleId] || 'rounded-full'}`;
+    const r = classes[styleId] || '50%';
+    const s = styleId === 'diamond' ? { transform: 'rotate(45deg)' } :
+      styleId === 'flip-launcher' ? { transform: 'rotate(45deg)' } :
+      styleId === 'hexagon' ? { clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' } : {};
+    const dims = styleId === 'pill-text' || styleId === 'bar' ? { width: 44, height: 20 } : { width: 26, height: 26 };
+    const border = styleId === 'transparent' || styleId === 'ring' ? `2px solid ${color || '#94a3b8'}` : 'none';
+    const bg = styleId === 'transparent' || styleId === 'ring' || styleId === 'icon-only' ? 'transparent' : (color || '#e2e8f0');
+    const shadow = styleId === 'glow' || styleId === 'glowing-dot' ? `0 0 10px ${color}` :
+      styleId === 'mechanical' ? `0 2px 0 ${adjustColor(color, -40)}` :
+      styleId === 'bubble-ring' ? `0 0 0 3px ${color || '#94a3b8'}40` : '0 1px 4px rgba(0,0,0,0.1)';
+    const clip = styleId === 'diamond' ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' :
+      styleId === 'hexagon' ? 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' : 'none';
+    return <div style={{ ...previewStyle, ...dims, borderRadius: r, background: bg, boxShadow: shadow, border, clipPath: clip, ...s }} />;
   }
-  return base;
+  return null;
 }
 
-export default function StylePicker({ type, styles, value, onChange }) {
+function adjustColor(hex, amount) {
+  if (!hex || hex === 'null') return '#94a3b8';
+  try {
+    const num = parseInt(hex.replace('#', ''), 16);
+    const r = Math.min(255, Math.max(0, ((num >> 16) & 0xFF) + amount));
+    const g = Math.min(255, Math.max(0, ((num >> 8) & 0xFF) + amount));
+    const b = Math.min(255, Math.max(0, (num & 0xFF) + amount));
+    return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+  } catch { return '#94a3b8'; }
+}
+
+export default function StylePicker({ type, styles, value, onChange, color }) {
   const families = FAMILIES.map(f => ({
     ...f,
     styles: styles.filter(s => s.family === f.id)
@@ -70,26 +123,24 @@ export default function StylePicker({ type, styles, value, onChange }) {
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: family.color }} />
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{family.name}</span>
           </div>
-          <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1.5">
+          <div className="flex flex-wrap gap-1.5">
             {family.styles.map(style => {
               const isSelected = value === style.id;
+              const bg = isSelected ? (color || family.color) : (color ? adjustColor(color, 60) : '#e2e8f0');
               return (
                 <button
                   key={style.id}
                   type="button"
                   onClick={() => onChange(style.id)}
-                  className={`flex flex-col items-center gap-1 p-2 rounded-xl border-2 transition-all ${
+                  className={`flex items-center gap-2 px-2.5 py-2 rounded-xl border-2 transition-all ${
                     isSelected
                       ? 'bg-electric-cyan/10 border-electric-cyan shadow-sm'
-                      : 'border-transparent bg-slate-50 hover:bg-slate-100 hover:border-slate-200'
+                      : 'border-transparent bg-white hover:bg-slate-50 hover:border-slate-200 shadow-sm'
                   }`}
                   title={style.name}
                 >
-                  <div
-                    className={getStylePreview(type, style.id, family.color)}
-                    style={{ backgroundColor: isSelected ? family.color : '#e2e8f0', borderColor: isSelected ? family.color : '#e2e8f0' }}
-                  />
-                  <span className="text-[10px] text-slate-500 leading-tight text-center">{style.name}</span>
+                  <ShapePreview type={type} styleId={style.id} color={bg} />
+                  <span className="text-xs text-slate-600 whitespace-nowrap">{style.name}</span>
                 </button>
               );
             })}
