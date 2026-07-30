@@ -73,18 +73,13 @@ function Layout() {
   );
 }
 
-function getCookie(name) {
-  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-  return match ? match[2] : null;
+const hash = window.location.hash;
+if (hash && hash.startsWith('#token=') && !localStorage.getItem('accessToken')) {
+  localStorage.setItem('accessToken', hash.slice(7));
+  window.location.hash = '';
 }
 
 function App() {
-  const cookieToken = getCookie('accessToken');
-  if (cookieToken && !localStorage.getItem('accessToken')) {
-    localStorage.setItem('accessToken', cookieToken);
-    document.cookie = 'accessToken=; max-age=0; path=/';
-  }
-
   return (
     <Router>
       <Layout/>
