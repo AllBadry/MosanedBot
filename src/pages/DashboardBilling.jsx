@@ -157,6 +157,13 @@ export default function DashboardBilling() {
               <p className="text-lg text-slate-500 font-bold">قيد المعالجة</p>
               <p className="text-sm text-amber-600 font-bold mt-2">بانتظار مراجعة الأدمن</p>
             </div>
+          ) : status === 'expired' ? (
+            <div className="text-center py-6">
+              <p className="text-5xl mb-3">⏰</p>
+              <p className="text-lg text-slate-500 font-bold">انتهت الفترة التجريبية</p>
+              <p className="text-sm text-amber-600 font-bold mt-2">يمكنك إعادة المحاولة أو رفع إيصال جديد</p>
+              <button onClick={() => navigate('/pricing')} className="mt-3 text-sm font-bold text-electric-cyan hover:underline">اشترك الآن</button>
+            </div>
           ) : !subActive && !trialActive ? (
             <div className="text-center py-6">
               <p className="text-5xl mb-3">📭</p>
@@ -181,6 +188,7 @@ export default function DashboardBilling() {
           <p className="text-textMuted text-sm font-medium mb-6">
             {status === 'pending' ? 'طلبك قيد المعالجة، سيتم تفعيله بعد مراجعته من فريق الدعم.' :
              status === 'active_24h' ? 'التفعيل التجريبي لمدة 24 ساعة نشط. قم بتحويل المبلغ وإرفاق الإيصال لتفعيل باقتك بشكل دائم.' :
+             status === 'expired' ? 'انتهت الفترة التجريبية. قم بتحويل المبلغ وإرفاق إيصال جديد لإعادة المحاولة.' :
              'تم استلام إيصالك، سنقوم بمراجعته وتفعيل باقتك قريباً.'}
           </p>
 
@@ -210,7 +218,7 @@ export default function DashboardBilling() {
           </div>
 
           {/* رفع الإيصال */}
-          {(status === 'pending' || status === 'active_24h') && (
+          {(status === 'pending' || status === 'active_24h' || status === 'expired') && (
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2">إرفاق إيصال التحويل</label>
               <div className="flex items-center gap-4">
