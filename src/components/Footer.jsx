@@ -35,6 +35,7 @@ export default function Footer() {
             <h4 className="text-textMain font-bold mb-6 text-lg">الموارد</h4>
             <ul className="space-y-4">
               <li><Link to="/support" className="text-textMuted hover:text-electric-green transition-colors">مركز المساعدة</Link></li>
+              <li><Link to="/docs" className="text-textMuted hover:text-electric-green transition-colors">دليل الدمج</Link></li>
               <li><Link to="/terms" className="text-textMuted hover:text-electric-green transition-colors">شروط الاستخدام</Link></li>
               <li><Link to="/Privacy" className="text-textMuted hover:text-electric-green transition-colors">سياسة الخصوصية</Link></li>
             </ul>

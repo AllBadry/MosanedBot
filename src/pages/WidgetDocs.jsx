@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-const RAW_WIDGET_CODE = `<!-- Mosaned AI Bot -->\n<script src="https://api.mosaned.org/mosaned-widget.js" data-widget-key="YOUR_KEY_HERE"></script>`;
+const KEY_PLACEHOLDER = 'YOUR_KEY_HERE';
+
+function makeWidgetCode(key) {
+  return `<!-- Mosaned AI Bot -->\n<script src="https://api.mosaned.org/mosaned-widget.js" data-widget-key="${key}"></script>`;
+}
 
 export default function WidgetDocs() {
   const [searchParams] = useSearchParams();
@@ -20,7 +24,7 @@ export default function WidgetDocs() {
     }
   }, []);
 
-  const WIDGET_CODE = `<!-- Mosaned AI Bot -->\n<script src="https://api.mosaned.org/mosaned-widget.js" data-widget-key="${widgetKey}"></script>`;
+  const widgetCode = makeWidgetCode(widgetKey);
 
   const copyToClipboard = (text, section) => {
     navigator.clipboard.writeText(text);
@@ -34,21 +38,21 @@ export default function WidgetDocs() {
       title: 'مواقع HTML الثابتة',
       desc: 'ضع الكود قبل وسم &lt;/body&gt; في كل صفحة.',
       lang: 'HTML',
-      code: RAW_WIDGET_CODE,
+      code: widgetCode,
     },
     {
       id: 'react',
       title: 'تطبيقات React & SPAs',
       desc: 'ضع الكود مرة واحدة في public/index.html.',
       lang: 'public/index.html',
-      code: `<!DOCTYPE html>\n<html lang="en">\n  <body>\n    <div id="root"></div>\n    ${RAW_WIDGET_CODE}\n  </body>\n</html>`,
+      code: `<!DOCTYPE html>\n<html lang="en">\n  <body>\n    <div id="root"></div>\n    ${widgetCode}\n  </body>\n</html>`,
     },
     {
       id: 'php',
       title: 'مواقع PHP',
       desc: 'ضع الكود في ملف الفوتر العام footer.php.',
       lang: 'footer.php',
-      code: `<footer></footer>\n${RAW_WIDGET_CODE}\n</body>\n</html>`,
+      code: `<footer></footer>\n${widgetCode}\n</body>\n</html>`,
     },
     {
       id: 'global',

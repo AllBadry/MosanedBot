@@ -128,6 +128,13 @@ export default function DashboardLayout() {
             <span className="text-lg">💳</span> تطوير الخطة
           </Link>
 
+          <Link
+            to="/docs"
+            className={`flex items-center gap-3 w-full text-right p-3.5 rounded-xl font-bold transition-all duration-300 text-slate-300 hover:bg-slate-800/80 hover:text-white`}
+          >
+            <span className="text-lg">📚</span> دليل الدمج
+          </Link>
+
           <div className="pt-4 mt-4 border-t border-slate-800/80">
             {isFreePlan ? (
               <div className="group relative flex items-center justify-between p-3.5 rounded-xl font-bold text-slate-500 bg-slate-900/50 border border-slate-800 cursor-not-allowed overflow-hidden">
