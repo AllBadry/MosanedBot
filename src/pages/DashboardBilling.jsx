@@ -92,48 +92,28 @@ export default function DashboardBilling() {
   const planLabel = billing?.planName || (userPlan === 'basic' ? 'الأساسية' : userPlan === 'enterprise' ? 'الخارقة' : 'مجانية');
   const planIcon = userPlan === 'free' ? '⭐' : userPlan === 'basic' ? '🚀' : '💎';
 
-  const renderCountdown = () => {
+  const renderCountdown = (label, endTime, isTrial) => {
     const now = Date.now();
-    if (status === 'pending') {
-      return (
-        <div className="text-center py-6">
-          <p className="text-5xl mb-3">⏳</p>
-          <p className="text-lg text-slate-500 font-bold">قيد المعالجة</p>
-          <p className="text-sm text-amber-600 font-bold mt-2">بانتظار مراجعة الأدمن</p>
-        </div>
-      );
-    }
-    const subEnd = billing?.subscriptionExpiresAt ? new Date(billing.subscriptionExpiresAt).getTime() : null;
-    const trialEnd = billing?.trialExpiresAt ? new Date(billing.trialExpiresAt).getTime() : null;
-    const target = subEnd || trialEnd;
-    if (!target || target < now) {
-      return (
-        <div className="text-center py-6">
-          <p className="text-5xl mb-3">📭</p>
-          <p className="text-lg text-slate-500 font-bold">لا توجد خطة نشطة</p>
-          <button onClick={() => navigate('/pricing')} className="mt-3 text-sm font-bold text-electric-cyan hover:underline">اشترك الآن</button>
-        </div>
-      );
-    }
+    const target = endTime ? new Date(endTime).getTime() : null;
+    if (!target || target < now) return null;
     const diff = target - now;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const isTrial = !subEnd && trialEnd;
     return (
-      <>
-        <div className="text-center mb-4">
-          <p className="text-5xl font-black text-textMain">{days}</p>
-          <p className="text-sm text-slate-400 font-bold">يوم</p>
-        </div>
-        <div className="text-center text-sm text-slate-500 font-medium">
-          <span dir="ltr" className="font-mono font-bold text-2xl text-textMain">{String(hours).padStart(2, '0')}:{String(mins).padStart(2, '0')}</span>
-          <p className="text-xs mt-1">ساعة : دقيقة</p>
-        </div>
-        {isTrial && <p className="text-center text-xs text-amber-600 font-bold mt-3">تفعيل تجريبي</p>}
-      </>
+      <div className="text-center py-3 border-b border-slate-100 last:border-b-0">
+        <p className="text-xs text-slate-500 font-bold mb-1">{label}</p>
+        <p className="text-3xl font-black text-textMain">{days}</p>
+        <p className="text-xs text-slate-400 font-bold">يوم</p>
+        <span dir="ltr" className="font-mono font-bold text-lg text-textMain">{String(hours).padStart(2, '0')}:{String(mins).padStart(2, '0')}</span>
+        <p className="text-xs text-slate-400">ساعة : دقيقة</p>
+        {isTrial && <p className="text-xs text-amber-600 font-bold mt-1">تفعيل تجريبي</p>}
+      </div>
     );
   };
+
+  const subActive = billing?.subscriptionExpiresAt && new Date(billing.subscriptionExpiresAt) > new Date();
+  const trialActive = billing?.trialExpiresAt && new Date(billing.trialExpiresAt) > new Date();
 
   return (
     <div className="animate-fade-in max-w-3xl mx-auto" dir="rtl">
@@ -166,13 +146,30 @@ export default function DashboardBilling() {
         </div>
       </div>
 
-      {/* عداد المدة */}
-      <div className="bg-surface rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm mb-6">
-        <h3 className="text-sm font-bold text-slate-500 mb-2 flex items-center gap-2">
-          <span>⏳</span> مدة الاشتراك المتبقية
-        </h3>
-        {renderCountdown()}
-      </div>
+        {/* عداد المدة */}
+        <div className="bg-surface rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm mb-6">
+          <h3 className="text-sm font-bold text-slate-500 mb-2 flex items-center gap-2">
+            <span>⏳</span> مدة الاشتراك المتبقية
+          </h3>
+          {status === 'pending' ? (
+            <div className="text-center py-6">
+              <p className="text-5xl mb-3">⏳</p>
+              <p className="text-lg text-slate-500 font-bold">قيد المعالجة</p>
+              <p className="text-sm text-amber-600 font-bold mt-2">بانتظار مراجعة الأدمن</p>
+            </div>
+          ) : !subActive && !trialActive ? (
+            <div className="text-center py-6">
+              <p className="text-5xl mb-3">📭</p>
+              <p className="text-lg text-slate-500 font-bold">لا توجد خطة نشطة</p>
+              <button onClick={() => navigate('/pricing')} className="mt-3 text-sm font-bold text-electric-cyan hover:underline">اشترك الآن</button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {renderCountdown('الرصيد الحالي', billing.subscriptionExpiresAt, false)}
+              {renderCountdown('تفعيل تجريبي', billing.trialExpiresAt, true)}
+            </div>
+          )}
+        </div>
 
       {/* بطاقة الدفع (فقط إذا في طلب نشط وغير مكتمل) */}
       {billing && status && status !== 'completed' && (
@@ -212,8 +209,8 @@ export default function DashboardBilling() {
             </div>
           </div>
 
-          {/* رفع الإيصال (فقط إذا active_24h) */}
-          {status === 'active_24h' && (
+          {/* رفع الإيصال */}
+          {(status === 'pending' || status === 'active_24h') && (
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2">إرفاق إيصال التحويل</label>
               <div className="flex items-center gap-4">
