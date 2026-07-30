@@ -515,7 +515,7 @@ export default function Dashboard() {
           </div>
 
           <div className="w-full lg:w-1/3 lg:sticky lg:top-8 space-y-6">
-            <div className="bg-slate-100 rounded-3xl p-2 border border-slate-200/60 shadow-inner relative overflow-hidden h-[400px] lg:h-[500px] flex items-end justify-end">
+            <div className="bg-slate-100 rounded-3xl p-2 border border-slate-200/60 shadow-inner relative h-[460px] lg:h-[540px] flex items-end justify-end">
               <div className="absolute top-6 left-0 w-full text-center z-10">
                 <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold text-slate-600 shadow-sm border border-slate-200">
                   🔴 معاينة حية (Live Preview)

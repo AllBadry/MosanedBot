@@ -8,7 +8,7 @@ export default function WidgetPreview({ formData }) {
 
   // 1. حاوية الودجت الأساسية (Container)
   const getContainerStyles = () => {
-    const base = { transition: 'all 0.4s ease', display: 'flex', flexDirection: 'column', height: '400px', width: '100%' };
+    const base = { transition: 'all 0.4s ease', display: 'flex', flexDirection: 'column', height: '350px', width: '100%' };
     switch(widgetStyle) {
       case 'cyber': return { ...base, borderRadius: '0px', backgroundColor: '#0f172a', boxShadow: `0 0 20px ${themeColor}40`, border: `1px solid ${themeColor}` };
       case 'glass': return { ...base, borderRadius: '16px', backgroundColor: 'rgba(255, 255, 255, 0.6)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.4)' };
