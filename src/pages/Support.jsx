@@ -59,30 +59,35 @@ export default function Support() {
   // محرك الحركات الخفيف (بدون أي مكتبات خارجية)
   // ==========================================
   useEffect(() => {
+    // الأسئلة الشائعة تُشغَّل بـ CSS animation وليس observer (تجنباً لاختفائها عند re-render)
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // عندما يظهر العنصر في الشاشة، نقوم بإظهاره وإلغاء إزاحته
           entry.target.classList.remove('opacity-0', 'translate-y-12');
           entry.target.classList.add('opacity-100', 'translate-y-0');
-          // إيقاف مراقبة العنصر بعد ظهوره لتوفير موارد المتصفح (خفيف جداً)
           observer.unobserve(entry.target);
         }
       });
-    }, { 
-      threshold: 0.1, // يبدأ التأثير عندما يظهر 10% من العنصر
-      rootMargin: "0px 0px -50px 0px" // تشغيل الحركة قبل نهاية الشاشة بقليل
-    });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-    // استهداف كل العناصر التي تحمل كلاس 'scroll-reveal'
-    const revealElements = document.querySelectorAll('.scroll-reveal');
-    revealElements.forEach((el) => observer.observe(el));
+    // فقط العناصر غير FAQ تُراقَب (الرقم والفورم)
+    document.querySelectorAll('.scroll-reveal:not(.faq-card)').forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect(); // تنظيف الذاكرة عند الخروج من الصفحة
+    return () => observer.disconnect();
   }, []);
 
   return (
     <div className="min-h-screen bg-[#060a14] text-slate-300 font-sans selection:bg-[#00F0FF] selection:text-slate-900 relative overflow-hidden" dir="rtl">
+      
+      <style>{`
+        @keyframes faqFadeIn {
+          from { opacity: 0; transform: translateY(1.5rem); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .faq-card {
+          animation: faqFadeIn 0.5s ease-out both;
+        }
+      `}</style>
       
       {/* إضاءات المعرض */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#00F0FF]/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -112,9 +117,8 @@ export default function Support() {
               <div 
                 key={index} 
                 onClick={() => toggleFaq(index)}
-                // تم إضافة كلاسات التأخير (delay) لكي تظهر الصناديق بتتابع جميل وليس دفعة واحدة
-                style={{ transitionDelay: `${index * 150}ms` }}
-                className={`scroll-reveal opacity-0 translate-y-12 transition-transform duration-500 md:duration-700 ease-out group cursor-pointer rounded-2xl border overflow-hidden ${
+                style={{ animationDelay: `${index * 150}ms` }}
+                className={`faq-card group cursor-pointer rounded-2xl border overflow-hidden ${
                   activeFaq === index 
                     ? 'bg-white/10 border-[#00F0FF]/50 shadow-[0_0_30px_rgba(0,240,255,0.15)]' 
                     : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10'
