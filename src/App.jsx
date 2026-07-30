@@ -73,10 +73,13 @@ function Layout() {
   );
 }
 
-const hash = window.location.hash;
-if (hash && hash.startsWith('#token=') && !localStorage.getItem('accessToken')) {
-  localStorage.setItem('accessToken', hash.slice(7));
-  window.location.hash = '';
+// قراءة التوكن من cookie (لنفس النطاق: api.mosaned.org → mosaned.org)
+if (!localStorage.getItem('accessToken')) {
+  const match = document.cookie.match(/(^| )accessToken=([^;]+)/);
+  if (match) {
+    localStorage.setItem('accessToken', match[2]);
+    document.cookie = 'accessToken=; max-age=0; path=/';
+  }
 }
 
 function App() {

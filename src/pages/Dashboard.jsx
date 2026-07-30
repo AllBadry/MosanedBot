@@ -20,6 +20,7 @@ export default function Dashboard() {
   const [isUploadingReceipt, setIsUploadingReceipt] = useState(false);
   const [message, setMessage] = useState('');
   const [billing, setBilling] = useState(null);
+  const [userPlan, setUserPlan] = useState('free');
   
   const [formData, setFormData] = useState({ 
     name: '', 
@@ -96,7 +97,21 @@ export default function Dashboard() {
       }
     };
 
+    const fetchUserPlan = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const res = await fetch(API_BASE_URL + '/api/v1/auth/me', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success' && data.data?.user?.plan) {
+          setUserPlan(data.data.user.plan);
+        }
+      } catch { /* ignore */ }
+    };
+
     fetchBotData();
+    fetchUserPlan();
     
     return () => {
       if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
@@ -344,6 +359,33 @@ export default function Dashboard() {
           
           <div className="w-full lg:w-2/3 space-y-8">
             
+            {/* =========================================
+                📋 تطوير الخطة
+            ========================================= */}
+            <div className="bg-gradient-to-l from-electric-cyan/10 to-electric-green/10 border border-electric-cyan/20 rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
+              <div className="absolute -top-20 -left-20 w-40 h-40 bg-electric-cyan/20 blur-3xl rounded-full pointer-events-none"></div>
+              <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center text-2xl shadow-lg shrink-0">
+                    {userPlan === 'free' ? '⭐' : userPlan === 'basic' ? '🚀' : userPlan === 'enterprise' ? '💎' : '⭐'}
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-500 font-bold">الخطة الحالية</p>
+                    <p className="text-xl font-black text-textMain">
+                      {userPlan === 'basic' ? 'الأساسية' : userPlan === 'enterprise' ? 'الخارقة' : 'مجانية'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => navigate('/pricing')}
+                  className="bg-slate-900 text-white font-black px-8 py-3.5 rounded-2xl hover:bg-electric-cyan hover:text-slate-900 hover:shadow-glow transition-all duration-300 flex items-center gap-2 shrink-0"
+                >
+                  <span>تطوير الخطة</span>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                </button>
+              </div>
+            </div>
+
             {/* =========================================
                 🚀 بطاقات الاستهلاك (Usage Stats) الجديدة 
             ========================================= */}
