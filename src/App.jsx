@@ -25,6 +25,7 @@ const DashboardBilling = lazy(() => import('./pages/DashboardBilling'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const Support = lazy(() => import('./pages/Support'));
+const WidgetDocs = lazy(() => import('./pages/WidgetDocs'));
 
 function Layout() {
   const location = useLocation();
@@ -52,6 +53,7 @@ function Layout() {
                 <Route path="/Privacy" element={<PrivacyPolicy/>}/>
                 <Route path="/terms" element={<TermsOfService/>}/>
                 <Route path="/support" element={<Support/>}/>
+                <Route path="/docs" element={<WidgetDocs/>}/>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/forgot-password" element={<ForgotPassword />} />

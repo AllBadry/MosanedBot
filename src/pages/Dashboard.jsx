@@ -509,6 +509,13 @@ export default function Dashboard() {
                     <span>نسخ الكود إلى الحافظة</span>
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                   </button>
+
+                  <a
+                    href={`/docs?key=${botData.widgetKey}`}
+                    className="mt-3 block text-center text-sm text-slate-400 hover:text-[#00F0FF] transition-colors font-medium"
+                  >
+                    📚 دليل الدمج الكامل ←
+                  </a>
                 </div>
               </div>
             )}
