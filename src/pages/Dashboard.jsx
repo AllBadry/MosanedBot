@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import WidgetPreview from '../components/WidgetPreview';
+import StylePicker from '../components/StylePicker';
+import { WINDOW_STYLES, BUBBLE_STYLES, LAUNCHER_STYLES } from '../config/styleDefs';
 import API_BASE_URL from '../config/api';
 
 export default function Dashboard() {
@@ -25,7 +27,7 @@ export default function Dashboard() {
     themeColor: '#00F0FF', 
     welcomeMessage: '',
     avatarUrl: '',
-    widgetStyle: 'classic',
+    widgetStyle: 'standard-saas',
     bubbleStyle: 'modern',
     launcherStyle: 'round',
     allowedDomain: '' 
@@ -77,7 +79,7 @@ export default function Dashboard() {
             themeColor: fetchedBot.themeColor || '#00F0FF',
             welcomeMessage: fetchedBot.welcomeMessage || 'مرحباً بك!',
             avatarUrl: fetchedBot.avatarUrl || '/botimage2.jpg',
-            widgetStyle: fetchedBot.widgetStyle || 'classic',
+            widgetStyle: fetchedBot.widgetStyle || 'standard-saas',
             bubbleStyle: fetchedBot.bubbleStyle || 'modern',
             launcherStyle: fetchedBot.launcherStyle || 'round',
             allowedDomain: fetchedBot.allowedDomains && fetchedBot.allowedDomains.length > 0 
@@ -143,7 +145,7 @@ export default function Dashboard() {
             themeColor: data.data.bot.themeColor,
             welcomeMessage: data.data.bot.welcomeMessage,
             avatarUrl: data.data.bot.avatarUrl || '/botimage2.jpg',
-            widgetStyle: 'classic',
+            widgetStyle: 'standard-saas',
             bubbleStyle: 'modern',
             launcherStyle: 'round',
             allowedDomain: ''
@@ -433,38 +435,18 @@ export default function Dashboard() {
                   <span className="text-electric-green">2.</span> تخصيص المظهر (UI/UX)
                 </h2>
                 
-                <div className="space-y-8">
+                <div className="space-y-10">
                   <div>
-                    <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">شكل النافذة (Theme)</label>
-                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                      {[ { id: 'classic', icon: '📱' }, { id: 'cyber', icon: '⚡' }, { id: 'glass', icon: '🧊' }, { id: 'floating', icon: '☁️' }, { id: 'minimal', icon: '📐' }, { id: 'corporate', icon: '💼' } ].map(style => (
-                        <button key={style.id} type="button" onClick={() => setFormData({...formData, widgetStyle: style.id})} className={`flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all ${formData.widgetStyle === style.id ? 'border-electric-cyan bg-electric-cyan/10 border-electric-cyan shadow-sm' : 'border-slate-100 bg-slate-50 hover:border-slate-300'}`}>
-                          <span className="text-2xl">{style.icon}</span>
-                        </button>
-                      ))}
-                    </div>
+                    <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">شكل النافذة (Window Style)</label>
+                    <StylePicker type="window" styles={WINDOW_STYLES} value={formData.widgetStyle} onChange={(v) => setFormData({...formData, widgetStyle: v})} />
                   </div>
-
                   <div>
-                    <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">فقاعات المحادثة (Bubbles)</label>
-                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                      {[ { id: 'modern', icon: '☁️' }, { id: 'classic', icon: '🗨️' }, { id: 'sharp', icon: '⬛' }, { id: 'pill', icon: '💊' }, { id: 'outline', icon: '⭕' }, { id: '3d', icon: '🎛️' } ].map(style => (
-                        <button key={style.id} type="button" onClick={() => setFormData({...formData, bubbleStyle: style.id})} className={`flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all ${formData.bubbleStyle === style.id ? 'border-electric-cyan bg-electric-cyan/10 border-electric-cyan shadow-sm' : 'border-slate-100 bg-slate-50 hover:border-slate-300'}`}>
-                          <span className="text-2xl">{style.icon}</span>
-                        </button>
-                      ))}
-                    </div>
+                    <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">فقاعات المحادثة (Bubble Style)</label>
+                    <StylePicker type="bubble" styles={BUBBLE_STYLES} value={formData.bubbleStyle} onChange={(v) => setFormData({...formData, bubbleStyle: v})} />
                   </div>
-
                   <div>
-                    <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">الزر العائم (Launcher)</label>
-                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                      {[ { id: 'round', icon: '🔴' }, { id: 'square', icon: '🔲' }, { id: 'teardrop', icon: '💧' }, { id: 'transparent', icon: '👻' }, { id: 'glow', icon: '🌟' }, { id: 'cloud', icon: '☁️' } ].map(style => (
-                        <button key={style.id} type="button" onClick={() => setFormData({...formData, launcherStyle: style.id})} className={`flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all ${formData.launcherStyle === style.id ? 'border-electric-cyan bg-electric-cyan/10 border-electric-cyan shadow-sm' : 'border-slate-100 bg-slate-50 hover:border-slate-300'}`}>
-                          <span className="text-2xl">{style.icon}</span>
-                        </button>
-                      ))}
-                    </div>
+                    <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">الزر العائم (Launcher Style)</label>
+                    <StylePicker type="launcher" styles={LAUNCHER_STYLES} value={formData.launcherStyle} onChange={(v) => setFormData({...formData, launcherStyle: v})} />
                   </div>
                 </div>
               </div>
