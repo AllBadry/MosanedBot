@@ -122,6 +122,13 @@ export default function DashboardLayout() {
           </Link>
 
           <Link
+            to="/dashboard/monitoring"
+            className={`flex items-center gap-3 w-full text-right p-3.5 rounded-xl font-bold transition-all duration-300 ${isActive('/dashboard/monitoring') ? 'bg-electric-cyan text-slate-900 shadow-glow' : 'hover:bg-slate-800/80 text-slate-300 hover:text-white'}`}
+          >
+            <span className="text-lg">📡</span> المراقبة الحية
+          </Link>
+
+          <Link
             to="/dashboard/billing"
             className={`flex items-center gap-3 w-full text-right p-3.5 rounded-xl font-bold transition-all duration-300 ${isActive('/dashboard/billing') ? 'bg-electric-cyan text-slate-900 shadow-glow' : 'hover:bg-slate-800/80 text-slate-300 hover:text-white'}`}
           >
