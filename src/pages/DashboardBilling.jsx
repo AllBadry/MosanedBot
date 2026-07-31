@@ -81,7 +81,7 @@ export default function DashboardBilling() {
 
   const pr = paymentRequest;
   const planLabel = pr?.planName || (plan === 'pro' ? 'الأساسية' : plan === 'enterprise' ? 'الخارقة' : 'مجانية');
-  const planIcon = plan === 'free' ? '⭐' : plan === 'basic' ? '🚀' : '💎';
+  const planIcon = plan === 'free' ? '⭐' : plan === 'pro' ? '🚀' : '💎';
   const prStatus = pr?.status;
 
   const renderCountdown = (label, endTime, isTrial) => {

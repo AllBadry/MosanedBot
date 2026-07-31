@@ -218,9 +218,9 @@ export default function Pricing() {
             </div>
             
             <div className="bg-surface p-6 rounded-2xl border border-slate-200">
-              <h4 className="text-lg font-bold text-textMain mb-2">ماذا يحدث إذا تجاوزت 15,000 جلسة في الخطة الخارقة؟</h4>
+              <h4 className="text-lg font-bold text-textMain mb-2">ماذا يحدث إذا استهلكت 8,000 جلسة في الخطة الخارقة؟</h4>
               <p className="text-textMuted text-sm leading-relaxed">
-                نحن ندرك أن الأعمال الكبيرة تحتاج مرونة فائقة؛ لذلك لن تتوقف الخدمة أبداً. إذا تجاوزت الحد الأقصى في خطة الـ 25 دينار، سنوفر لك جلسات إضافية لامحدودة، وسيتم محاسبتك عليها لاحقاً <strong>بسعر رمزي جداً</strong> (Pay-as-you-go) لضمان استمرارية عملك بأقل تكلفة ممكنة.
+                تشمل الخطة الخارقة ما يصل إلى <strong>8,000 جلسة محادثة شهرياً</strong> لضمان استمرارية أعمالك. عند استهلاك الحد الأقصى، يُوقَف البوت تلقائياً حتى بداية الشهر التالي أو حتى ترقية/تجديد باقتك، لضمان عدالة استخدام المورد للجميع.
               </p>
             </div>
           </div>
