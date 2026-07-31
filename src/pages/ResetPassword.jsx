@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import gsap from 'gsap';
-import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 export default function ResetPassword() {
   const containerRef = useRef(null);
@@ -28,7 +28,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await fetch(API_BASE_URL + '/api/v1/auth/reset-password', {
+      const response = await apiFetch('/api/v1/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -36,7 +36,8 @@ export default function ResetPassword() {
           code,
           newPassword,
           newPasswordConfirm: newPassword
-        })
+        }),
+        auth: false,
       });
 
       const data = await response.json();

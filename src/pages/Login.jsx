@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 export default function Login() {
   const containerRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // --- الإضافات البرمجية ---
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -21,17 +23,20 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await fetch(API_BASE_URL + '/api/v1/auth/login', {
+      const response = await apiFetch('/api/v1/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        auth: false,
       });
 
       const data = await response.json();
 
       if (data.status === 'success') {
         localStorage.setItem('accessToken', data.accessToken);
-        navigate('/dashboard');
+        const params = new URLSearchParams(location.search);
+        const redirect = params.get('redirect');
+        navigate(redirect || '/dashboard');
       } else if (data.data?.needsVerification) {
         navigate(`/register?verify=${encodeURIComponent(formData.email)}`);
       } else {

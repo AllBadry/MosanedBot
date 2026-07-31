@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import WidgetPreview from '../components/WidgetPreview';
 import StylePicker from '../components/StylePicker';
 import { WINDOW_STYLES, BUBBLE_STYLES, LAUNCHER_STYLES } from '../config/styleDefs';
+import { apiFetch } from '../utils/apiFetch';
 import API_BASE_URL from '../config/api';
 
 export default function Dashboard() {
@@ -59,9 +60,7 @@ export default function Dashboard() {
 
     const fetchBotData = async () => {
       try {
-        const response = await fetch(API_BASE_URL + '/api/v1/bot', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const response = await apiFetch('/api/v1/bot');
         const data = await response.json();
 
         // 🚀 التأكد من فحص data.data.bot وليس فقط data.data
@@ -99,10 +98,7 @@ export default function Dashboard() {
 
     const fetchUserPlan = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
-        const res = await fetch(API_BASE_URL + '/api/v1/auth/me', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const res = await apiFetch('/api/v1/auth/me');
         const data = await res.json();
         if (res.ok && data.status === 'success' && data.data?.user?.plan) {
           setUserPlan(data.data.user.plan);
@@ -123,12 +119,9 @@ export default function Dashboard() {
     showToast('جاري إنشاء مساعدك الذكي... ⏳', 10000);
     
     try {
-      const response = await fetch(API_BASE_URL + '/api/v1/bot', {
+      const response = await apiFetch('/api/v1/bot', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             name: 'مساعد مساند',
             themeColor: '#00F0FF',
@@ -181,12 +174,9 @@ export default function Dashboard() {
 
     showToast('جاري الحفظ... ⏳', 10000);
     try {
-      const response = await fetch(API_BASE_URL + '/api/v1/bot', {
+      const response = await apiFetch('/api/v1/bot', {
         method: 'PATCH',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataToSend)
       });
       
@@ -217,12 +207,10 @@ export default function Dashboard() {
     setIsUploadingAvatar(true);
     showToast('جاري رفع الصورة... ⏳', 10000);
     try {
-      const token = localStorage.getItem('accessToken');
       const form = new FormData();
       form.append('avatar', file);
-      const res = await fetch(API_BASE_URL + '/api/v1/bot/upload-avatar', {
+      const res = await apiFetch('/api/v1/bot/upload-avatar', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
         body: form
       });
       const data = await res.json();

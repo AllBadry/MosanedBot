@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
-import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 // ملاحظة: مكتبات pdfjs-dist و mammoth تُحمَّل ديناميكياً فقط عند الحاجة
 // (تحميل ملف أو معاينته) لتقليص الحجم الأولي للصفحة بشكل كبير.
@@ -33,10 +33,7 @@ export default function Knowledge() {
 
   const fetchKnowledgeList = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
-      const response = await fetch(API_BASE_URL + '/api/v1/knowledge', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const response = await apiFetch('/api/v1/knowledge');
       const data = await response.json();
       
       if (data.status === 'success' && data.data.knowledge) {
@@ -67,13 +64,9 @@ export default function Knowledge() {
 
   const postKnowledgeEntry = async (title, content) => {
     try {
-      const token = localStorage.getItem('accessToken');
-      const response = await fetch(API_BASE_URL + '/api/v1/knowledge', {
+      const response = await apiFetch('/api/v1/knowledge', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, content })
       });
       
@@ -240,10 +233,8 @@ export default function Knowledge() {
     if (!window.confirm('هل أنت متأكد من حذف هذه القاعدة المعرفية؟')) return;
 
     try {
-      const token = localStorage.getItem('accessToken');
-      const response = await fetch(`${API_BASE_URL}/api/v1/knowledge/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+      const response = await apiFetch(`/api/v1/knowledge/${id}`, {
+        method: 'DELETE'
       });
 
       if (response.ok || response.status === 204) {

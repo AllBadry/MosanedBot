@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 const typeIcons = {
   billing: '💳',
@@ -29,12 +29,9 @@ export default function NotificationBell() {
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const fetchNotifications = useCallback(async () => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    if (!localStorage.getItem('accessToken')) return;
     try {
-      const res = await fetch(API_BASE_URL + '/api/v1/notifications', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const res = await apiFetch('/api/v1/notifications');
       const data = await res.json();
       if (res.ok && data.status === 'success') {
         setNotifications(data.data || []);
@@ -65,23 +62,15 @@ export default function NotificationBell() {
   }, [open]);
 
   const handleMarkRead = async (id) => {
-    const token = localStorage.getItem('accessToken');
     try {
-      await fetch(API_BASE_URL + `/api/v1/notifications/${id}/read`, {
-        method: 'PATCH',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      await apiFetch(`/api/v1/notifications/${id}/read`, { method: 'PATCH' });
       setNotifications(prev => prev.map(n => n._id === id ? { ...n, read: true } : n));
     } catch { /* ignore */ }
   };
 
   const handleMarkAllRead = async () => {
-    const token = localStorage.getItem('accessToken');
     try {
-      await fetch(API_BASE_URL + '/api/v1/notifications/read-all', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      await apiFetch('/api/v1/notifications/read-all', { method: 'POST' });
       setNotifications(prev => prev.map(n => ({ ...n, read: true })));
     } catch { /* ignore */ }
   };

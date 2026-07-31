@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 export default function History() {
   const [sessions, setSessions] = useState([]);
@@ -12,13 +12,10 @@ export default function History() {
   // 1. جلب الجلسات عند فتح الصفحة
   useEffect(() => {
     const fetchSessions = async () => {
-      const token = localStorage.getItem('accessToken');
-      if (!token) return;
+      if (!localStorage.getItem('accessToken')) return;
 
       try {
-        const response = await fetch(API_BASE_URL + '/api/v1/bot/history/sessions', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const response = await apiFetch('/api/v1/bot/history/sessions');
         const data = await response.json();
         if (data.status === 'success') {
           setSessions(data.data.sessions);
@@ -39,9 +36,7 @@ export default function History() {
     setMessages([]); // تفريغ الرسائل القديمة أثناء التحميل
     
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/bot/history/sessions/${session._id}/messages`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
-      });
+      const response = await apiFetch(`/api/v1/bot/history/sessions/${session._id}/messages`);
       const data = await response.json();
       if (data.status === 'success') {
         setMessages(data.data.messages);
@@ -57,9 +52,8 @@ export default function History() {
     if (!window.confirm('هل أنت متأكد من حذف هذه المحادثة نهائياً؟')) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/bot/history/sessions/${sessionId}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
+      const response = await apiFetch(`/api/v1/bot/history/sessions/${sessionId}`, {
+        method: 'DELETE'
       });
       if (response.ok) {
         setSessions(sessions.filter(s => s._id !== sessionId));

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import gsap from 'gsap';
 import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 export default function Register() {
   const containerRef = useRef(null);
@@ -52,7 +53,7 @@ export default function Register() {
     setError('');
 
     try {
-      const response = await fetch(API_BASE_URL + '/api/v1/auth/signup', {
+      const response = await apiFetch('/api/v1/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -60,7 +61,8 @@ export default function Register() {
           email: formData.email,
           password: formData.password,
           passwordConfirm: formData.password
-        })
+        }),
+        auth: false,
       });
 
       const data = await response.json();
@@ -85,10 +87,11 @@ export default function Register() {
     setError('');
 
     try {
-      const response = await fetch(API_BASE_URL + '/api/v1/auth/verify-email', {
+      const response = await apiFetch('/api/v1/auth/verify-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: registeredEmail, code })
+        body: JSON.stringify({ email: registeredEmail, code }),
+        auth: false,
       });
 
       const data = await response.json();
@@ -112,10 +115,11 @@ export default function Register() {
     setResendTimer(60);
 
     try {
-      await fetch(API_BASE_URL + '/api/v1/auth/resend-code', {
+      await apiFetch('/api/v1/auth/resend-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: registeredEmail })
+        body: JSON.stringify({ email: registeredEmail }),
+        auth: false,
       });
     } catch (err) {
       console.error(err);

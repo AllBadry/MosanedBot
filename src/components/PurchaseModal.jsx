@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API_BASE_URL from '../config/api';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
+import { apiFetch } from '../utils/apiFetch';
 
 const plans = {
   basic: { id: 'basic', name: 'الأساسية', price: 10, icon: '🚀', color: 'from-electric-green to-teal-400' },
@@ -68,13 +68,9 @@ export default function PurchaseModal({ isOpen, onClose, planId }) {
     setStep('submitting');
 
     try {
-      const token = localStorage.getItem('accessToken');
-      const res = await fetch(API_BASE_URL + '/api/v1/billing/request-upgrade', {
+      const res = await apiFetch('/api/v1/billing/request-upgrade', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ planId, name: name.trim() }),
       });
       const data = await res.json();

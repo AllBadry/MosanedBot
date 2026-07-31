@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
+import { apiFetch } from '../utils/apiFetch';
 import API_BASE_URL from '../config/api';
 import NotificationBell from '../components/NotificationBell';
 
@@ -27,10 +28,7 @@ export default function DashboardLayout() {
   useEffect(() => {
     const fetchBot = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
-        const res = await fetch(API_BASE_URL + '/api/v1/bot', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const res = await apiFetch('/api/v1/bot');
         const data = await res.json();
         if (data.status === 'success' && data.data?.bot) {
           const av = data.data.bot.avatarUrl;

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 const REFRESH_MS = 5000;
 const LIVE_NOW_MS = 5 * 60 * 1000;
@@ -51,12 +51,9 @@ export default function Monitoring() {
   const messagesEndRef = useRef(null);
 
   const loadOverview = async () => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    if (!localStorage.getItem('accessToken')) return;
     try {
-      const res = await fetch(API_BASE_URL + '/api/v1/bot/monitoring/overview', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const res = await apiFetch('/api/v1/bot/monitoring/overview');
       const data = await res.json();
       if (data.status === 'success' && data.data) {
         setStats(data.data.stats);
@@ -77,9 +74,7 @@ export default function Monitoring() {
     if (!sessionId) return;
     setMessagesLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/api/v1/bot/history/sessions/${sessionId}/messages`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
-      });
+      const res = await apiFetch(`/api/v1/bot/history/sessions/${sessionId}/messages`);
       const data = await res.json();
       if (data.status === 'success') setMessages(data.data.messages || []);
     } catch {

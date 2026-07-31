@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
-import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 export default function ForgotPassword() {
   const containerRef = useRef(null);
@@ -18,10 +18,11 @@ export default function ForgotPassword() {
     setMessage('');
 
     try {
-      const response = await fetch(API_BASE_URL + '/api/v1/auth/forgot-password', {
+      const response = await apiFetch('/api/v1/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email }),
+        auth: false,
       });
 
       const data = await response.json();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API_BASE_URL from '../config/api';
+import { apiFetch } from '../utils/apiFetch';
 
 export default function DashboardBilling() {
   const navigate = useNavigate();
@@ -21,10 +21,7 @@ export default function DashboardBilling() {
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
-      const res = await fetch(API_BASE_URL + '/api/v1/billing/my-request', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const res = await apiFetch('/api/v1/billing/my-request');
       const data = await res.json();
       if (res.ok && data.status === 'success' && data.data) {
         setPlan(data.data.plan || 'free');
@@ -57,12 +54,10 @@ export default function DashboardBilling() {
     }
     setIsUploadingReceipt(true);
     try {
-      const token = localStorage.getItem('accessToken');
       const form = new FormData();
       form.append('receipt', file);
-      const res = await fetch(API_BASE_URL + '/api/v1/billing/upload-receipt', {
+      const res = await apiFetch('/api/v1/billing/upload-receipt', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
         body: form
       });
       const data = await res.json();

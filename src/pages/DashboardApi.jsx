@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
+import { apiFetch } from '../utils/apiFetch';
 import API_BASE_URL from '../config/api';
 
 export default function DashboardApi() {
@@ -26,10 +27,7 @@ export default function DashboardApi() {
       if (profile?.plan) setUserPlan(profile.plan);
 
       try {
-        const token = localStorage.getItem('accessToken');
-        const res = await fetch(API_BASE_URL + '/api/v1/api/key', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const res = await apiFetch('/api/v1/api/key');
         const data = await res.json();
         if (data.status === 'success') {
           setApiKey(data.data.apiKey);
@@ -47,10 +45,8 @@ export default function DashboardApi() {
     if (!window.confirm('هل أنت متأكد؟ إعادة التوليد ستعطل أي تطبيق يستخدم المفتاح القديم.')) return;
     setRegenerating(true);
     try {
-      const token = localStorage.getItem('accessToken');
-      const res = await fetch(API_BASE_URL + '/api/v1/api/key/regenerate', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` }
+      const res = await apiFetch('/api/v1/api/key/regenerate', {
+        method: 'POST'
       });
       const data = await res.json();
       if (data.status === 'success') {
