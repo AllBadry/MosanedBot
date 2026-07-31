@@ -38,7 +38,7 @@ export default function TermsOfService() {
               1. قبول الشروط
             </h2>
             <p className="text-slate-600 text-lg">
-              باستخدامك لمنصة <strong>"مساند"</strong> أو تضمين المساعد الذكي (Widget) في موقعك، فإنك توافق بشكل كامل على هذه الشروط. إذا كنت لا توافق على أي جزء منها، يُرجى التوقف عن استخدام خدماتنا فوراً.
+              باستخدامك لمنصة <strong>"مساند"</strong> أو تضمين المساعد الذكي (<bdi>Widget</bdi>) في موقعك، فإنك توافق بشكل كامل على هذه الشروط. إذا كنت لا توافق على أي جزء منها، يُرجى التوقف عن استخدام خدماتنا فوراً.
             </p>
           </section>
 
@@ -52,7 +52,7 @@ export default function TermsOfService() {
             <ul className="space-y-3 text-slate-600 list-none pr-2">
               <li className="flex items-start gap-2">
                 <span className="text-[#00F0FF] font-bold mt-1">✓</span>
-                استخدام كود التضمين (Script) الخاص بالبوت <strong>فقط</strong> في النطاقات (Domains) التي تملكها أو المصرح لك باستخدامها.
+                استخدام كود التضمين (<bdi>Script</bdi>) الخاص بالبوت <strong>فقط</strong> في النطاقات (<bdi>Domains</bdi>) التي تملكها أو المصرح لك باستخدامها.
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#00F0FF] font-bold mt-1">✓</span>
@@ -64,7 +64,7 @@ export default function TermsOfService() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#00F0FF] font-bold mt-1">✓</span>
-                عدم محاولة اختراق، فك تشفير، أو الهندسة العكسية لأي جزء من منصة مساند أو الـ API الخاص بها.
+                عدم محاولة اختراق، فك تشفير، أو الهندسة العكسية لأي جزء من منصة مساند أو الـ <bdi>API</bdi> الخاص بها.
               </li>
             </ul>
           </section>
@@ -94,7 +94,7 @@ export default function TermsOfService() {
             </p>
             <ul className="list-disc list-inside space-y-2 text-slate-600 pr-4">
               <li>نحتفظ بالحق في إيقاف الخدمة أو تقييدها فوراً في حال تجاوز الحد المسموح به للباقة دون ترقية.</li>
-              <li>أي محاولة لعمل (Spam) أو إرسال طلبات وهمية للـ API بغرض استنزاف موارد النظام ستؤدي إلى الحظر الفوري دون استرجاع للأموال.</li>
+              <li>أي محاولة لعمل (<bdi>Spam</bdi>) أو إرسال طلبات وهمية للـ <bdi>API</bdi> بغرض استنزاف موارد النظام ستؤدي إلى الحظر الفوري دون استرجاع للأموال.</li>
             </ul>
           </section>
 

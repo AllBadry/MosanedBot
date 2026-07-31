@@ -80,7 +80,7 @@ export default function DashboardBilling() {
   };
 
   const pr = paymentRequest;
-  const planLabel = pr?.planName || (plan === 'basic' ? 'الأساسية' : plan === 'enterprise' ? 'الخارقة' : 'مجانية');
+  const planLabel = pr?.planName || (plan === 'pro' ? 'الأساسية' : plan === 'enterprise' ? 'الخارقة' : 'مجانية');
   const planIcon = plan === 'free' ? '⭐' : plan === 'basic' ? '🚀' : '💎';
   const prStatus = pr?.status;
 
