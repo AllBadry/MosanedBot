@@ -38,7 +38,7 @@ export default function TermsOfService() {
               1. قبول الشروط
             </h2>
             <p className="text-slate-600 text-lg">
-              باستخدامك لمنصة <strong>"مساند"</strong> أو تضمين المساعد الذكي (<bdi>Widget</bdi>) في موقعك، فإنك توافق بشكل كامل على هذه الشروط. إذا كنت لا توافق على أي جزء منها، يُرجى التوقف عن استخدام خدماتنا فوراً.
+              باستخدامك لمنصة <strong>"مساند"</strong> أو تضمين المساعد الذكي <span dir="ltr">(Widget)</span> في موقعك، فإنك توافق بشكل كامل على هذه الشروط. إذا كنت لا توافق على أي جزء منها، يُرجى التوقف عن استخدام خدماتنا فوراً.
             </p>
           </section>
 
@@ -52,19 +52,19 @@ export default function TermsOfService() {
             <ul className="space-y-3 text-slate-600 list-none pr-2">
               <li className="flex items-start gap-2">
                 <span className="text-[#00F0FF] font-bold mt-1">✓</span>
-                استخدام كود التضمين (<bdi>Script</bdi>) الخاص بالبوت <strong>فقط</strong> في النطاقات (<bdi>Domains</bdi>) التي تملكها أو المصرح لك باستخدامها.
+                <span>استخدام كود التضمين <span dir="ltr">(Script)</span> الخاص بالبوت <strong>فقط</strong> في النطاقات <span dir="ltr">(Domains)</span> التي تملكها أو المصرح لك باستخدامها.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#00F0FF] font-bold mt-1">✓</span>
-                الحفاظ على سرية معلومات الدخول لحسابك، وتحمل المسؤولية الكاملة عن أي نشاط يتم من خلاله.
+                <span>الحفاظ على سرية معلومات الدخول لحسابك، وتحمل المسؤولية الكاملة عن أي نشاط يتم من خلاله.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#00F0FF] font-bold mt-1">✓</span>
-                عدم استخدام المساعد الذكي في أي أنشطة غير قانونية، احتيالية، أو ضارة بالغير.
+                <span>عدم استخدام المساعد الذكي في أي أنشطة غير قانونية، احتيالية، أو ضارة بالغير.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#00F0FF] font-bold mt-1">✓</span>
-                عدم محاولة اختراق، فك تشفير، أو الهندسة العكسية لأي جزء من منصة مساند أو الـ <bdi>API</bdi> الخاص بها.
+                <span>عدم محاولة اختراق، فك تشفير، أو الهندسة العكسية لأي جزء من منصة مساند أو الـ <span dir="ltr">API</span> الخاص بها.</span>
               </li>
             </ul>
           </section>
@@ -94,7 +94,7 @@ export default function TermsOfService() {
             </p>
             <ul className="list-disc list-inside space-y-2 text-slate-600 pr-4">
               <li>نحتفظ بالحق في إيقاف الخدمة أو تقييدها فوراً في حال تجاوز الحد المسموح به للباقة دون ترقية.</li>
-              <li>أي محاولة لعمل (<bdi>Spam</bdi>) أو إرسال طلبات وهمية للـ <bdi>API</bdi> بغرض استنزاف موارد النظام ستؤدي إلى الحظر الفوري دون استرجاع للأموال.</li>
+              <li>أي محاولة لعمل <span dir="ltr">(Spam)</span> أو إرسال طلبات وهمية للـ <span dir="ltr">API</span> بغرض استنزاف موارد النظام ستؤدي إلى الحظر الفوري دون استرجاع للأموال.</li>
             </ul>
           </section>
 
