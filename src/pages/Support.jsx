@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const SendIcon = () => (
   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -22,11 +21,20 @@ export default function Support() {
     setIsSubmitting(true);
     setStatus({ type: '', text: '' });
     try {
-      await axios.post('/api/v1/contact/send', formData);
-      setStatus({ type: 'success', text: 'تم إرسال رسالتك بنجاح، سنتواصل معك قريباً' });
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (err) {
-      setStatus({ type: 'error', text: err.response?.data?.message || 'فشل إرسال الرسالة، حاول مرة أخرى' });
+      const res = await fetch('/api/v1/contact/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setStatus({ type: 'success', text: data.message || 'تم إرسال رسالتك بنجاح، سنتواصل معك قريباً' });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setStatus({ type: 'error', text: data.message || 'فشل إرسال الرسالة، حاول مرة أخرى' });
+      }
+    } catch {
+      setStatus({ type: 'error', text: 'فشل إرسال الرسالة، حاول مرة أخرى' });
     } finally {
       setIsSubmitting(false);
     }

@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import * as pdfjsLib from 'pdfjs-dist';
-import mammoth from 'mammoth';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
 import API_BASE_URL from '../config/api';
 
-// إعداد مسار الـ Worker الخاص بمكتبة PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+// ملاحظة: مكتبات pdfjs-dist و mammoth تُحمَّل ديناميكياً فقط عند الحاجة
+// (تحميل ملف أو معاينته) لتقليص الحجم الأولي للصفحة بشكل كبير.
+let pdfWorkerConfigured = false;
 
 export default function Knowledge() {
   const fileInputRef = useRef(null);
@@ -19,6 +18,8 @@ export default function Knowledge() {
   const [textEntry, setTextEntry] = useState({ title: '', content: '' });
   const [knowledgeEntries, setKnowledgeEntries] = useState([]);
   const [previewEntry, setPreviewEntry] = useState(null);
+  const [showFullPreview, setShowFullPreview] = useState(false);
+  const PREVIEW_LIMIT = 10000;
 
   useEffect(() => {
     const loadUserPlan = async () => {
@@ -124,6 +125,7 @@ export default function Knowledge() {
       reader.onload = async (e) => {
         try {
           const arrayBuffer = e.target.result;
+          const mammoth = await import('mammoth');
           const result = await mammoth.extractRawText({ arrayBuffer });
           resolve(result.value);
         } catch (err) {
@@ -136,6 +138,11 @@ export default function Knowledge() {
   };
 
   const extractTextFromPDF = async (file) => {
+    const pdfjsLib = await import('pdfjs-dist');
+    if (!pdfWorkerConfigured) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+      pdfWorkerConfigured = true;
+    }
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     
@@ -274,9 +281,19 @@ export default function Knowledge() {
             
             <div className="p-6 overflow-y-auto bg-slate-50/30 flex-1">
               {previewEntry.content ? (
-                <pre className="text-slate-700 font-medium text-sm leading-loose whitespace-pre-wrap font-sans" dir="auto">
-                  {previewEntry.content}
-                </pre>
+                <>
+                  <pre className="text-slate-700 font-medium text-sm leading-loose whitespace-pre-wrap font-sans" dir="auto">
+                    {showFullPreview ? previewEntry.content : previewEntry.content.slice(0, PREVIEW_LIMIT) + (previewEntry.content.length > PREVIEW_LIMIT ? '\n...' : '')}
+                  </pre>
+                  {previewEntry.content.length > PREVIEW_LIMIT && (
+                    <button
+                      onClick={() => setShowFullPreview(!showFullPreview)}
+                      className="mt-4 px-5 py-2 rounded-xl bg-electric-cyan/10 text-electric-cyan font-bold text-sm hover:bg-electric-cyan/20 transition-colors"
+                    >
+                      {showFullPreview ? 'عرض أقل' : 'عرض كامل النص'}
+                    </button>
+                  )}
+                </>
               ) : (
                 <div className="text-center text-slate-400 py-10">المحتوى فارغ أو قيد المعالجة...</div>
               )}
@@ -430,7 +447,7 @@ export default function Knowledge() {
                       </span>
                       
                       <button 
-                        onClick={() => setPreviewEntry(entry)}
+                        onClick={() => { setPreviewEntry(entry); setShowFullPreview(false); }}
                         className="text-slate-400 hover:text-electric-cyan hover:bg-electric-cyan/10 p-2 rounded-lg transition-colors"
                         title="معاينة القاعدة"
                       >

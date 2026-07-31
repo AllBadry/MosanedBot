@@ -25,7 +25,6 @@ export default function NotificationBell() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
-  const pollRef = useRef(null);
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
@@ -49,9 +48,16 @@ export default function NotificationBell() {
 
   useEffect(() => {
     fetchNotifications();
-    pollRef.current = setInterval(fetchNotifications, 30000);
-    return () => { if (pollRef.current) clearInterval(pollRef.current); };
+    // تحديث الإشعارات عند عودة المستخدم للتبويب (بدل استطلاع مستمر كل 30 ثانية)
+    const onFocus = () => fetchNotifications();
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
   }, [fetchNotifications]);
+
+  // جلب أحدث الإشعارات عند فتح القائمة
+  useEffect(() => {
+    if (open) fetchNotifications();
+  }, [open, fetchNotifications]);
 
   useEffect(() => {
     const handleClick = (e) => {

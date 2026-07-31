@@ -41,7 +41,7 @@ export default function DashboardLayout() {
       }
     };
     fetchBot();
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     setSidebarOpen(window.innerWidth >= 1024);

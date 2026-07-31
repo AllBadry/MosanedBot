@@ -116,7 +116,7 @@ export default function Dashboard() {
     return () => {
       if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
     };
-  }, [location, navigate]);
+  }, []);
 
   const handleCreateBot = async () => {
     setIsCreating(true);

@@ -14,5 +14,17 @@ export default defineConfig({
         changeOrigin: true,
       }
     }
-  }
+  },
+  build: {
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('gsap')) return 'gsap';
+          if (id.includes('react-router') || id.includes('react/') || id.includes('react-dom') || id.includes('scheduler')) return 'react-vendor';
+        },
+      },
+    },
+  },
 })

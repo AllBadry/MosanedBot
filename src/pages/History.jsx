@@ -6,6 +6,8 @@ export default function History() {
   const [selectedSession, setSelectedSession] = useState(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(40);
+  const PAGE_SIZE = 40;
 
   // 1. جلب الجلسات عند فتح الصفحة
   useEffect(() => {
@@ -20,6 +22,7 @@ export default function History() {
         const data = await response.json();
         if (data.status === 'success') {
           setSessions(data.data.sessions);
+          setVisibleCount(PAGE_SIZE);
         }
       } catch (err) {
         console.error('خطأ في جلب الجلسات', err);
@@ -91,30 +94,40 @@ export default function History() {
           ) : sessions.length === 0 ? (
             <div className="text-center p-6 text-slate-500">لا توجد محادثات حتى الآن.</div>
           ) : (
-            sessions.map(session => (
-              <div 
-                key={session._id} 
-                onClick={() => handleSelectSession(session)}
-                className={`p-4 border-b border-slate-200 cursor-pointer transition relative group ${selectedSession?._id === session._id ? 'bg-electric-cyan/10 border-r-4 border-r-electric-cyan' : 'hover:bg-slate-100'}`}
-              >
-                <div className="flex justify-between items-center mb-1">
-                  <span className="font-bold text-slate-800">زائر #{session.visitorId.slice(-4)}</span>
-                  <span className="text-xs text-slate-500">{formatDate(session.lastActivity)}</span>
-                </div>
-                <div className="text-sm text-slate-500 truncate">
-                  {session.status === 'active' ? '🟢 نشط مؤخراً' : '⚪ مغلق'}
-                </div>
-                
-                {/* زر الحذف يظهر عند التمرير بالماوس */}
-                <button 
-                  onClick={(e) => handleDeleteSession(e, session._id)}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition"
-                  title="حذف المحادثة"
+            <>
+              {sessions.slice(0, visibleCount).map(session => (
+                <div 
+                  key={session._id} 
+                  onClick={() => handleSelectSession(session)}
+                  className={`p-4 border-b border-slate-200 cursor-pointer transition relative group ${selectedSession?._id === session._id ? 'bg-electric-cyan/10 border-r-4 border-r-electric-cyan' : 'hover:bg-slate-100'}`}
                 >
-                  🗑️
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-bold text-slate-800">زائر #{session.visitorId.slice(-4)}</span>
+                    <span className="text-xs text-slate-500">{formatDate(session.lastActivity)}</span>
+                  </div>
+                  <div className="text-sm text-slate-500 truncate">
+                    {session.status === 'active' ? '🟢 نشط مؤخراً' : '⚪ مغلق'}
+                  </div>
+                  
+                  {/* زر الحذف يظهر عند التمرير بالماوس */}
+                  <button 
+                    onClick={(e) => handleDeleteSession(e, session._id)}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition"
+                    title="حذف المحادثة"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              ))}
+              {visibleCount < sessions.length && (
+                <button
+                  onClick={() => setVisibleCount(visibleCount + PAGE_SIZE)}
+                  className="w-full p-3 text-sm font-bold text-electric-cyan hover:bg-electric-cyan/5 transition-colors"
+                >
+                  عرض المزيد من المحادثات ({sessions.length - visibleCount} متبقية)
                 </button>
-              </div>
-            ))
+              )}
+            </>
           )}
         </div>
       </div>
