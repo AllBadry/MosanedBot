@@ -125,7 +125,8 @@ export default function Knowledge() {
       reader.onload = async (e) => {
         try {
           const arrayBuffer = e.target.result;
-          const mammoth = await import('mammoth');
+          const mammothModule = await import('mammoth');
+          const mammoth = mammothModule.default || mammothModule;
           const result = await mammoth.extractRawText({ arrayBuffer });
           resolve(result.value);
         } catch (err) {

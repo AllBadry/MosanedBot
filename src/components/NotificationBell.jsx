@@ -54,11 +54,6 @@ export default function NotificationBell() {
     return () => window.removeEventListener('focus', onFocus);
   }, [fetchNotifications]);
 
-  // جلب أحدث الإشعارات عند فتح القائمة
-  useEffect(() => {
-    if (open) fetchNotifications();
-  }, [open, fetchNotifications]);
-
   useEffect(() => {
     const handleClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -94,7 +89,7 @@ export default function NotificationBell() {
   return (
     <div ref={dropdownRef} className="relative">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => { const willOpen = !open; setOpen(willOpen); if (willOpen) fetchNotifications(); }}
         className="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-all"
         aria-label="الإشعارات"
       >
