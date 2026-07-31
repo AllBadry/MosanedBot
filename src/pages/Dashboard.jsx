@@ -300,7 +300,7 @@ export default function Dashboard() {
               <div className="bg-surface p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
                 <div className="flex justify-between items-end mb-4">
                   <div>
-                    <h3 className="text-slate-500 font-bold text-sm mb-1">جلسات المحادثة (هذا الشهر)</h3>
+                    <h3 className="text-slate-500 font-bold text-sm mb-1">جلسات المحادثة (آخر 30 يوم)</h3>
                     <p className="text-2xl font-black text-slate-800">
                       <span className={sessionPercent > 90 ? 'text-red-500' : 'text-slate-800'}>{usage.sessions}</span> 
                       <span className="text-slate-400 text-lg font-medium mx-1">/</span> 
