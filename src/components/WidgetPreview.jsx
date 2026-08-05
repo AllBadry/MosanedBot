@@ -86,8 +86,23 @@ export default function WidgetPreview({ formData }) {
   const b = BUBBLE_PREVIEW[bubbleStyle] || BUBBLE_PREVIEW['modern'];
   const l = LAUNCHER_PREVIEW[launcherStyle] || LAUNCHER_PREVIEW['round'];
 
-  const headerBg = widgetStyle === 'terminal' || widgetStyle === 'classic-elegant' || widgetStyle === 'ultra-minimal' || widgetStyle === 'neumorphism' ? w.bg : color;
-  const headerColor = w.bg === '#0f172a' || w.bg === 'transparent' || widgetStyle === 'ultra-minimal' || widgetStyle === 'classic-elegant' || widgetStyle === 'neumorphism' ? '#0f172a' : '#fff';
+  // مطابقة سلوك السيرفر (makeThemeCSS): رأس ملون بالثيم افتراضياً،
+  // مع تجاوزات خاصة لبعض الستايلات المميزة
+  const isLight = (c) => {
+    const hex = (c || '').replace('#', '');
+    if (hex.length < 6) return false;
+    const r = parseInt(hex.substring(0, 2), 16), g = parseInt(hex.substring(2, 4), 16), b = parseInt(hex.substring(4, 6), 16);
+    return (r * 299 + g * 587 + b * 114) / 1000 > 180;
+  };
+  const HEADER_OVERRIDE = {
+    'terminal': { bg: '#0f172a', color: '#00FF81' },
+    'classic-elegant': { bg: '#ffffff', color: '#0f172a' },
+    'ultra-minimal': { bg: 'transparent', color: '#0f172a' },
+    'neumorphism': { bg: '#eef0f4', color: '#0f172a' }
+  };
+  const headerOverride = HEADER_OVERRIDE[widgetStyle];
+  const headerBg = headerOverride ? headerOverride.bg : color;
+  const headerColor = headerOverride ? headerOverride.color : (isLight(color) ? '#0f172a' : '#ffffff');
 
   return (
     <div className="flex flex-col w-full">
@@ -152,9 +167,9 @@ export default function WidgetPreview({ formData }) {
           <input type="text" placeholder="اكتب رسالتك..." disabled
             className="flex-1 text-xs p-2 outline-none"
             style={{
-              backgroundColor: widgetStyle === 'terminal' ? '#1e293b' : '#f8fafc',
-              color: widgetStyle === 'terminal' ? '#fff' : '#0f172a',
-              border: widgetStyle === 'terminal' ? '1px solid #334155' : '1px solid transparent',
+              backgroundColor: '#f8fafc',
+              color: '#0f172a',
+              border: '1px solid transparent',
               borderRadius: w.inputRadius || (typeof w.radius === 'number' ? w.radius / 2 : 8)
             }}
           />
