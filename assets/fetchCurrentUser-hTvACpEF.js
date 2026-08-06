@@ -1,0 +1,1 @@
+import{t as e}from"./apiFetch-gOdLaCmj.js";async function t(){if(!localStorage.getItem(`accessToken`))return null;try{let t=await e(`/api/v1/auth/me`),n=await t.json();if(t.ok&&n.status===`success`&&n.data?.user)return n.data.user}catch(e){console.error(`فشل جلب بيانات المستخدم`,e)}return null}export{t};

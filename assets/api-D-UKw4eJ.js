@@ -1,0 +1,1 @@
+var e=`https://api.mosaned.org`;export{e as t};
