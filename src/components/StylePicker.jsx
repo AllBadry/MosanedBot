@@ -19,32 +19,43 @@ function corners(r) {
 }
 
 const WINDOW_CFG = {
-  'standard':       { radius: { tl: 12, tr: 12, br: 12, bl: 12 }, bg: '#ffffff', shadow: '0 3px 10px rgba(0,0,0,0.14)' },
-  'rounded-pill':   { radius: 24, bg: '#ffffff', shadow: '0 3px 10px rgba(0,0,0,0.12)' },
-  'cloud':          { radius: 0, bg: '#ffffff', cloud: true },
-  'terminal':       { radius: 0, bg: '#0f172a', border: '1px solid #334155', terminal: true },
-  'neo-brutalist':  { radius: 0, bg: '#ffffff', border: '2px solid #0f172a', shadow: '3px 3px 0 rgba(0,0,0,0.55)' },
-  'outline':        { radius: 4, bg: '#ffffff', border: '2px solid', shadow: 'none' },
-  'glassmorphism':  { radius: 14, bg: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.5)', shadow: '0 3px 10px rgba(0,0,0,0.1)', glass: true },
-  'minimal':        { radius: 0, bg: 'transparent', shadow: 'none' },
-  'luxury':         { radius: 4, bg: '#0b1220', shadow: '0 3px 10px rgba(0,0,0,0.25)', luxury: true },
-  'layered':        { radius: 12, bg: '#ffffff', shadow: '0 3px 10px rgba(0,0,0,0.12)', layered: true }
+  'classic':       { radius: { tl: 16, tr: 16, br: 16, bl: 16 }, bg: '#ffffff', shadow: '0 3px 10px rgba(0,0,0,0.14)' },
+  'glass':         { radius: 16, bg: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.4)', shadow: '0 3px 10px rgba(0,0,0,0.1)', glass: true, headerBg: 'transparent', headerColor: '#0f172a' },
+  'cyber':         { radius: 0, bg: '#0f172a', border: '1px solid', shadow: '0 0 8px rgba(0,0,0,0.6)', cyber: true, headerBg: 'transparent', headerColor: null },
+  'terminal':      { radius: 0, bg: '#0f172a', border: '1px solid #334155', terminal: true, headerBg: '#0f172a', headerColor: '#00FF81' },
+  'neo-brutalist': { radius: 0, bg: '#ffffff', border: '2px solid #0f172a', shadow: '3px 3px 0 rgba(0,0,0,0.55)' },
+  'corporate':     { radius: 4, bg: '#f8fafc', border: '2px solid #cbd5e1', shadow: '3px 3px 0 rgba(0,0,0,0.12)' },
+  'minimal':       { radius: 0, bg: '#ffffff', border: '1px solid #e2e8f0', shadow: 'none', headerBg: 'transparent', headerColor: '#0f172a' },
+  'luxury':        { radius: 4, bg: '#0b1220', border: '1px solid rgba(255,215,0,0.3)', shadow: '0 3px 10px rgba(0,0,0,0.25)', luxury: true, headerBg: '#0b1220', headerColor: '#FFD700' },
+  'cloud':         { radius: 0, bg: '#ffffff', cloud: true },
+  'floating':      { radius: 24, bg: 'transparent', shadow: 'none', floating: true }
 };
 
 function WindowPreview({ styleId, color }) {
   const c = color || '#00F0FF';
-  const cfg = WINDOW_CFG[styleId] || WINDOW_CFG['standard'];
-  const isDark = cfg.terminal || cfg.luxury;
-  const headerBg = cfg.headerBg || (isDark ? (cfg.terminal ? '#0f172a' : '#0b1220') : c);
-  const headerColor = cfg.headerColor || (isDark ? (cfg.terminal ? '#00FF81' : '#FFD700') : '#ffffff');
+  const cfg = WINDOW_CFG[styleId] || WINDOW_CFG['classic'];
+  const isDark = cfg.cyber || cfg.terminal || cfg.luxury;
+  const isLightColor = (hex) => {
+    try {
+      const h = (hex || '').replace('#', '');
+      if (h.length < 6) return false;
+      const r = parseInt(h.substring(0, 2), 16), g = parseInt(h.substring(2, 4), 16), b = parseInt(h.substring(4, 6), 16);
+      return (r * 299 + g * 587 + b * 114) / 1000 > 180;
+    } catch { return false; }
+  };
+  const headerBg = cfg.headerBg !== undefined ? cfg.headerBg : (cfg.cloud || cfg.floating ? c : c);
+  const headerColor = cfg.headerColor !== undefined && cfg.headerColor !== null
+    ? cfg.headerColor
+    : (cfg.cyber ? c : (isDark ? (cfg.terminal ? '#00FF81' : '#FFD700') : (isLightColor(c) ? '#0f172a' : '#ffffff')));
 
-  const l = cfg.cloud ? 3 : 3;
-  const r = cfg.cloud ? 3 : 3;
+  const l = 3;
+  const r = 3;
   const t = cfg.cloud ? 8 : 1;
   const b = 1;
 
-  const shadow = cfg.border === '2px solid' ? `0 0 0 1px ${c}40` :
-    (cfg.cloud ? '0 3px 10px rgba(0,0,0,0.12)' : cfg.shadow);
+  const shadow = cfg.border === '2px solid' || cfg.border === '1px solid'
+    ? (cfg.cyber ? `0 0 0 1px ${c}50` : (cfg.border === '2px solid' ? '3px 3px 0 rgba(0,0,0,0.35)' : '0 0 0 1px rgba(0,0,0,0.06)'))
+    : (cfg.cloud ? '0 3px 10px rgba(0,0,0,0.12)' : cfg.shadow);
 
   return (
     <div className="flex-shrink-0" style={{
@@ -63,6 +74,7 @@ function WindowPreview({ styleId, color }) {
         <div style={{
           height: 8, flexShrink: 0, background: headerBg, color: headerColor,
           display: 'flex', alignItems: 'center', padding: '0 4px', gap: 2,
+          boxShadow: cfg.floating ? '0 2px 6px rgba(0,0,0,0.12)' : 'none',
           ...(cfg.cloud ? {
             position: 'absolute', top: -5, left: 8, right: 8,
             height: 7, borderRadius: 50, boxShadow: `0 2px 4px ${c}55`, zIndex: 1
@@ -98,16 +110,16 @@ function WindowPreview({ styleId, color }) {
 }
 
 const BUBBLE_CFG = {
-  'modern':         { rBot: 14, rUser: 14 },
-  'classic':        { rBot: '12px 12px 12px 0', rUser: '12px 12px 0 12px' },
-  'pill':           { rBot: 24, rUser: 24 },
-  'shadow':         { rBot: 12, rUser: 12, shadowBot: '0 2px 4px rgba(0,0,0,0.2)' },
-  'gradient':       { rBot: 14, rUser: 14, gradient: true },
-  'outline':        { rBot: 14, rUser: 14, outline: true },
-  'sharp':          { rBot: 0, rUser: 0 },
-  'minimal-text':   { rBot: 0, rUser: 0, minimal: true },
-  'glassy':         { rBot: 12, rUser: 12, glass: true },
-  'layered':        { rBot: 8, rUser: 8, layered: true }
+  'modern':   { rBot: 16, rUser: 16 },
+  'classic':  { rBot: '12px 12px 12px 0', rUser: '12px 12px 0 12px' },
+  'shadow':   { rBot: 12, rUser: 12, shadowBot: '0 2px 4px rgba(0,0,0,0.2)' },
+  'gradient': { rBot: 16, rUser: 16, gradient: true },
+  'sharp':    { rBot: 0, rUser: 0 },
+  'outline':  { rBot: 16, rUser: 16, outline: true },
+  'glassy':   { rBot: 12, rUser: 12, glass: true },
+  'pill':     { rBot: 24, rUser: 24 },
+  '3d':       { rBot: 12, rUser: 12, shadowBot: '0 2px 0 #cbd5e1', shadowUser: '0 2px 0 rgba(0,0,0,0.2)' },
+  'layered':  { rBot: 8, rUser: 8, layered: true }
 };
 
 function BubblePreview({ styleId, color }) {
@@ -152,16 +164,16 @@ function LauncherPreview({ styleId, color }) {
   const c = color || '#00F0FF';
 
   const cfg = {
-    'round':          { radius: '50%', w: 24, h: 24, shadow: `0 2px 6px rgba(0,0,0,0.2)` },
-    'square':         { radius: 7, w: 24, h: 24, shadow: `0 2px 6px rgba(0,0,0,0.2)` },
-    'pill-text':      { radius: 14, w: 34, h: 13, text: 'مساعدة؟', shadow: `0 2px 6px rgba(0,0,0,0.2)` },
-    'bar':            { radius: 6, w: 38, h: 13, text: 'تحدث مع الدعم', shadow: `0 2px 6px rgba(0,0,0,0.2)` },
-    'half-circle':    { radius: '10px 0 0 10px', w: 18, h: 24, shadow: `0 2px 6px rgba(0,0,0,0.2)` },
-    'hexagon':        { radius: 0, w: 24, h: 21, clip: 'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)', shadow: `0 2px 6px rgba(0,0,0,0.2)` },
-    'diamond':        { radius: 0, w: 24, h: 24, clip: 'polygon(50% 0%,100% 50%,50% 100%,0% 50%)', shadow: `0 2px 6px rgba(0,0,0,0.2)` },
-    'ring':           { radius: '50%', w: 24, h: 24, border: `2px solid ${c}`, bg: 'transparent', shadow: `0 0 0 2px ${c}33` },
-    'blob':           { radius: '40% 60% 60% 40% / 60% 30% 70% 40%', w: 24, h: 24, shadow: `0 3px 8px rgba(0,0,0,0.22)` },
-    'glow':           { radius: '50%', w: 24, h: 24, shadow: `0 0 10px ${c}` }
+    'round':       { radius: '50%', w: 24, h: 24, shadow: `0 2px 6px rgba(0,0,0,0.2)` },
+    'square':      { radius: 7, w: 24, h: 24, shadow: `0 2px 6px rgba(0,0,0,0.2)` },
+    'transparent': { radius: '50%', w: 24, h: 24, bg: 'transparent', shadow: 'none' },
+    'pill-text':   { radius: 14, w: 34, h: 13, text: 'مساعدة؟', shadow: `0 2px 6px rgba(0,0,0,0.2)` },
+    'bar':         { radius: 6, w: 38, h: 13, text: 'تحدث مع الدعم', shadow: `0 2px 6px rgba(0,0,0,0.2)` },
+    'glow':        { radius: '50%', w: 24, h: 24, shadow: `0 0 10px ${c}` },
+    'hexagon':     { radius: 0, w: 24, h: 21, clip: 'polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)', shadow: `0 2px 6px rgba(0,0,0,0.2)` },
+    'ring':        { radius: '50%', w: 24, h: 24, border: `2px solid ${c}`, bg: 'transparent', shadow: `0 0 0 2px ${c}33` },
+    'teardrop':    { radius: '24px 24px 0 24px', w: 24, h: 24, shadow: `0 2px 6px rgba(0,0,0,0.2)` },
+    'cloud':       { radius: '40% 60% 60% 40% / 60% 30% 70% 40%', w: 24, h: 24, shadow: `0 3px 8px rgba(0,0,0,0.22)` }
   }[styleId] || { radius: '50%', w: 24, h: 24, shadow: `0 2px 6px rgba(0,0,0,0.2)` };
 
   const shape = {

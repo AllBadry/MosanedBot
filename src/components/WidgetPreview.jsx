@@ -1,25 +1,25 @@
 const WINDOW_PREVIEW = {
-  'standard': { radius: 12, shadow: '0 10px 40px rgba(0,0,0,0.1)', bg: '#fff', border: 'none' },
-  'rounded-pill': { radius: 26, shadow: '0 8px 30px rgba(0,0,0,0.06)', bg: '#fff', border: 'none' },
-  'cloud': { radius: 0, shadow: 'none', bg: 'transparent', border: 'none', cloud: true },
+  'classic': { radius: 16, shadow: '0 10px 40px rgba(0,0,0,0.1)', bg: '#fff', border: 'none' },
+  'glass': { radius: 16, shadow: '0 8px 32px rgba(0,0,0,0.1)', bg: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.4)', blur: 'blur(16px)' },
+  'cyber': { radius: 0, shadow: '0 0 20px rgba(0,0,0,0.5)', bg: '#0f172a', border: '1px solid' },
   'terminal': { radius: 0, shadow: 'none', bg: '#0f172a', border: '1px solid #334155' },
   'neo-brutalist': { radius: 0, shadow: '6px 6px 0px rgba(0,0,0,0.2)', bg: '#fff', border: '2px solid #0f172a' },
-  'outline': { radius: 6, shadow: 'none', bg: '#fff', border: '2px solid' },
-  'glassmorphism': { radius: 16, shadow: '0 8px 32px rgba(0,0,0,0.1)', bg: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.3)', blur: 'blur(16px)' },
-  'minimal': { radius: 0, shadow: '0 2px 30px rgba(0,0,0,0.04)', bg: 'transparent', border: 'none' },
+  'corporate': { radius: 4, shadow: '6px 6px 0px rgba(0,0,0,0.1)', bg: '#f8fafc', border: '2px solid #cbd5e1' },
+  'minimal': { radius: 0, shadow: 'none', bg: '#fff', border: '1px solid #e2e8f0' },
   'luxury': { radius: 6, shadow: '0 20px 60px rgba(0,0,0,0.4)', bg: '#0b1220', border: '1px solid rgba(255,215,0,0.3)' },
-  'layered': { radius: 12, shadow: '0 10px 40px rgba(0,0,0,0.1)', bg: '#fff', border: 'none' }
+  'cloud': { radius: 0, shadow: 'none', bg: 'transparent', border: 'none', cloud: true },
+  'floating': { radius: 24, shadow: 'none', bg: 'transparent', border: 'none', floating: true, gap: 12, inputRadius: 12 }
 };
 
 const BUBBLE_PREVIEW = {
   'modern': { rBot: 16, rUser: 16, bgBot: '#f1f5f9', bgUser: null, cBot: '#334155', cUser: '#fff', bdBot: 'none', bdUser: 'none', shBot: 'none', shUser: 'none' },
   'classic': { rBot: '12px 12px 12px 0', rUser: '12px 12px 0 12px', bgBot: '#f1f5f9', bgUser: null, cBot: '#334155', cUser: '#fff', bdBot: 'none', bdUser: 'none', shBot: 'none', shUser: 'none' },
+  'sharp': { rBot: 0, rUser: 0, bgBot: '#f1f5f9', bgUser: null, cBot: '#334155', cUser: '#fff' },
   'pill': { rBot: 24, rUser: 24, bgBot: '#f1f5f9', bgUser: null, cBot: '#334155', cUser: '#fff' },
+  'outline': { rBot: 16, rUser: 16, bgBot: 'transparent', bgUser: 'transparent', cBot: '#334155', cUser: null, bdBot: '1px solid', bdUser: '1px solid' },
+  '3d': { rBot: 12, rUser: 12, bgBot: '#f1f5f9', bgUser: null, cBot: '#334155', cUser: '#fff', shBot: '0 4px 0 rgba(203,213,225,0.9)', shUser: '0 4px 0 rgba(0,0,0,0.2)' },
   'shadow': { rBot: 12, rUser: 12, bgBot: '#f1f5f9', bgUser: null, cBot: '#334155', cUser: '#fff', shBot: '0 4px 10px rgba(0,0,0,0.08)', shUser: '0 4px 12px rgba(0,0,0,0.18)' },
   'gradient': { rBot: 16, rUser: 16, bgBot: 'linear-gradient(135deg,#f1f5f9,#e2e8f0)', bgUser: null, cBot: '#334155', cUser: '#fff' },
-  'outline': { rBot: 16, rUser: 16, bgBot: 'transparent', bgUser: 'transparent', cBot: '#334155', cUser: null, bdBot: '1px solid', bdUser: '1px solid' },
-  'sharp': { rBot: 0, rUser: 0, bgBot: '#f1f5f9', bgUser: null, cBot: '#334155', cUser: '#fff' },
-  'minimal-text': { rBot: 0, rUser: 0, bgBot: 'transparent', bgUser: 'transparent', cBot: '#334155', cUser: null, bdb: '1px solid #e2e8f0' },
   'glassy': { rBot: 12, rUser: 12, bgBot: 'rgba(255,255,255,0.6)', bgUser: null, cBot: '#334155', cUser: '#fff', bdBot: '1px solid rgba(255,255,255,0.3)', bdUser: '1px solid rgba(255,255,255,0.3)' },
   'layered': { rBot: 10, rUser: 10, bgBot: '#fff', bgUser: null, cBot: '#334155', cUser: '#fff', bdBot: '1px solid #e2e8f0', shBot: '3px 3px 0px #e2e8f0, 6px 6px 0px #f1f5f9', shUser: '3px 3px 0px rgba(0,0,0,0.1), 6px 6px 0px rgba(0,0,0,0.05)' }
 };
@@ -27,14 +27,14 @@ const BUBBLE_PREVIEW = {
 const LAUNCHER_PREVIEW = {
   'round': { radius: '50%', w: 60, h: 60, shadow: '0 4px 15px rgba(0,0,0,0.2)' },
   'square': { radius: 16, w: 60, h: 60, shadow: '0 4px 15px rgba(0,0,0,0.2)' },
+  'transparent': { radius: '50%', w: 60, h: 60, bg: 'transparent', shadow: 'none' },
   'pill-text': { radius: 30, w: 'auto', h: 50, shadow: '0 4px 15px rgba(0,0,0,0.2)', text: 'مساعدة؟', px: 24 },
   'bar': { radius: 12, w: 'auto', h: 48, shadow: '0 4px 15px rgba(0,0,0,0.2)', text: 'تحدث مع الدعم', px: 20 },
-  'half-circle': { radius: '30px 0 0 30px', w: 50, h: 60, shadow: '0 4px 15px rgba(0,0,0,0.2)' },
+  'glow': { radius: '50%', w: 60, h: 60, shadow: null },
   'hexagon': { radius: 0, w: 60, h: 52, shadow: '0 4px 15px rgba(0,0,0,0.2)', clip: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' },
-  'diamond': { radius: 0, w: 60, h: 60, shadow: '0 4px 15px rgba(0,0,0,0.2)', clip: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' },
   'ring': { radius: '50%', w: 60, h: 60, shadow: '0 0 0 3px' },
-  'blob': { radius: '40% 60% 60% 40% / 60% 30% 70% 40%', w: 60, h: 60, shadow: '0 4px 20px rgba(0,0,0,0.2)' },
-  'glow': { radius: '50%', w: 60, h: 60, shadow: null }
+  'teardrop': { radius: '50px 50px 0 50px', w: 60, h: 60, shadow: '0 4px 15px rgba(0,0,0,0.2)' },
+  'cloud': { radius: '40% 60% 60% 40% / 60% 30% 70% 40%', w: 60, h: 60, shadow: '0 4px 20px rgba(0,0,0,0.2)' }
 };
 
 export default function WidgetPreview({ formData }) {
@@ -42,7 +42,7 @@ export default function WidgetPreview({ formData }) {
   const activeAvatar = avatarUrl || '/botimage.jpg';
   const color = themeColor || '#00F0FF';
 
-  const w = WINDOW_PREVIEW[widgetStyle] || WINDOW_PREVIEW['standard'];
+  const w = WINDOW_PREVIEW[widgetStyle] || WINDOW_PREVIEW['classic'];
   const b = BUBBLE_PREVIEW[bubbleStyle] || BUBBLE_PREVIEW['modern'];
   const l = LAUNCHER_PREVIEW[launcherStyle] || LAUNCHER_PREVIEW['round'];
 
@@ -54,11 +54,13 @@ export default function WidgetPreview({ formData }) {
   };
   const HEADER_OVERRIDE = {
     'terminal': { bg: '#0f172a', color: '#00FF81' },
+    'cyber': { bg: 'transparent', color: color },
     'minimal': { bg: 'transparent', color: '#0f172a' },
+    'glass': { bg: 'transparent', color: '#0f172a' },
     'luxury': { bg: '#0b1220', color: '#FFD700' }
   };
   const headerOverride = HEADER_OVERRIDE[widgetStyle];
-  const headerBg = headerOverride ? headerOverride.bg : (w.cloud ? color : color);
+  const headerBg = headerOverride ? headerOverride.bg : color;
   const headerColor = headerOverride ? headerOverride.color : (isLight(color) ? '#0f172a' : '#ffffff');
 
   return (
@@ -79,7 +81,8 @@ export default function WidgetPreview({ formData }) {
             width: 'fit-content', margin: '-24px auto 0', zIndex: 2,
             borderRadius: 50, boxShadow: `0 8px 20px ${color}66`,
             borderBottom: 'none', padding: '10px 20px'
-          } : {})
+          } : {}),
+          ...(w.floating ? { boxShadow: '0 4px 15px rgba(0,0,0,0.05)', borderRadius: 18 } : {})
         }}>
           <img src={activeAvatar} alt="bot" className="w-10 h-10 rounded-full object-cover shadow-sm"
             onError={(e) => e.target.src = '/botimage.jpg'} />
@@ -127,7 +130,7 @@ export default function WidgetPreview({ formData }) {
 
         <div style={{
           padding: '12px', display: 'flex', alignItems: 'center', gap: '8px',
-          backgroundColor: w.bg === '#f5f7fa' || w.bg === '#f8fafc' ? '#fff' : (w.cloud ? '#ffffff' : w.bg),
+          backgroundColor: w.cloud ? '#ffffff' : (w.floating ? '#ffffff' : (w.bg === '#f5f7fa' || w.bg === '#f8fafc' ? '#fff' : w.bg)),
           borderTop: '1px solid #f1f5f9',
           margin: w.gap ? '0 4px 4px 4px' : (w.cloud ? '0 10px' : 0),
           borderRadius: w.inputRadius || 0,

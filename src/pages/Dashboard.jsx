@@ -6,27 +6,27 @@ import { WINDOW_STYLES, BUBBLE_STYLES, LAUNCHER_STYLES } from '../config/styleDe
 import { apiFetch } from '../utils/apiFetch';
 import API_BASE_URL from '../config/api';
 
-// تحويل معرّفات الستايلات القديمة (قبل تقليص القائمة إلى 10) إلى المعرّفات الجديدة
+// تحويل معرّفات الستايلات القديمة إلى المعرّفات الجديدة (6 الأصلية + 4 المضافة)
 const OLD_WINDOW_MAP = {
-  'standard-saas': 'standard', 'teardrop': 'rounded-pill', 'squircle': 'standard',
-  'edge-tab': 'standard', 'detached': 'cloud', 'floating-screen': 'standard',
-  'ticket': 'standard', 'grid-block': 'neo-brutalist', 'friendly-pill': 'rounded-pill',
-  'egg': 'rounded-pill', 'bouncy-bubble': 'rounded-pill', 'organic-attached': 'cloud',
-  'asymmetrical': 'standard', 'ultra-minimal': 'minimal', 'faded-edge': 'minimal',
-  'classic-elegant': 'luxury', 'detached-input': 'minimal', '3d-pop': 'layered',
-  'neumorphism': 'layered', 'layered-cards': 'layered', 'deep-inner-shadow': 'layered',
-  'flip-card': 'layered'
+  'standard-saas': 'classic', 'teardrop': 'classic', 'squircle': 'classic',
+  'edge-tab': 'classic', 'detached': 'cloud', 'floating-screen': 'floating',
+  'ticket': 'classic', 'grid-block': 'neo-brutalist', 'friendly-pill': 'classic',
+  'egg': 'classic', 'bouncy-bubble': 'classic', 'organic-attached': 'cloud',
+  'asymmetrical': 'classic', 'ultra-minimal': 'minimal', 'faded-edge': 'minimal',
+  'classic-elegant': 'luxury', 'detached-input': 'minimal', '3d-pop': 'floating',
+  'neumorphism': 'minimal', 'layered-cards': 'floating', 'deep-inner-shadow': 'floating',
+  'flip-card': 'floating'
 };
 const OLD_BUBBLE_MAP = {
-  'squircle-bubble': 'modern', 'brutalist-bubble': 'sharp', 'terminal-bubble': 'minimal-text',
+  'squircle-bubble': 'modern', 'brutalist-bubble': 'sharp', 'terminal-bubble': 'modern',
   'beveled': 'sharp', 'grid-bubble': 'sharp', 'bouncy': 'pill', 'circle-tail': 'classic',
   'pill-wide': 'pill', 'asym-bubble': 'classic', 'glassy-bubble': 'glassy',
-  'classic-elegant-bubble': 'classic', '3d': 'layered', 'neumorphic': 'layered',
+  'classic-elegant-bubble': 'classic', '3d': '3d', 'neumorphic': 'layered',
   'inset': 'layered', 'layered-card': 'layered'
 };
 const OLD_LAUNCHER_MAP = {
-  'teardrop': 'round', 'oval': 'round', 'transparent': 'ring', 'cloud': 'blob',
-  'tongue': 'half-circle', 'egg-shape': 'blob', 'bubble-ring': 'ring',
+  'teardrop': 'teardrop', 'oval': 'round', 'transparent': 'transparent', 'cloud': 'cloud',
+  'tongue': 'round', 'egg-shape': 'cloud', 'bubble-ring': 'ring',
   'icon-only': 'ring', 'glowing-dot': 'glow', 'mechanical': 'square',
   'stacked-circles': 'glow', 'flip-launcher': 'hexagon'
 };
@@ -36,7 +36,7 @@ const sanitizeStyle = (id, oldMap, validList, fallback) => {
   if (validList.some(s => s.id === id)) return id;
   return fallback;
 };
-const sanitizeWindow = (id) => sanitizeStyle(id, OLD_WINDOW_MAP, WINDOW_STYLES, 'standard');
+const sanitizeWindow = (id) => sanitizeStyle(id, OLD_WINDOW_MAP, WINDOW_STYLES, 'classic');
 const sanitizeBubble = (id) => sanitizeStyle(id, OLD_BUBBLE_MAP, BUBBLE_STYLES, 'modern');
 const sanitizeLauncher = (id) => sanitizeStyle(id, OLD_LAUNCHER_MAP, LAUNCHER_STYLES, 'round');
 
@@ -62,7 +62,7 @@ export default function Dashboard() {
     themeColor: '#00F0FF', 
     welcomeMessage: '',
     avatarUrl: '',
-    widgetStyle: 'standard',
+    widgetStyle: 'classic',
     bubbleStyle: 'modern',
     launcherStyle: 'round',
     allowedDomain: '' 
@@ -172,7 +172,7 @@ export default function Dashboard() {
             themeColor: data.data.bot.themeColor,
             welcomeMessage: data.data.bot.welcomeMessage,
             avatarUrl: data.data.bot.avatarUrl || '/botimage2.jpg',
-            widgetStyle: 'standard',
+            widgetStyle: 'classic',
             bubbleStyle: 'modern',
             launcherStyle: 'round',
             allowedDomain: ''

@@ -7,40 +7,40 @@ export const FAMILIES = [
 ];
 
 export const WINDOW_STYLES = [
-  { id: 'standard', name: 'القياسي', family: 'modern' },
-  { id: 'rounded-pill', name: 'الكبسولة', family: 'organic' },
-  { id: 'cloud', name: 'الغيمة (رأس منفصل)', family: 'organic' },
+  { id: 'classic', name: 'الكلاسيكي', family: 'modern' },
+  { id: 'glass', name: 'الزجاجي', family: 'modern' },
+  { id: 'cyber', name: 'السايبر', family: 'brutalism' },
   { id: 'terminal', name: 'الطرفية', family: 'brutalism' },
   { id: 'neo-brutalist', name: 'البروتالية', family: 'brutalism' },
-  { id: 'outline', name: 'المحدد', family: 'brutalism' },
-  { id: 'glassmorphism', name: 'الزجاجية', family: 'luxury' },
+  { id: 'corporate', name: 'الشركات', family: 'luxury' },
   { id: 'minimal', name: 'البسيط', family: 'luxury' },
   { id: 'luxury', name: 'الفاخر', family: 'luxury' },
-  { id: 'layered', name: 'المتراكب', family: '3d' }
+  { id: 'cloud', name: 'الغيمة (رأس منفصل)', family: 'organic' },
+  { id: 'floating', name: 'العائم', family: '3d' }
 ];
 
 export const BUBBLE_STYLES = [
   { id: 'modern', name: 'الحديث', family: 'modern' },
   { id: 'classic', name: 'الكلاسيكي', family: 'modern' },
-  { id: 'pill', name: 'الكبسولة', family: 'organic' },
   { id: 'shadow', name: 'الظل', family: 'modern' },
   { id: 'gradient', name: 'المتدرج', family: 'modern' },
-  { id: 'outline', name: 'المفرغة', family: 'brutalism' },
   { id: 'sharp', name: 'الحادة', family: 'brutalism' },
-  { id: 'minimal-text', name: 'النص فقط', family: 'luxury' },
+  { id: 'outline', name: 'المفرغة', family: 'brutalism' },
   { id: 'glassy', name: 'الزجاجية', family: 'luxury' },
+  { id: 'pill', name: 'الكبسولة', family: 'organic' },
+  { id: '3d', name: 'الثلاثي الأبعاد', family: '3d' },
   { id: 'layered', name: 'المتراكبة', family: '3d' }
 ];
 
 export const LAUNCHER_STYLES = [
   { id: 'round', name: 'الدائرة', family: 'modern' },
   { id: 'square', name: 'المربع', family: 'modern' },
+  { id: 'transparent', name: 'الشفاف', family: 'modern' },
   { id: 'pill-text', name: 'كبسولة بنص', family: 'modern' },
   { id: 'bar', name: 'شريط نصي', family: 'modern' },
-  { id: 'half-circle', name: 'نصف الدائرة', family: 'modern' },
+  { id: 'glow', name: 'المشع', family: '3d' },
   { id: 'hexagon', name: 'السداسي', family: 'brutalism' },
-  { id: 'diamond', name: 'الماسي', family: 'brutalism' },
   { id: 'ring', name: 'الحلقة', family: 'luxury' },
-  { id: 'blob', name: 'الفقاعة المتحركة', family: 'organic' },
-  { id: 'glow', name: 'المشع', family: '3d' }
+  { id: 'teardrop', name: 'قطرة', family: 'organic' },
+  { id: 'cloud', name: 'الغيمة', family: 'organic' }
 ];
