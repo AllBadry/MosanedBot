@@ -65,6 +65,7 @@ export default function Dashboard() {
     widgetStyle: 'classic',
     bubbleStyle: 'modern',
     launcherStyle: 'round',
+    showScrollbar: true,
     allowedDomain: '' 
   });
 
@@ -115,6 +116,7 @@ export default function Dashboard() {
             widgetStyle: sanitizeWindow(fetchedBot.widgetStyle),
             bubbleStyle: sanitizeBubble(fetchedBot.bubbleStyle),
             launcherStyle: sanitizeLauncher(fetchedBot.launcherStyle),
+            showScrollbar: fetchedBot.showScrollbar !== false,
             allowedDomain: fetchedBot.allowedDomains && fetchedBot.allowedDomains.length > 0 
                            ? fetchedBot.allowedDomains[0] 
                            : ''
@@ -175,6 +177,7 @@ export default function Dashboard() {
             widgetStyle: 'classic',
             bubbleStyle: 'modern',
             launcherStyle: 'round',
+            showScrollbar: true,
             allowedDomain: ''
         });
         showToast('تم إنشاء البوت بنجاح! 🎉 يمكنك الآن تخصيصه.', 4000);
@@ -469,6 +472,21 @@ export default function Dashboard() {
                   <div>
                     <label className="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider">الزر العائم (Launcher Style)</label>
                     <StylePicker type="launcher" styles={LAUNCHER_STYLES} value={formData.launcherStyle} color={formData.themeColor} onChange={(v) => setFormData({...formData, launcherStyle: v})} />
+                  </div>
+                  <div className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                    <div>
+                      <label className="block text-sm font-bold text-slate-700">شريط التمرير في نافذة الشات</label>
+                      <p className="text-xs text-slate-400 mt-1">عند إخفائه يبقى التمرير يعمل باللمس والسحب لكن بلا شريط ظاهر.</p>
+                    </div>
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={formData.showScrollbar}
+                      onClick={() => setFormData({ ...formData, showScrollbar: !formData.showScrollbar })}
+                      className={`relative w-14 h-8 rounded-full transition-colors shrink-0 ${formData.showScrollbar ? 'bg-emerald-500' : 'bg-slate-300'}`}
+                    >
+                      <span className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow transition-all ${formData.showScrollbar ? 'left-1' : 'left-7'}`}></span>
+                    </button>
                   </div>
                 </div>
               </div>

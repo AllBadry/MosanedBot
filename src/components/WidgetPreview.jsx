@@ -38,7 +38,7 @@ const LAUNCHER_PREVIEW = {
 };
 
 export default function WidgetPreview({ formData }) {
-  const { name, themeColor, welcomeMessage, avatarUrl, widgetStyle, bubbleStyle, launcherStyle } = formData;
+  const { name, themeColor, welcomeMessage, avatarUrl, widgetStyle, bubbleStyle, launcherStyle, showScrollbar } = formData;
   const activeAvatar = avatarUrl || '/botimage.jpg';
   const color = themeColor || '#00F0FF';
 
@@ -96,6 +96,8 @@ export default function WidgetPreview({ formData }) {
 
         <div style={{
           flex: 1, padding: '16px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px',
+          scrollbarWidth: showScrollbar === false ? 'none' : 'thin',
+          scrollbarColor: showScrollbar === false ? 'transparent transparent' : 'rgba(0,0,0,0.18) transparent',
           ...(w.cloud ? {
             background: '#ffffff', borderRadius: '20px 20px 0 0', margin: '0 10px',
             boxShadow: '0 12px 40px rgba(0,0,0,0.12)'
