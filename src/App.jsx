@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import PageTransition from './components/PageTransition';
+import { isTokenExpired } from './utils/tokenUtils';
 
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -83,7 +84,10 @@ function Layout() {
 if (!localStorage.getItem('accessToken')) {
   const match = document.cookie.match(/(^| )accessToken=([^;]+)/);
   if (match) {
-    localStorage.setItem('accessToken', match[2]);
+    // نحفظ التوكن فقط إذا لم يكن منتهي الصلاحية
+    if (!isTokenExpired(match[2])) {
+      localStorage.setItem('accessToken', match[2]);
+    }
     document.cookie = 'accessToken=; max-age=0; path=/';
   }
 }

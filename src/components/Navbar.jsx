@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { isTokenExpired } from '../utils/tokenUtils';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -8,7 +9,14 @@ export default function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem('accessToken'));
+    const token = localStorage.getItem('accessToken');
+    if (token && isTokenExpired(token)) {
+      // توكن منتهي الصلاحية → نحذفه ونعرض زر تسجيل الدخول
+      localStorage.removeItem('accessToken');
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(!!token);
+    }
   }, [location]);
 
   useEffect(() => {
