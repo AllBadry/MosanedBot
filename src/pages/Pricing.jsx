@@ -175,10 +175,10 @@ export default function Pricing() {
                 <svg className="w-5 h-5 text-electric-yellow mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
                 <span>عدد <span className="font-bold text-slate-800">غير محدود</span> من قواعد المعرفة</span>
               </li>
-              <li className="flex items-start gap-3">
+              {/**<li className="flex items-start gap-3">
                 <svg className="w-5 h-5 text-electric-yellow mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
                 <span>إنشاء أكثر من بوت (Bot) وتخصيص كل واحد بشكل مستقل</span>
-              </li>
+              </li> **/}
               <li className="flex items-start gap-3">
                 <svg className="w-5 h-5 text-electric-yellow mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
                 <span>محلل بيانات متقدم (Data Analyst) داخل لوحة التحكم</span>
